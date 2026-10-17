@@ -1,0 +1,586 @@
+/*
+ * Opt-in presentation refinements. Load after io-design-system.css and add
+ * .io-presentation to the deck body; research pages and templates are unaffected.
+ */
+.io-presentation {
+  scroll-behavior: auto;
+  scroll-snap-type: none;
+}
+
+.io-presentation .deck-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 1rem;
+}
+
+.io-presentation .deck-outline {
+  min-width: 0;
+}
+
+.io-presentation .deck-outline summary {
+  display: none;
+}
+
+.io-presentation .deck-nav {
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+
+.io-presentation .deck-nav a {
+  min-height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 2px solid transparent;
+  border-radius: 0.3rem 0.3rem 0 0;
+  font-size: 0.7rem;
+}
+
+.io-presentation .deck-nav a[aria-current="step"] {
+  border-bottom-color: var(--io-accent);
+  background: var(--io-accent-soft);
+}
+
+.io-presentation .deck-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.io-presentation .deck-controls[hidden] {
+  display: none;
+}
+
+.io-presentation .deck-controls button {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--io-rule);
+  border-radius: 0.35rem;
+  color: var(--io-accent-deep);
+  background: var(--io-paper-raised);
+  font: 1.15rem var(--io-body);
+  cursor: pointer;
+}
+
+.io-presentation .deck-controls button:hover:not(:disabled) {
+  background: var(--io-accent-soft);
+}
+
+.io-presentation .deck-controls button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.io-presentation .deck-position {
+  min-width: 4.1rem;
+  color: var(--io-ink-muted);
+  font: 0.7rem var(--io-mono);
+  text-align: center;
+}
+
+/* Fit the slide to both viewport axes. Content scales with the slide, not the
+ * full browser width, so a wide but short laptop screen stays comfortable. */
+.io-presentation .slide {
+  --slide-space: clamp(0.75rem, 1.7cqw, 1.2rem);
+  width: min(100%, 84rem, calc((100svh - 8rem) * 16 / 9));
+  padding: clamp(1.5rem, 3.6vw, 3.6rem);
+  overflow: visible;
+  container-type: inline-size;
+}
+
+.io-presentation .slide::before {
+  left: clamp(1.5rem, 3.6vw, 3.6rem);
+}
+
+.io-presentation .slide-content {
+  min-width: 0;
+  max-width: none;
+}
+
+.io-presentation .slide-kicker {
+  margin-bottom: var(--slide-space);
+  font-size: clamp(0.65rem, 1.2cqw, 0.8rem);
+}
+
+.io-presentation .slide h1 {
+  max-width: 20ch;
+  font-size: clamp(2.5rem, 7.5cqw, 5.7rem);
+}
+
+.io-presentation .slide h2 {
+  max-width: 30ch;
+  font-size: clamp(1.9rem, 5.2cqw, 4rem);
+  line-height: 1.04;
+}
+
+.io-presentation .slide-lede {
+  max-width: 48ch;
+  margin-top: 1.4rem;
+  font-size: clamp(1rem, 2.2cqw, 1.5rem);
+}
+
+.io-presentation .slide-copy {
+  max-width: 65ch;
+  margin: var(--slide-space) 0 0;
+  font-size: clamp(0.95rem, 1.7cqw, 1.15rem);
+  line-height: 1.6;
+}
+
+.io-presentation .slide-note {
+  max-width: 80ch;
+  margin: var(--slide-space) 0 0;
+  color: var(--io-ink-muted);
+  font-size: clamp(0.8rem, 1.4cqw, 0.95rem);
+  line-height: 1.55;
+}
+
+.io-presentation .slide-footer {
+  align-items: baseline;
+  margin-top: var(--slide-space);
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--io-rule);
+  font-size: clamp(0.63rem, 1.05cqw, 0.75rem);
+}
+
+.io-presentation .slide-footer > :last-child {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.io-presentation .slide-footer > :first-child {
+  max-width: 82ch;
+}
+
+.io-presentation code {
+  font-family: var(--io-mono);
+}
+
+.io-presentation .opening-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin: 2rem 0 0;
+  color: var(--io-accent-deep);
+  font-size: clamp(0.8rem, 1.5cqw, 1rem);
+}
+
+.io-presentation .opening-traits span {
+  color: var(--io-rule);
+}
+
+/* Different jobs get different layouts; not every idea needs a card. */
+.io-presentation .framework-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.8rem;
+  margin: 1.8rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.io-presentation .framework-grid li {
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--io-rule);
+}
+
+.io-presentation .framework-author,
+.io-presentation .panel-label,
+.io-presentation .channel-example figcaption,
+.io-presentation .decay-equation figcaption {
+  color: var(--io-accent-deep);
+  font: 0.7rem/1.5 var(--io-mono);
+}
+
+.io-presentation .framework-grid h3 {
+  margin: 0.45rem 0;
+  font: 500 clamp(1.5rem, 3cqw, 2.3rem)/1.15 var(--io-display);
+  letter-spacing: -0.025em;
+}
+
+.io-presentation .framework-grid p {
+  margin: 0;
+  color: var(--io-ink-muted);
+  font-size: clamp(0.85rem, 1.5cqw, 1rem);
+  line-height: 1.55;
+}
+
+.io-presentation .semantic-layout {
+  display: grid;
+  grid-template-columns: 1fr 2.4fr;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 1.5rem;
+}
+
+.io-presentation .semantic-stat strong {
+  display: block;
+  color: var(--io-accent);
+  font: 500 clamp(5rem, 14cqw, 11rem)/1 var(--io-display);
+  letter-spacing: -0.07em;
+}
+
+.io-presentation .semantic-stat > span {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--io-ink-muted);
+  font-size: clamp(0.8rem, 1.4cqw, 0.95rem);
+  line-height: 1.5;
+}
+
+.io-presentation .semantic-explanation .slide-copy {
+  margin-top: 0;
+}
+
+.io-presentation .emotion-vocabulary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin: 1rem 0 0;
+  padding: 0.75rem 0;
+  border-block: 1px solid var(--io-rule);
+  color: var(--io-accent-deep);
+  font-size: clamp(0.8rem, 1.4cqw, 0.95rem);
+  list-style: none;
+}
+
+.io-presentation .vector-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 1.6rem;
+}
+
+.io-presentation .channel-example {
+  min-width: 0;
+  margin: 0;
+}
+
+.io-presentation .channel-list {
+  display: grid;
+  gap: 1.1rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.io-presentation .channel-list li {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr) 3rem;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: clamp(0.85rem, 1.7cqw, 1.1rem);
+}
+
+.io-presentation .channel-track {
+  height: 0.45rem;
+  border-radius: 1px;
+  background: var(--io-paper-muted);
+}
+
+.io-presentation .channel-track::before {
+  display: block;
+  width: var(--activation);
+  height: 100%;
+  background: var(--io-accent);
+  content: "";
+}
+
+.io-presentation .channel-value {
+  color: var(--io-accent-deep);
+  font: 0.9em var(--io-mono);
+  text-align: right;
+}
+
+.io-presentation .constraint-panel {
+  padding: 1rem 1.3rem;
+  border-left: 2px solid var(--io-accent);
+  background: var(--io-paper-raised);
+}
+
+.io-presentation .constraint-panel > math {
+  margin: 0.65rem 0;
+  font-size: clamp(1.4rem, 2.8cqw, 2.1rem);
+}
+
+.io-presentation .constraint-panel p {
+  margin: 0;
+  color: var(--io-ink-muted);
+  font-size: 0.85rem;
+}
+
+/* MathML is typeset locally; only wide equations get a scrollable region. */
+.io-presentation math {
+  font-family: "STIX Two Math", "Cambria Math", "Latin Modern Math", math;
+}
+
+.io-presentation .decay-equation {
+  margin: var(--slide-space) 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--io-rule);
+  border-radius: var(--io-radius);
+  background: var(--io-paper-raised);
+}
+
+.io-presentation .decay-equation figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.io-presentation .equation-scroll {
+  overflow-x: auto;
+  padding: 0.65rem 0 0.4rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--io-accent) var(--io-paper-muted);
+}
+
+.io-presentation .equation-scroll math {
+  min-width: 100%;
+  width: max-content;
+  margin: 0;
+  font-size: clamp(1.15rem, 2.7cqw, 2rem);
+}
+
+.io-presentation .equation-hint {
+  display: none;
+}
+
+.io-presentation .decay-key {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1.7fr;
+  align-items: baseline;
+  gap: 1rem;
+  margin: 0;
+}
+
+.io-presentation .decay-key dt {
+  color: var(--io-accent-deep);
+  font-size: clamp(1rem, 1.8cqw, 1.3rem);
+}
+
+.io-presentation .decay-key dd {
+  margin: 0.15rem 0 0;
+  color: var(--io-ink-muted);
+  font-size: clamp(0.75rem, 1.3cqw, 0.9rem);
+}
+
+.io-presentation .takeaway-list {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1.5rem 0 0;
+  padding: 0 0 0 1.3rem;
+}
+
+.io-presentation .takeaway-list li {
+  padding-left: 0.4rem;
+  color: var(--io-accent-deep);
+  font-size: clamp(0.9rem, 1.8cqw, 1.2rem);
+}
+
+.io-presentation .takeaway-list strong {
+  color: var(--io-ink);
+  font-weight: 650;
+}
+
+.io-presentation .takeaway-list span {
+  display: block;
+  color: var(--io-ink-muted);
+  font-size: 0.9em;
+}
+
+.io-presentation .research-link {
+  margin: 1.5rem 0 0;
+  font-size: clamp(0.9rem, 1.7cqw, 1.1rem);
+}
+
+/* Keep the expanded ten-link outline on screens with enough room for it. */
+.io-presentation .evidence-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.io-presentation .evidence-grid h3 {
+  color: var(--io-accent);
+}
+
+.io-presentation .representation-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 1400px) {
+  .io-presentation .deck-toolbar {
+    grid-template-columns: 1fr auto;
+    gap: 0.3rem 1rem;
+    padding-block: 0.5rem;
+  }
+
+  .io-presentation .deck-outline {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .io-presentation .deck-outline summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 2.5rem;
+    color: var(--io-accent-deep);
+    font-size: 0.8rem;
+    font-weight: 650;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .io-presentation .deck-outline summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .io-presentation .deck-outline summary::after {
+    content: "+";
+  }
+
+  .io-presentation .deck-outline[open] summary::after {
+    content: "−";
+  }
+
+  .io-presentation .deck-nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .io-presentation .deck-nav a {
+    justify-content: center;
+    min-height: 2.75rem;
+  }
+
+  .io-presentation .slide {
+    scroll-margin-top: 7.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .io-presentation .slide {
+    width: 100%;
+    min-height: min(78svh, 42rem);
+    aspect-ratio: auto;
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+  }
+
+  .io-presentation .slide::before {
+    left: clamp(1.5rem, 5vw, 2.5rem);
+  }
+
+  .io-presentation .slide h1 {
+    font-size: clamp(2.4rem, 8cqw, 4.5rem);
+  }
+
+  .io-presentation .slide h2 {
+    font-size: clamp(1.9rem, 6cqw, 3.5rem);
+  }
+
+  .io-presentation .slide-footer {
+    font-size: 0.68rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .io-presentation .deck-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .io-presentation .framework-grid,
+  .io-presentation .semantic-layout,
+  .io-presentation .vector-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.2rem;
+  }
+
+  .io-presentation .framework-grid {
+    margin-top: 1.3rem;
+  }
+
+  .io-presentation .evidence-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .io-presentation .framework-grid h3 {
+    font-size: 1.6rem;
+  }
+
+  .io-presentation .semantic-stat {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .io-presentation .semantic-stat strong {
+    font-size: 5rem;
+  }
+
+  .io-presentation .semantic-stat > span {
+    margin: 0;
+  }
+
+  .io-presentation .decay-key {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+  }
+
+  .io-presentation .decay-key > div {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .io-presentation .decay-equation .equation-hint {
+    display: block;
+    margin: 0.3rem 0 0;
+    color: var(--io-ink-muted);
+    font-size: 0.7rem;
+  }
+
+  .io-presentation .slide-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+}
+
+@media print {
+  @page {
+    size: 13.333333in 7.5in;
+    margin: 0;
+  }
+
+  .io-presentation .deck-toolbar {
+    display: none;
+  }
+
+  .io-presentation .slide {
+    width: 13.333333in;
+    height: 7.5in;
+    min-height: 0;
+    margin: 0;
+    padding: 0.6in;
+    break-inside: avoid;
+    break-after: page;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .io-presentation .slide:last-child {
+    break-after: auto;
+  }
+
+  .io-presentation .equation-scroll {
+    overflow: visible;
+  }
+
+  .io-presentation .decay-equation .equation-hint {
+    display: none;
+  }
+}

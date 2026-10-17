@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A ten-slide guide to 27-channel emotional state modeling, later SST evidence, language and culture, and interpretable controls alongside learned embeddings.">
+  <title>27-D Emotional State Modeling · IO Presentation</title>
+  <link rel="stylesheet" href="../assets/io-design-system.css">
+  <link rel="stylesheet" href="../assets/io-presentation.css">
+  <script src="../assets/io-presentation.js" defer></script>
+</head>
+<body class="io-deck io-presentation">
+  <a class="skip-link" href="#slide-1">Skip to presentation</a>
+
+  <header class="deck-toolbar">
+    <span class="deck-brand">IO · Affective Systems</span>
+    <details class="deck-outline" open>
+      <summary>Slide outline</summary>
+      <nav class="deck-nav" aria-label="Slide navigation">
+        <a href="#slide-1">01 · Landscape</a>
+        <a href="#slide-2">02 · Models</a>
+        <a href="#slide-3">03 · 27-D</a>
+        <a href="#slide-4">04 · Vector</a>
+        <a href="#slide-5">05 · Dynamics</a>
+        <a href="#slide-6">06 · Beyond 2017</a>
+        <a href="#slide-7">07 · Evidence</a>
+        <a href="#slide-8">08 · Embeddings</a>
+        <a href="#slide-9">09 · Hybrid</a>
+        <a href="#slide-10">10 · Takeaway</a>
+      </nav>
+    </details>
+    <!-- Without JavaScript the outline remains a fully usable set of native links. -->
+    <div class="deck-controls" role="group" aria-label="Presentation controls" hidden>
+      <button type="button" data-deck-previous aria-label="Previous slide" title="Previous slide (←)">←</button>
+      <output class="deck-position" aria-label="Current slide" aria-live="off">01 / 10</output>
+      <button type="button" data-deck-next aria-label="Next slide" title="Next slide (→)">→</button>
+    </div>
+  </header>
+
+  <main class="deck" id="main-content">
+    <section class="slide" id="slide-1" aria-labelledby="slide-title-1" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">01 · High-dimensional affect</span>
+        <h1 id="slide-title-1">Emotion is a landscape, not a list.</h1>
+        <p class="slide-lede">A continuous model can describe mixed feelings—without forcing a single label.</p>
+        <p class="opening-traits">Distinct feelings <span aria-hidden="true">/</span> Varying intensities <span aria-hidden="true">/</span> Room to coexist</p>
+      </div>
+      <footer class="slide-footer"><span>From emotion research to an engineering representation</span><span>01 / 10</span></footer>
+    </section>
+
+    <section class="slide" id="slide-2" aria-labelledby="slide-title-2" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">02 · Different maps of affect</span>
+        <h2 id="slide-title-2">Different maps.<br>Different trade-offs.</h2>
+        <ul class="framework-grid" aria-label="Three approaches to describing emotion">
+          <li><span class="framework-author">Ekman</span><h3>6 categories</h3><p>Prototypical emotions described through distinct labels.</p></li>
+          <li><span class="framework-author">Plutchik</span><h3>8 primaries</h3><p>Polar emotions, intensity tiers, and dyadic blends.</p></li>
+          <li><span class="framework-author">Russell</span><h3>2 axes</h3><p>Valence and arousal locate affect in a continuous space.</p></li>
+        </ul>
+        <p class="slide-note">Choose the map for the task. Categories do not inherently require mutually exclusive feelings.</p>
+      </div>
+      <footer class="slide-footer"><span>Ekman · Plutchik · Russell · Further frameworks in the research document</span><span>02 / 10</span></footer>
+    </section>
+
+    <section class="slide" id="slide-3" aria-labelledby="slide-title-3" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">03 · Cowen &amp; Keltner</span>
+        <h2 id="slide-title-3">Distinct feelings.<br>Continuous gradients.</h2>
+        <div class="semantic-layout">
+          <div class="semantic-stat"><strong>27</strong><span>categories of emotion<br>in self-report research</span></div>
+          <div class="semantic-explanation">
+            <p class="slide-copy">Cowen &amp; Keltner identified 27 categories connected by continuous gradients—not simply isolated emotional boxes.</p>
+            <ul class="emotion-vocabulary" aria-label="Examples from the 27 categories">
+              <li>Admiration</li><li>Awe</li><li>Interest</li><li>Nostalgia</li><li>Joy</li><li>Sadness</li>
+            </ul>
+            <p class="slide-note">Our engineering choice: use this vocabulary as 27 individually scored channels.</p>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer"><span><a href="https://doi.org/10.1073/pnas.1702247114">Cowen &amp; Keltner · PNAS, 2017 ↗</a></span><span>03 / 10</span></footer>
+    </section>
+
+    <section class="slide" id="slide-4" aria-labelledby="slide-title-4" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">04 · Vector architecture</span>
+        <h2 id="slide-title-4">Let mixed feelings coexist.</h2>
+        <p class="slide-copy">Score each channel on its own scale. A stronger feeling does not have to reduce another.</p>
+        <div class="vector-layout">
+          <figure class="channel-example">
+            <figcaption>Illustrative state · not a measurement</figcaption>
+            <ul class="channel-list" aria-label="Example activation values">
+              <li><span>Nostalgia</span><span class="channel-track" aria-hidden="true" style="--activation: 85%"></span><span class="channel-value">0.85</span></li>
+              <li><span>Joy</span><span class="channel-track" aria-hidden="true" style="--activation: 60%"></span><span class="channel-value">0.60</span></li>
+              <li><span>Sadness</span><span class="channel-track" aria-hidden="true" style="--activation: 52%"></span><span class="channel-value">0.52</span></li>
+            </ul>
+          </figure>
+          <div class="constraint-panel">
+            <span class="panel-label">Per-channel bounds</span>
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msub><mi>e</mi><mi>i</mi></msub><mo>∈</mo><mo>[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>]</mo></math>
+            <p>No requirement that <math xmlns="http://www.w3.org/1998/Math/MathML"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>27</mn></munderover><msub><mi>e</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn></math>.</p>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer"><span><code>Float32Array(27)</code> · Individually scored, not necessarily statistically independent</span><span>04 / 10</span></footer>
+    </section>
+
+    <section class="slide" id="slide-5" aria-labelledby="slide-title-5" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">05 · Temporal dynamics</span>
+        <h2 id="slide-title-5">Return toward a baseline.</h2>
+        <p class="slide-copy">An engineering approximation: relaxation toward rest, then a stimulus contribution.</p>
+        <figure class="decay-equation">
+          <figcaption id="decay-equation-label">Per-channel update <span>(01)</span></figcaption>
+          <div class="equation-scroll" role="region" aria-labelledby="decay-equation-label" aria-describedby="decay-equation-hint" tabindex="0">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+              <mrow>
+                <msub><mi>e</mi><mi>i</mi></msub><mo>(</mo><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>t</mi><mo>)</mo>
+                <mo>=</mo><msub><mi>B</mi><mi>i</mi></msub>
+                <mo>+</mo><mo>(</mo><msub><mi>e</mi><mi>i</mi></msub><mo>(</mo><mi>t</mi><mo>)</mo><mo>−</mo><msub><mi>B</mi><mi>i</mi></msub><mo>)</mo>
+                <msup><mi mathvariant="normal">e</mi><mrow><mo>−</mo><msub><mi>λ</mi><mi>i</mi></msub><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow></msup>
+                <mo>+</mo><msub><mi>S</mi><mi>i</mi></msub><mo>(</mo><mi>t</mi><mo>)</mo>
+              </mrow>
+            </math>
+          </div>
+          <p class="equation-hint" id="decay-equation-hint">Scroll the equation horizontally if needed →</p>
+        </figure>
+        <dl class="decay-key">
+          <div><dt><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>B</mi><mi>i</mi></msub></math></dt><dd>Resting baseline</dd></div>
+          <div><dt><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>S</mi><mi>i</mi></msub><mo>(</mo><mi>t</mi><mo>)</mo></math></dt><dd>Stimulus for this update</dd></div>
+          <div><dt><math xmlns="http://www.w3.org/1998/Math/MathML" displaystyle="true"><msub><mi>λ</mi><mi>i</mi></msub><mo>=</mo><mfrac><mrow><mi mathvariant="normal">ln</mi><mo>(</mo><mn>2</mn><mo>)</mo></mrow><msub><mi>t</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn><mo>,</mo><mi>i</mi></mrow></msub></mfrac></math></dt><dd>Rate from the chosen half-life</dd></div>
+        </dl>
+        <p class="slide-note">Half-lives are design parameters, not fixed biological timescales. Clamp updates to [0, 1] when required.</p>
+      </div>
+      <footer class="slide-footer"><span>Δt = elapsed time · Use consistent time units for the decay rate</span><span>05 / 10</span></footer>
+    </section>
+
+    <section class="slide" id="slide-6" aria-labelledby="slide-title-6" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">06 · SST beyond the video study</span>
+        <h2 id="slide-title-6">More modalities.<br>Different spaces.</h2>
+        <ul class="framework-grid evidence-grid" aria-label="Selected follow-up findings">
+          <li><span class="framework-author">Vocal bursts</span><h3>24</h3><p>Emotional meanings recognized by US English speakers.</p></li>
+          <li><span class="framework-author">Speech prosody</span><h3>12</h3><p>Shared distinctions for US and Indian listeners.</p></li>
+          <li><span class="framework-author">Music</span><h3>13</h3><p>Reported experiences in US and Chinese samples.</p></li>
+          <li><span class="framework-author">Facial expression</span><h3>16</h3><p>Modeled types with shared context associations worldwide.</p></li>
+        </ul>
+        <p class="slide-note">Different tasks and constructs—not revised versions of one universal inventory. SST developed into a broader research program, not a fixed 27-channel software standard.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="emotions-research-document.html#sst-evolution">2018–2021 · Samples and caveats →</a></span><span>06 / 10</span></footer>
+    </section>
+
+    <section class="slide" id="slide-7" aria-labelledby="slide-title-7" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">07 · Evidence and its limits</span>
+        <h2 id="slide-title-7">More evidence.<br>Not a final verdict.</h2>
+        <ul class="framework-grid" aria-label="Three kinds of evidence">
+          <li><span class="framework-author">Neural prediction</span><h3>Brain patterns</h3><p>Five fMRI participants: category-related patterns, not 27 hardwired modules.</p></li>
+          <li><span class="framework-author">2,474 languages</span><h3>Language</h3><p>Concept meanings vary, alongside shared affective structure.</p></li>
+          <li><span class="framework-author">Expression in context</span><h3>Interpretation</h3><p>Shared face–context patterns do not reveal a person’s private feeling.</p></li>
+        </ul>
+        <p class="slide-note">These findings constrain theories. They do not settle innateness, universality, or a single “best” taxonomy.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="emotions-research-document.html#language-and-limits">Neural, linguistic, and contextual evidence →</a></span><span>07 / 10</span></footer>
+    </section>
+
+    <section class="slide" id="slide-8" aria-labelledby="slide-title-8" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">08 · Representation choices</span>
+        <h2 id="slide-title-8">Labels or latent features?</h2>
+        <ul class="framework-grid representation-grid" aria-label="Named and learned representations">
+          <li><span class="framework-author">Named channels</span><h3>Inspectable</h3><p>Explicit controls such as <code>anxiety: 0.72</code>. Useful for agent memory, avatars, and UI.</p></li>
+          <li><span class="framework-author">Learned embeddings</span><h3>Task-dependent</h3><p>CLIP and ImageBind learn from paired data. Their features are not emotion-specific by default.</p></li>
+        </ul>
+        <p class="slide-note">Hume AI illustrates a commercial expression-measurement route. Its output inventories and score semantics are versioned; expression probabilities are not internal intensity controls.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="emotions-research-document.html#representation-choices">CLIP · ImageBind · Hume API documentation →</a></span><span>08 / 10</span></footer>
+    </section>
+
+    <section class="slide" id="slide-9" aria-labelledby="slide-title-9" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">09 · A complementary architecture</span>
+        <h2 id="slide-title-9">Learned features.<br>Inspectable controls.</h2>
+        <ol class="framework-grid" aria-label="An optional hybrid design">
+          <li><span class="framework-author">01 · Observe</span><h3>Context</h3><p>Keep observations and their provenance separate from the designed state.</p></li>
+          <li><span class="framework-author">02 · Represent</span><h3>Features</h3><p>Use a versioned latent vector when perception or retrieval requires it.</p></li>
+          <li><span class="framework-author">03 · Expose</span><h3>Controls</h3><p>Retain named [0, 1] channels for deliberate behavior and inspection.</p></li>
+        </ol>
+        <p class="slide-note">Validate any mapping. Confidence is not intensity, and a larger embedding is not automatically a more complete account of emotion.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="emotions-research-document.html#representation-choices">Hybrid design · Choices and caveats →</a></span><span>09 / 10</span></footer>
+    </section>
+
+    <section class="slide" id="slide-10" aria-labelledby="slide-title-10" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">10 · The takeaway</span>
+        <h2 id="slide-title-10">A richer vocabulary.<br>A practical model.</h2>
+        <ol class="takeaway-list">
+          <li><strong>Use named channels when control matters.</strong><span>A useful design choice—not a universal inventory of feeling.</span></li>
+          <li><strong>Add learned features when the task needs them.</strong><span>Keep latent representations, confidence, and intensity distinct.</span></li>
+          <li><strong>Validate the application, not just the vocabulary.</strong><span>Account for context, culture, provenance, and uncertainty.</span></li>
+        </ol>
+        <p class="research-link"><a href="emotions-research-document.html">Read the full research document →</a></p>
+      </div>
+      <footer class="slide-footer"><span>A research-informed representation—not a validated emotional assessment</span><span>10 / 10</span></footer>
+    </section>
+  </main>
+</body>
+</html>

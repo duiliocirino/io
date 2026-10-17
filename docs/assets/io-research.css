@@ -1,0 +1,434 @@
+/*
+ * Opt-in editorial refinements for long-form research documents.
+ * Load after io-design-system.css and add .io-research to the body so other
+ * documents and slide decks keep their current layout.
+ */
+.io-research .container {
+  width: min(100%, 82rem);
+}
+
+.io-research .container > header {
+  margin-bottom: 2.8rem;
+  padding-bottom: 2.4rem;
+}
+
+.io-research h1 {
+  max-width: 28ch;
+  font-size: clamp(2.35rem, 4.7vw, 3.8rem);
+  line-height: 1.08;
+}
+
+.io-research .subtitle {
+  max-width: 78ch;
+}
+
+.io-research .document-meta {
+  max-width: none;
+  margin: 1.2rem 0 0;
+  color: var(--io-accent-deep);
+  font: 0.7rem/1.5 var(--io-mono);
+  letter-spacing: 0.04em;
+}
+
+.io-research .research-layout {
+  display: grid;
+  grid-template-columns: 14.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.io-research main {
+  min-width: 0; /* Let tables and equations scroll locally rather than widening the page. */
+}
+
+/* A reading rail, not a second block competing with the article. */
+.io-research nav.research-index {
+  position: sticky;
+  top: 1.5rem;
+  max-height: calc(100dvh - 3rem);
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  scrollbar-width: thin;
+}
+
+.io-research .research-index summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.4rem 0 1rem;
+  border-bottom: 1px solid var(--io-rule);
+  color: var(--io-ink);
+  font-size: 0.83rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.io-research .research-index summary::-webkit-details-marker {
+  display: none;
+}
+
+.io-research .index-toggle {
+  color: var(--io-accent-deep);
+  font: 0.72rem var(--io-mono);
+}
+
+.io-research .index-toggle::after {
+  content: "+";
+}
+
+.io-research .research-index details[open] .index-toggle::after {
+  content: "−";
+}
+
+.io-research .research-index ol {
+  margin: 0.65rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.io-research nav.research-index a {
+  display: grid;
+  grid-template-columns: 1.45rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.65rem;
+  padding: 0.65rem 0.7rem;
+  border-left: 2px solid transparent;
+  border-radius: 0 0.35rem 0.35rem 0;
+  color: var(--io-ink-muted);
+  font-size: 0.83rem;
+  font-weight: 500;
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+.io-research .index-number {
+  color: var(--io-accent-deep);
+  font: 0.68rem/1.5 var(--io-mono);
+}
+
+.io-research .research-index a:hover {
+  color: var(--io-ink);
+  background: var(--io-paper-muted);
+}
+
+.io-research .research-index a[aria-current="location"] {
+  border-left-color: var(--io-accent);
+  color: var(--io-accent-deep);
+  background: var(--io-accent-soft);
+  font-weight: 650;
+}
+
+.io-research main > section {
+  margin-bottom: 3.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--io-rule);
+  scroll-margin-top: 2rem;
+}
+
+.io-research main > section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.io-research h2 {
+  padding-left: 0;
+  border-left: 0; /* Section labels and fine rules supply the hierarchy here. */
+  font-size: clamp(1.65rem, 2.6vw, 2.15rem);
+  text-wrap: pretty;
+}
+
+.io-research .callout > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Native MathML keeps notation accessible and available offline. */
+.io-research math {
+  font-family: "STIX Two Math", "Cambria Math", "Latin Modern Math", math;
+  font-size: 1.06em;
+}
+
+.io-research .formula-card {
+  margin: 1.75rem 0;
+  padding: clamp(1rem, 2.5vw, 1.65rem);
+  border: 1px solid var(--io-rule);
+  border-radius: var(--io-radius);
+  background: var(--io-paper-raised);
+  break-inside: avoid;
+}
+
+.io-research .formula-card figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  color: var(--io-ink);
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.io-research .equation-number {
+  flex: 0 0 auto;
+  color: var(--io-accent-deep);
+  font: 0.72rem var(--io-mono);
+}
+
+.io-research .equation-scroll {
+  overflow-x: auto;
+  margin-block: 1.4rem;
+  padding: 0.5rem 0.2rem 0.8rem;
+  color: var(--io-ink);
+  scrollbar-width: thin;
+  scrollbar-color: var(--io-accent) var(--io-paper-muted);
+}
+
+.io-research .equation-scroll math {
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+}
+
+.io-research .formula-card > p {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.io-research .equation-hint {
+  display: none;
+}
+
+.io-research .symbol-key {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem 1.6rem;
+  margin: 0;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--io-rule);
+}
+
+.io-research .symbol-key > div {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.55rem;
+}
+
+.io-research .symbol-key dt {
+  color: var(--io-accent-deep);
+}
+
+.io-research .symbol-key dd {
+  margin: 0;
+  color: var(--io-ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.io-research .implementation-note {
+  padding-left: 1rem;
+  border-left: 2px solid var(--io-accent);
+  font-size: 0.9rem;
+}
+
+/* Dense reference material stays available without interrupting the reading route. */
+.io-research .table-container {
+  border-radius: 0.35rem;
+}
+
+.io-research table {
+  min-width: 48rem;
+  line-height: 1.55;
+}
+
+.io-research caption {
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--io-rule);
+  color: var(--io-accent-deep);
+  font: 0.68rem/1.5 var(--io-mono);
+  letter-spacing: 0.04em;
+  text-align: left;
+}
+
+.io-research .schema-block {
+  margin: 1.5rem 0;
+  border: 1px solid var(--io-rule);
+  border-radius: var(--io-radius);
+  background: var(--io-paper-raised);
+}
+
+.io-research .schema-block summary {
+  padding: 1rem 1.2rem;
+  color: var(--io-accent-deep);
+  font-size: 0.9rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.io-research .schema-hint {
+  color: var(--io-ink-muted);
+  font-weight: 400;
+}
+
+.io-research .schema-block pre {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--io-rule);
+  border-radius: 0 0 var(--io-radius) var(--io-radius);
+  font-size: 0.78rem;
+}
+
+.io-research .citation-list {
+  counter-reset: reference;
+}
+
+.io-research .citation-list li {
+  position: relative;
+  margin: 0;
+  padding: 1rem 0 1rem 2.5rem;
+  border-top: 1px solid var(--io-rule);
+  overflow-wrap: anywhere;
+  text-indent: 0;
+  counter-increment: reference;
+}
+
+.io-research .citation-list li::before {
+  position: absolute;
+  top: 1.2rem;
+  left: 0;
+  color: var(--io-accent-deep);
+  font: 0.68rem/1.5 var(--io-mono);
+  content: counter(reference, decimal-leading-zero);
+}
+
+@media (max-width: 1100px) {
+  .io-research .research-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+
+  .io-research nav.research-index {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    padding: 1rem;
+    border: 1px solid var(--io-rule);
+    border-radius: var(--io-radius);
+    background: var(--io-paper-raised);
+  }
+
+  .io-research .research-index ol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.15rem 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .io-research .research-index ol,
+  .io-research .symbol-key {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .io-research .container > header {
+    margin-bottom: 1.6rem;
+    padding-bottom: 1.6rem;
+  }
+
+  .io-research .badge {
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+    font-size: 0.65rem;
+    line-height: 1.6;
+  }
+
+  .io-research .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .io-research .formula-card figcaption {
+    font-size: 0.8rem;
+  }
+
+  .io-research .formula-card .equation-hint {
+    display: block;
+    margin: -0.7rem 0 1rem;
+    color: var(--io-ink-muted);
+    font-size: 0.72rem;
+  }
+
+  .io-research .dim-desc {
+    font-size: 0.9rem;
+  }
+}
+
+@media print {
+  .io-research .research-layout {
+    display: block;
+  }
+
+  .io-research main > section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .io-research h2,
+  .io-research h3,
+  .io-research .section-label {
+    break-after: avoid-page;
+  }
+
+  .io-research .citation-list li,
+  .io-research table {
+    break-inside: avoid;
+  }
+
+  .io-research .formula-card {
+    border-color: #bbb;
+    background: #fff;
+  }
+
+  .io-research .formula-card .equation-hint {
+    display: none;
+  }
+
+  .io-research .schema-block::details-content {
+    display: block;
+    content-visibility: visible;
+  }
+
+  .io-research .equation-scroll {
+    overflow: visible;
+  }
+
+  .io-research .equation-scroll math {
+    font-size: 12pt;
+  }
+
+  .io-research .table-container {
+    overflow: visible;
+  }
+
+  .io-research table {
+    min-width: 0;
+    font-size: 8pt;
+  }
+
+  .io-research .schema-block pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 8pt;
+  }
+
+  .io-research .symbol-key {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

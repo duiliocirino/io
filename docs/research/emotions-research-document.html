@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Emotion taxonomies, Semantic Space Theory after 2017, cross-cultural and neural evidence, and the trade-offs between a 27-channel state model and learned embeddings.">
+  <title>Emotional State Representation & 27-D Semantic Vector Space · IO Research</title>
+  <link rel="stylesheet" href="../assets/io-design-system.css">
+  <link rel="stylesheet" href="../assets/io-research.css">
+  <script src="../assets/io-research.js" defer></script>
+</head>
+<body class="io-document io-research" id="top">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="container">
+    <header>
+      <span class="badge">Research &amp; Specification · Cognitive Systems</span>
+      <h1>Emotional state representation and continuous semantic modeling</h1>
+      <p class="subtitle">From emotion taxonomies and a 27-channel state model to the wider Semantic Space Theory research program: later evidence, language and culture, and the choice between interpretable controls and learned embeddings.</p>
+      <p class="document-meta">Research document · 10 sections · Foundations → evidence → engineering choices</p>
+    </header>
+
+    <div class="research-layout">
+      <nav class="research-index" aria-label="Table of contents">
+        <details open>
+          <summary>In this document <span class="index-toggle" aria-hidden="true"></span></summary>
+          <ol>
+            <li><a href="#vector-paradigms"><span class="index-number" aria-hidden="true">01</span><span>Vector paradigms</span></a></li>
+            <li><a href="#comparative-taxonomies"><span class="index-number" aria-hidden="true">02</span><span>Comparative taxonomies</span></a></li>
+            <li><a href="#plutchik-wheel"><span class="index-number" aria-hidden="true">03</span><span>Plutchik: poles &amp; dyads</span></a></li>
+            <li><a href="#cowen-keltner-space"><span class="index-number" aria-hidden="true">04</span><span>The 27-dimensional space</span></a></li>
+            <li><a href="#vector-specification"><span class="index-number" aria-hidden="true">05</span><span>Vector specification</span></a></li>
+            <li><a href="#temporal-dynamics"><span class="index-number" aria-hidden="true">06</span><span>Dynamics &amp; decay</span></a></li>
+            <li><a href="#sst-evolution"><span class="index-number" aria-hidden="true">07</span><span>SST beyond 2017</span></a></li>
+            <li><a href="#language-and-limits"><span class="index-number" aria-hidden="true">08</span><span>Language &amp; evidence limits</span></a></li>
+            <li><a href="#representation-choices"><span class="index-number" aria-hidden="true">09</span><span>Channels, embeddings &amp; control</span></a></li>
+            <li><a href="#bibliography"><span class="index-number" aria-hidden="true">10</span><span>Bibliography &amp; sources</span></a></li>
+          </ol>
+        </details>
+      </nav>
+
+      <main id="main-content">
+      <section id="vector-paradigms">
+        <span class="section-label">01 / Engineering Foundations</span>
+        <h2>Vector representation paradigms</h2>
+        <p>For this engineering representation, each named channel has a value from <strong>0.0</strong> (no activation on the application’s scale) to <strong>1.0</strong> (its chosen maximum). A resting baseline can be nonzero. These values are designed intensity controls—not automatically calibrated probabilities, physiological measurements, or the original study’s rating scale.</p>
+
+        <aside class="callout">
+          <strong>Design principle: Intensity channels versus categorical probabilities</strong>
+          <ul>
+            <li><strong>Individually bounded channels:</strong> <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>e</mi><mi>i</mi></msub><mo>∈</mo><mo>[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>]</mo></math>. Scores need not sum to one. This permits mixed states such as elevated <em>Sadness</em> and <em>Joy</em> together. Individually controlled scores can still be statistically correlated.</li>
+            <li><strong>Softmax simplex:</strong> <math xmlns="http://www.w3.org/1998/Math/MathML"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><msub><mi>e</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn></math>. Appropriate for a categorical probability distribution, but it makes scores compete for a fixed sum. That is a different quantity from the independently bounded intensities used here.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section id="comparative-taxonomies">
+        <span class="section-label">02 / Theoretical Survey</span>
+        <h2>Comparative affective taxonomies</h2>
+        <p>Psychology and affective neuroscience provide distinct, non-convergent frameworks for operationalizing emotional experience. Selection depends on whether an application prioritizes biometric tracking, facial action coding, or descriptive expressiveness.</p>
+
+        <div class="table-container" role="region" aria-label="Affective taxonomy comparison, horizontally scrollable" tabindex="0">
+          <table>
+            <caption>Table 01 · Five frameworks compared</caption>
+            <thead>
+              <tr>
+                <th scope="col">Framework</th>
+                <th scope="col">Primary Thinkers</th>
+                <th scope="col">Dimensions / Primitives</th>
+                <th scope="col">Best Operational Fit</th>
+                <th scope="col">Primary Theoretical Limits</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Basic Emotion Theory</strong></td>
+                <td>Paul Ekman (1992)</td>
+                <td>6 discrete categories: <em>Anger, Disgust, Fear, Joy, Sadness, Surprise</em>.</td>
+                <td>Computer vision, facial action unit tracking, animation rigging.</td>
+                <td>Prototype labels alone do not capture all contextual or cultural variation. FACS codes facial movements; it is not itself a six-emotion taxonomy.</td>
+              </tr>
+              <tr>
+                <td><strong>Psychoevolutionary Model</strong></td>
+                <td>Robert Plutchik (1980)</td>
+                <td>8 primary polar emotions arranged as 4 opposite axes; blends into secondary dyads.</td>
+                <td>Therapeutic vocabulary, UX design, sentiment analysis.</td>
+                <td>A useful conceptual structure, but dyads and polar axes are not established universal laws of neural mixing.</td>
+              </tr>
+              <tr>
+                <td><strong>Circumplex Model (PAD / VAD)</strong></td>
+                <td>James Russell (1980), Albert Mehrabian (1974)</td>
+                <td>2–3 continuous neuro-affective axes: <em>Valence, Arousal, (Dominance)</em>.</td>
+                <td>Biometrics, heart-rate variability, wearable tech, continuous scalar tracking.</td>
+                <td>Fails to distinguish structurally distinct feelings with matching coordinates (e.g., Anger and Fear).</td>
+              </tr>
+              <tr>
+                <td><strong>Constructed Emotion Theory</strong></td>
+                <td>Lisa Feldman Barrett (2017)</td>
+                <td>Dynamic brain construction combining interoception, past concepts, and language.</td>
+                <td>Modern cognitive neuroscience, anthropologic modeling.</td>
+                <td>High conceptual fluidity makes rigid computational schemas difficult to pin down.</td>
+              </tr>
+              <tr>
+                <td><strong>Semantic Space Theory</strong></td>
+                <td>Alan S. Cowen &amp; Dacher Keltner (2017)</td>
+                <td><strong>27 distinguishable categories in the 2017 video self-report study</strong>, with gradients between them; later studies explore other spaces.</td>
+                <td>Generative AI, nuanced affective computing, narrative generation.</td>
+                <td>Counts and meanings depend on modality, stimuli, participants, and measurement. SST does not prescribe this document’s fixed 27-channel schema.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="plutchik-wheel">
+        <span class="section-label">03 / Structural Blends</span>
+        <h2>Plutchik's 8 primary emotions and dyadic combinations</h2>
+        <p>Plutchik mapped 8 primary emotions into 4 antagonistic polar axes: <em>Joy ↔ Sadness</em>, <em>Trust ↔ Disgust</em>, <em>Fear ↔ Anger</em>, and <em>Surprise ↔ Anticipation</em>. In intensity, each emotion transitions across three tiers:</p>
+
+        <div class="table-container" role="region" aria-label="Plutchik intensity and dyad comparison, horizontally scrollable" tabindex="0">
+          <table>
+            <caption>Table 02 · Intensity tiers and example blends</caption>
+            <thead>
+              <tr>
+                <th scope="col">Low Intensity</th>
+                <th scope="col">Primary Emotion</th>
+                <th scope="col">High Intensity</th>
+                <th scope="col">Primary Dyads (Sample Combinations)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Serenity</td>
+                <td><strong>Joy</strong></td>
+                <td>Ecstasy</td>
+                <td>Joy + Trust = <strong>Love</strong> · Joy + Anticipation = <strong>Optimism</strong></td>
+              </tr>
+              <tr>
+                <td>Acceptance</td>
+                <td><strong>Trust</strong></td>
+                <td>Admiration</td>
+                <td>Trust + Fear = <strong>Submission</strong> · Trust + Anticipation = <strong>Fatalism</strong></td>
+              </tr>
+              <tr>
+                <td>Apprehension</td>
+                <td><strong>Fear</strong></td>
+                <td>Terror</td>
+                <td>Fear + Surprise = <strong>Awe / Subjection</strong></td>
+              </tr>
+              <tr>
+                <td>Distraction</td>
+                <td><strong>Surprise</strong></td>
+                <td>Amazement</td>
+                <td>Surprise + Sadness = <strong>Disapproval / Delusion</strong></td>
+              </tr>
+              <tr>
+                <td>Pensiveness</td>
+                <td><strong>Sadness</strong></td>
+                <td>Grief</td>
+                <td>Sadness + Disgust = <strong>Remorse</strong> · Sadness + Anger = <strong>Envy</strong></td>
+              </tr>
+              <tr>
+                <td>Boredom</td>
+                <td><strong>Disgust</strong></td>
+                <td>Loathing</td>
+                <td>Disgust + Anger = <strong>Contempt</strong></td>
+              </tr>
+              <tr>
+                <td>Annoyance</td>
+                <td><strong>Anger</strong></td>
+                <td>Rage</td>
+                <td>Anger + Anticipation = <strong>Aggressiveness</strong> · Anger + Joy = <strong>Pride</strong></td>
+              </tr>
+              <tr>
+                <td>Interest</td>
+                <td><strong>Anticipation</strong></td>
+                <td>Vigilance</td>
+                <td>Anticipation + Fear = <strong>Anxious Curiosity</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="cowen-keltner-space">
+        <span class="section-label">04 / High-Dimensional Mapping</span>
+        <h2>The 27-dimensional continuous semantic space</h2>
+        <p><a href="#ref-cowen-2017">Cowen &amp; Keltner (2017)</a> studied self-reported responses to 2,185 short videos and identified <strong>at least 27 distinguishable categories of reported experience</strong> connected by continuous gradients. The study used categorical ratings, free responses, and affective scales; it did not establish a universal inventory of 27 biological primitives.</p>
+        <p>The channels below borrow that vocabulary for an inspectable engineering state. Their descriptions are practical paraphrases, not diagnostic definitions or validated biological markers. The zero-based ordering and [0, 1] controls are implementation choices. <a href="#sst-evolution">Later studies extend the research beyond video</a>.</p>
+
+        <div class="grid-27">
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Admiration</span><span class="dim-index">00</span></div>
+            <p class="dim-desc">Warm approval, respect, and positive regard elicited by another's virtuous skill or integrity.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Adoration</span><span class="dim-index">01</span></div>
+            <p class="dim-desc">Profound, reverent affection, emotional warmth, and devotion directed toward a loved one or ideal.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Aesthetic Appreciation</span><span class="dim-index">02</span></div>
+            <p class="dim-desc">Pleasurable engagement and perceptual captivation elicited by elegance, beauty, and artistic form.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Amusement</span><span class="dim-index">03</span></div>
+            <p class="dim-desc">Lighthearted humor, playfulness, and spontaneous mirth provoked by non-threatening incongruity.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Anger</span><span class="dim-index">04</span></div>
+            <p class="dim-desc">Antagonistic, reactive arousal triggered by deliberate boundary violations or goal frustration.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Anxiety</span><span class="dim-index">05</span></div>
+            <p class="dim-desc">Apprehensive, future-oriented tension regarding uncertain negative events or loss of control.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Awe</span><span class="dim-index">06</span></div>
+            <p class="dim-desc">Profound reverence and cognitive accommodation elicited by perceived conceptual or physical vastness.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Awkwardness</span><span class="dim-index">07</span></div>
+            <p class="dim-desc">Uncomfortable self-consciousness provoked by social clumsiness, dissonance, or minor friction.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Boredom</span><span class="dim-index">08</span></div>
+            <p class="dim-desc">Restless, flat disengagement resulting from under-stimulating environments or low perceived meaning.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Calmness</span><span class="dim-index">09</span></div>
+            <p class="dim-desc">Tranquil, centered equilibrium characterized by parasympathetic dominance and inner stillness.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Confusion</span><span class="dim-index">10</span></div>
+            <p class="dim-desc">Epistemic disorientation when incoming sensory or narrative evidence contradicts active models.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Craving</span><span class="dim-index">11</span></div>
+            <p class="dim-desc">Targeted, dopaminergic appetitive urge driving focused seeking behavior toward a specific resource.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Disgust</span><span class="dim-index">12</span></div>
+            <p class="dim-desc">Visceral rejection and revulsion directed against physical contaminants, spoilage, or moral degradation.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Empathetic Pain</span><span class="dim-index">13</span></div>
+            <p class="dim-desc">Vicarious distress and autonomic resonance provoked by witnessing the acute suffering of others.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Entrancement</span><span class="dim-index">14</span></div>
+            <p class="dim-desc">Hypnotic, absorbing immersion where conscious reflection softens into undivided attention.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Excitement</span><span class="dim-index">15</span></div>
+            <p class="dim-desc">High-energy sympathetic activation and buoyant anticipation toward positive incoming opportunities.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Fear</span><span class="dim-index">16</span></div>
+            <p class="dim-desc">Acute defensive alarm triggered by an immediate, perceptible threat to survival or psychological safety.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Horror</span><span class="dim-index">17</span></div>
+            <p class="dim-desc">Shocked revulsion combining intense dread, physical recoil, and moral paralysis.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Interest</span><span class="dim-index">18</span></div>
+            <p class="dim-desc">Curious, exploratory vigilance drawing cognitive resources to inspect novel or complex patterns.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Joy</span><span class="dim-index">19</span></div>
+            <p class="dim-desc">Radiant, flourishing happiness, celebratory relief, and profound emotional elevation.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Nostalgia</span><span class="dim-index">20</span></div>
+            <p class="dim-desc">Bittersweet, tender reminiscence and longing for past places, eras, or departed connections.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Relief</span><span class="dim-index">21</span></div>
+            <p class="dim-desc">Sudden release of autonomic distress following the verified conclusion or avoidance of a threat.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Romance</span><span class="dim-index">22</span></div>
+            <p class="dim-desc">Impassioned tenderness, infatuation, and reciprocal longing for deep, idealized interpersonal communion.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Sadness</span><span class="dim-index">23</span></div>
+            <p class="dim-desc">Dejected sorrow, reduced motor tempo, and sorrowful grief following irreplaceable loss.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Satisfaction</span><span class="dim-index">24</span></div>
+            <p class="dim-desc">Quiet fulfillment, satiety, and positive contentment following the successful completion of an intention.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Sexual Desire</span><span class="dim-index">25</span></div>
+            <p class="dim-desc">Visceral erotic drive, biological arousal, and physical attraction toward intimate partnership.</p>
+          </div>
+          <div class="dimension-card">
+            <div class="dim-header"><span class="dim-name">Surprise</span><span class="dim-index">26</span></div>
+            <p class="dim-desc">Brief, involuntary orienting reflex triggered by sudden deviations from expected stimuli.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="vector-specification">
+        <span class="section-label">05 / Computational Architecture</span>
+        <h2>Technical vector specification</h2>
+        <p>The application state uses 27 named, individually bounded intensity channels in <math xmlns="http://www.w3.org/1998/Math/MathML"><mo>[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>]</mo></math>. The schema is an engineering contract for agent state or an explicitly supplied user representation—not a validated measurement of private feeling.</p>
+
+        <details class="schema-block" open>
+          <summary>JSON schema · 27 channels <span class="schema-hint">— collapse or expand</span></summary>
+          <pre tabindex="0" aria-label="Complete affective state JSON schema"><code>{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AffectiveStateVector27D",
+  "type": "object",
+  "description": "Continuous emotional state normalized in [0.0, 1.0] across 27 Cowen & Keltner semantic channels",
+  "properties": {
+    "timestamp": { "type": "string", "format": "date-time" },
+    "vector": {
+      "type": "object",
+      "properties": {
+        "admiration":             { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "adoration":              { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "aesthetic_appreciation": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "amusement":              { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "anger":                  { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "anxiety":                { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "awe":                    { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "awkwardness":            { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "boredom":                { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "calmness":               { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "confusion":              { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "craving":                { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "disgust":                { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "empathetic_pain":        { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "entrancement":           { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "excitement":             { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "fear":                   { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "horror":                 { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "interest":               { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "joy":                    { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "nostalgia":              { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "relief":                 { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "romance":                { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "sadness":                { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "satisfaction":           { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "sexual_desire":          { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "surprise":               { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      },
+      "additionalProperties": false,
+      "required": [
+        "admiration", "adoration", "aesthetic_appreciation", "amusement", "anger",
+        "anxiety", "awe", "awkwardness", "boredom", "calmness", "confusion",
+        "craving", "disgust", "empathetic_pain", "entrancement", "excitement",
+        "fear", "horror", "interest", "joy", "nostalgia", "relief", "romance",
+        "sadness", "satisfaction", "sexual_desire", "surprise"
+      ]
+    }
+  }
+}</code></pre>
+        </details>
+      </section>
+
+      <section id="temporal-dynamics">
+        <span class="section-label">06 / State Transitions</span>
+        <h2>Dynamics and decay mathematics</h2>
+        <p>In living systems, emotions do not vanish instantly; they exhibit emotional inertia. As an engineering approximation, each channel can relax toward a personal baseline, with an additional stimulus applied at the end of the time step.</p>
+
+        <!-- Native MathML: actual subscripts, operators, and fractions, without a rendering dependency. -->
+        <figure class="formula-card">
+          <figcaption id="state-update-label">State update · relaxation + stimulus <span class="equation-number">(01)</span></figcaption>
+          <div class="equation-scroll" role="region" aria-labelledby="state-update-label" aria-describedby="state-update-hint" tabindex="0">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+              <mrow>
+                <msub><mi>e</mi><mi>i</mi></msub><mo>(</mo><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>t</mi><mo>)</mo>
+                <mo>=</mo><msub><mi>B</mi><mi>i</mi></msub>
+                <mo>+</mo><mo>(</mo><msub><mi>e</mi><mi>i</mi></msub><mo>(</mo><mi>t</mi><mo>)</mo><mo>−</mo><msub><mi>B</mi><mi>i</mi></msub><mo>)</mo>
+                <msup><mi mathvariant="normal">e</mi><mrow><mo>−</mo><msub><mi>λ</mi><mi>i</mi></msub><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow></msup>
+                <mo>+</mo><msub><mi>S</mi><mi>i</mi></msub><mo>(</mo><mi>t</mi><mo>)</mo>
+              </mrow>
+            </math>
+          </div>
+          <p class="equation-hint" id="state-update-hint">Scroll horizontally if needed →</p>
+          <dl class="symbol-key">
+            <div><dt><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>e</mi><mi>i</mi></msub></math></dt><dd>Intensity of emotional channel <em>i</em>.</dd></div>
+            <div><dt><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>B</mi><mi>i</mi></msub></math></dt><dd>Personal resting baseline for that channel.</dd></div>
+            <div><dt><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>λ</mi><mi>i</mi></msub></math></dt><dd>Decay rate; larger values mean faster recovery.</dd></div>
+            <div><dt><math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="normal">Δ</mi><mi>t</mi></math></dt><dd>Elapsed time, in the units used for the decay rate.</dd></div>
+            <div><dt><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>S</mi><mi>i</mi></msub><mo>(</mo><mi>t</mi><mo>)</mo></math></dt><dd>Stimulus contribution for this update, not a continuous input rate.</dd></div>
+          </dl>
+        </figure>
+
+        <figure class="formula-card">
+          <figcaption id="half-life-label">From half-life to decay rate <span class="equation-number">(02)</span></figcaption>
+          <div class="equation-scroll" role="region" aria-labelledby="half-life-label" tabindex="0">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+              <msub><mi>λ</mi><mi>i</mi></msub><mo>=</mo>
+              <mfrac><mrow><mi mathvariant="normal">ln</mi><mo>(</mo><mn>2</mn><mo>)</mo></mrow><msub><mi>t</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn><mo>,</mo><mi>i</mi></mrow></msub></mfrac>
+            </math>
+          </div>
+          <p>The half-life is the time needed to halve the deviation from baseline, with no new stimulus. For example, a chosen half-life of 2 seconds gives a decay rate of approximately 0.347 s⁻¹. These are illustrative model parameters, not universal biological constants.</p>
+        </figure>
+
+        <p class="implementation-note"><strong>Implementation note.</strong> The additive stimulus can push the update outside the intended [0, 1] range. Clamp the result, or use a bounded stimulus model, if every channel must remain in that interval.</p>
+      </section>
+
+      <section id="sst-evolution">
+        <span class="section-label">07 / Beyond the original experiment</span>
+        <h2>From a video study to Semantic Space Theory</h2>
+        <p>The 2017 taxonomy was not simply discarded and replaced by one superior theory. It became part of a broader research program, formalized in <a href="#ref-sst-2021">Semantic Space Theory (Cowen &amp; Keltner, 2021)</a>. SST asks how many distinctions people make, how those distinctions are conceptualized, and whether emotional meanings form clusters, gradients, or both.</p>
+        <p>Follow-up studies broadened the modalities and populations studied. They do not all measure the same thing: <strong>felt experience, recognized expression, and expression–context associations must be kept distinct.</strong></p>
+
+        <div class="table-container" role="region" aria-label="Semantic space follow-up studies, horizontally scrollable" tabindex="0">
+          <table>
+            <caption>Table 03 · Selected modality studies, not a universal emotion count</caption>
+            <thead><tr><th scope="col">Study / modality</th><th scope="col">Reported structure</th><th scope="col">Sample and scope</th><th scope="col">Interpretation limit</th></tr></thead>
+            <tbody>
+              <tr><td><a href="#ref-vocal-2019">Vocal bursts · 2018 online / 2019 issue</a></td><td>At least <strong>24</strong> distinguishable emotional meanings.</td><td>2,032 laboratory vocalizations and 48 naturalistic examples judged by US English speakers.</td><td>This particular study is not itself a demonstration across all cultures. Recognizing a vocal expression is not measuring its producer’s inner state.</td></tr>
+              <tr><td><a href="#ref-prosody-2019">Speech prosody · 2019</a></td><td>At least <strong>12</strong> emotional distinctions shared by the two listener groups.</td><td>2,519 speech samples; US and Indian listeners, with English-language speech produced by actors from five cultures.</td><td>Shared structure in this English-language task does not establish identical semantic distinctions in every language.</td></tr>
+              <tr><td><a href="#ref-music-2020">Music-evoked experience · 2020</a></td><td>At least <strong>13</strong> dimensions of reported experience, including dreamy and triumphant feelings.</td><td>2,168 music excerpts; participants in the United States and China.</td><td>Population coverage is limited to the US and Chinese samples. Shared patterns here do not establish universality.</td></tr>
+              <tr><td><a href="#ref-facial-2021">Naturalistic facial expression · 2020 online / 2021 issue</a></td><td><strong>16</strong> modeled expression types with context associations about 70% preserved across world regions.</td><td>Deep-network analysis of 6 million videos from 144 countries, grouped into 12 world regions.</td><td>These are expression–context associations in the sampled online videos—not proof that exactly 16 feelings exist or that a face uniquely reveals an individual’s emotion.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <aside class="callout"><strong>What the changing counts mean</strong><p>24, 12, 13, 16, and 27 describe different tasks, datasets, and constructs. They are not competing version numbers of one canonical taxonomy, and should not be added together or treated as interchangeable sets of biological primitives.</p></aside>
+
+        <h3>Neural evidence: informative, but not a 27-channel brain specification</h3>
+        <p><a href="#ref-neural-2020">Horikawa, Cowen, Keltner, &amp; Kamitani (2020)</a>, published in <em>iScience</em>, measured fMRI responses in <strong>five participants watching 2,181 videos</strong>. The analyses used video annotations for <strong>34 emotion categories and 14 affective dimensions</strong>, rather than directly reading out this document’s 27 controls.</p>
+        <p>Category-based models predicted responses better than the tested broad-affect models, and the authors reported distributed, category-related clusters bridged by gradients, especially in transmodal brain regions. This supports a richer account than a few broad affective axes, but does not prove 27 innate modules or causal mechanisms.</p>
+        <p>The study also leaves open whether some patterns reflect felt emotion or recognition that a scene affords an emotional experience. Its small participant sample and annotation-based targets matter when interpreting “neural validation.”</p>
+      </section>
+
+      <section id="language-and-limits">
+        <span class="section-label">08 / Language, culture, and interpretation</span>
+        <h2>A map of meanings is not automatically a map of universal biology</h2>
+        <p>A constructionist interpretation, associated with Lisa Feldman Barrett and colleagues, emphasizes that emotion concepts depend on language, learning, and context. A lexical critique of semantic mapping asks whether recognizable structure reflects how participants conceptualize and describe experiences, rather than an invariant set of natural kinds.</p>
+        <p>That is a methodological question, not a reason to dismiss every self-report result as an inevitable artifact. The 2017 work included multiple response formats, and later modality studies test related questions with different stimuli. Conversely, high-dimensional prediction or cross-cultural agreement does not, by itself, settle whether categories are innate or constructed.</p>
+
+        <h3>What 2,474 languages contribute</h3>
+        <p><a href="#ref-language-2019">Jackson et al. (2019, <em>Science</em>)</a> examined colexification—one word expressing multiple concepts—across <strong>2,474 languages, 20 language families, and 24 emotion concepts</strong>. The lexical networks varied across families while also showing shared organization related to valence and physiological activation.</p>
+        <p>For example, the authors describe “surprise” as closely associated with “fear” in Austronesian networks, versus “hope” and “want” in Tai-Kadai networks. This is evidence about lexical meanings, not a direct replication or refutation of the 27-category video experiment. Shared expressive patterns can coexist with culturally different concept boundaries.</p>
+
+        <h3>Expression, context, and the limits of inference</h3>
+        <p><a href="#ref-expression-2019">Barrett et al. (2019)</a> reviewed evidence against treating a facial configuration as a context-free diagnostic marker of a specific emotion. The same movement can occur in different emotional or non-emotional situations, and similar emotions can be expressed differently.</p>
+        <aside class="callout"><strong>Keep three claims separate</strong><ul><li><strong>Descriptive structure:</strong> participants or models distinguish patterns in a particular dataset.</li><li><strong>Generality:</strong> some of those patterns transfer across tasks, modalities, or sampled populations.</li><li><strong>Mechanism:</strong> a fixed, universal biological cause explains those patterns. The first two claims do not automatically establish the third.</li></ul></aside>
+        <p>These sources illustrate an ongoing debate about interpretation; they are not presented as a single published constructionist rebuttal that conclusively overturned SST.</p>
+      </section>
+
+      <section id="representation-choices">
+        <span class="section-label">09 / Representation and operational control</span>
+        <h2>Named channels, latent embeddings, or both?</h2>
+        <p>The practical choice is not “old taxonomy versus a scientifically complete embedding.” It is a trade-off between inspectable semantics, learned representations, application requirements, and evidence for the intended task.</p>
+
+        <h3>Commercial expression measurement: Hume AI</h3>
+        <p>Hume AI, co-founded by Alan Cowen, is an industry example of high-dimensional expression measurement. Its <a href="#ref-hume-docs">API documentation</a> describes separate speech and facial-expression outputs. Exact label inventories, model versions, and score definitions are vendor-specific—not a replacement standard for the 27-channel state used here.</p>
+        <p>The cited score documentation describes <strong>independent probabilities that do not sum to one</strong>. Those expression-related estimates are not automatically the same quantity as internal intensity controls, and the documentation cautions against comparing scores across names as though they were interchangeable. A face or voice model’s output is not a direct measurement of a person’s private feeling.</p>
+        <p>For an integration, record the model/API revision, output schema, score semantics, input provenance, and relevant calibration. Do not hard-code a label inventory without pinning a release, or feed expression probabilities directly into the intensity-update equation without defining a mapping.</p>
+
+        <h3>Latent representations: useful features, not word-free emotional truth</h3>
+        <p><a href="#ref-clip-2021">CLIP</a> learns image–text representations from paired supervision; <a href="#ref-imagebind-2023">ImageBind</a> learns a joint space across six modalities using image-paired data. These are examples of learned multimodal representation, not simply unsupervised emotion taxonomies or emotion-specific models by default.</p>
+        <p>Vector widths such as 512, 768, or 1024 are architectural choices, not counts of emotions. Individual coordinates usually lack a stable human-readable interpretation. Similarity can support retrieval and downstream affective models, but may also reflect objects, scenes, language, or recording conditions rather than affect.</p>
+
+        <figure class="formula-card">
+          <figcaption id="cosine-label">Cosine similarity · a representation metric <span class="equation-number">(03)</span></figcaption>
+          <div class="equation-scroll" role="region" aria-labelledby="cosine-label" tabindex="0">
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi mathvariant="normal">sim</mi><mo>(</mo><msub><mi>z</mi><mi>a</mi></msub><mo>,</mo><msub><mi>z</mi><mi>b</mi></msub><mo>)</mo><mo>=</mo><mfrac><mrow><msub><mi>z</mi><mi>a</mi></msub><mo>·</mo><msub><mi>z</mi><mi>b</mi></msub></mrow><mrow><mo>‖</mo><msub><mi>z</mi><mi>a</mi></msub><mo>‖</mo><mo>‖</mo><msub><mi>z</mi><mi>b</mi></msub><mo>‖</mo></mrow></mfrac></math>
+          </div>
+          <p>For nonzero vectors in the same model space, cosine distance is commonly defined as 1 − similarity. Whether that distance tracks emotional similarity is a validation question—not guaranteed by the formula or the embedding width.</p>
+        </figure>
+
+        <div class="table-container" role="region" aria-label="Representation design choices, horizontally scrollable" tabindex="0">
+          <table>
+            <caption>Table 04 · Choose the representation for the job</caption>
+            <thead><tr><th scope="col">Representation</th><th scope="col">Useful for</th><th scope="col">Main limitation</th></tr></thead>
+            <tbody>
+              <tr><td><strong>27 named controls</strong></td><td>Game characters, agent memory, expressive UI, manual inspection, and deterministic behavior rules.</td><td>A chosen vocabulary and scale; not an exhaustive or universal model of human feeling.</td></tr>
+              <tr><td><strong>Learned latent vector</strong></td><td>Perception features, retrieval, similarity, and task-trained prediction.</td><td>Coordinates are hard to inspect; performance depends on training, domain, and evaluation.</td></tr>
+              <tr><td><strong>Hybrid representation</strong></td><td>A latent feature store alongside a stable, human-readable control layer.</td><td>The mapping requires calibration and versioning; more dimensions do not remove uncertainty.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <aside class="callout"><strong>Recommendation for this repository</strong><p>Keep the 27-channel schema when inspectability and deliberate agent control are the goal. Add a separate, versioned latent representation only when perception or retrieval needs it. Treat the two as complementary layers, not interchangeable measurements.</p></aside>
+        <p>Keep source observations, model confidence, and the designed internal state distinct. If a model estimates a person’s expression, preserve uncertainty, context, and consent; do not turn an expressive UI control into a claim of validated emotional assessment. There is no evidence here that 27 channels are optimal for every application.</p>
+      </section>
+
+      <section id="bibliography">
+        <span class="section-label">10 / References and source scope</span>
+        <h2>Bibliography and further reading</h2>
+        <p>This update covers selected follow-ups to the 2017 study and representative engineering approaches, not an exhaustive survey of current emotion science. Study counts retain their original task and sample context; vendor documentation describes a product, not independent scientific validation.</p>
+        <ul class="citation-list">
+          <li>
+            <strong>Barrett, L. F. (2017).</strong> <em>How Emotions Are Made: The Secret Life of the Brain</em>. Houghton Mifflin Harcourt.
+            Presents a constructionist account of emotion and the role of concepts, context, and learned predictions.
+          </li>
+          <li id="ref-cowen-2017">
+            <strong>Cowen, A. S., &amp; Keltner, D. (2017).</strong> Self-report captures 27 distinct categories of emotion bridged by continuous gradients. <em>Proceedings of the National Academy of Sciences (PNAS)</em>, 114(38), E7900–E7909. <a href="https://doi.org/10.1073/pnas.1702247114">doi.org/10.1073/pnas.1702247114</a>.
+            Video-evoked self-report study identifying at least 27 distinguishable categories with continuous gradients; the source vocabulary for this document’s engineering channels.
+          </li>
+          <li>
+            <strong>Ekman, P. (1992).</strong> An argument for basic emotions. <em>Cognition &amp; Emotion</em>, 6(3–4), 169–200. <a href="https://doi.org/10.1080/02699939208411068">doi.org/10.1080/02699939208411068</a>.
+            Argues for a basic-emotion approach. FACS is a facial-movement coding system, not a direct six-state measurement of private feeling.
+          </li>
+          <li>
+            <strong>Mehrabian, A., &amp; Russell, J. A. (1974).</strong> <em>An Approach to Environmental Psychology</em>. MIT Press.
+            Foundational text defining the continuous 3-dimensional PAD (Pleasure, Arousal, Dominance) affective coordinate framework.
+          </li>
+          <li>
+            <strong>Panksepp, J. (1998).</strong> <em>Affective Neuroscience: The Foundations of Human and Animal Emotions</em>. Oxford University Press.
+            Delineates seven foundational mammalian subcortical emotional systems: SEEKING, RAGE, FEAR, LUST, CARE, PANIC/GRIEF, and PLAY.
+          </li>
+          <li>
+            <strong>Plutchik, R. (1980).</strong> A general psychoevolutionary theory of emotion. In R. Plutchik &amp; H. Kellerman (Eds.), <em>Emotion: Theory, Research, and Experience</em> (Vol. 1, pp. 3–33). Academic Press. <a href="https://doi.org/10.1016/B978-0-12-558701-3.50007-7">doi.org/10.1016/B978-0-12-558701-3.50007-7</a>.
+            Originates the 8 primary polar emotions, intensity tiers, and secondary dyadic combinations.
+          </li>
+          <li>
+            <strong>Russell, J. A. (1980).</strong> A circumplex model of affect. <em>Journal of Personality and Social Psychology</em>, 39(6), 1161–1178. <a href="https://doi.org/10.1037/h0077714">doi.org/10.1037/h0077714</a>.
+            Formalizes the continuous 2-axis Valence-Arousal spatial grid for affective representation.
+          </li>
+          <li id="ref-sst-2021"><strong>Cowen, A. S., &amp; Keltner, D. (2021).</strong> Semantic Space Theory: A Computational Approach to Emotion. <em>Trends in Cognitive Sciences</em>, 25(2), 124–136. <a href="https://doi.org/10.1016/j.tics.2020.11.004">doi.org/10.1016/j.tics.2020.11.004</a>. The broader theoretical framework, not a fixed software taxonomy.</li>
+          <li id="ref-vocal-2019"><strong>Cowen, A. S., Elfenbein, H. A., Laukka, P., &amp; Keltner, D. (2019; online 2018).</strong> Mapping 24 Emotions Conveyed by Brief Human Vocalization. <em>American Psychologist</em>. <a href="https://doi.org/10.1037/amp0000399">doi.org/10.1037/amp0000399</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6586540/">Open full text</a>.</li>
+          <li id="ref-prosody-2019"><strong>Cowen, A. S., et al. (2019).</strong> The primacy of categories in the recognition of 12 emotions in speech prosody across two cultures. <em>Nature Human Behaviour</em>. <a href="https://doi.org/10.1038/s41562-019-0533-6">doi.org/10.1038/s41562-019-0533-6</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6687085/">Open full text</a>.</li>
+          <li id="ref-music-2020"><strong>Cowen, A. S., Fang, X., Sauter, D., &amp; Keltner, D. (2020).</strong> What music makes us feel: At least 13 dimensions organize subjective experiences associated with music across different cultures. <em>PNAS</em>. <a href="https://doi.org/10.1073/pnas.1910704117">doi.org/10.1073/pnas.1910704117</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6995018/">Open full text</a>.</li>
+          <li id="ref-facial-2021"><strong>Cowen, A. S., et al. (2021; online 2020).</strong> Sixteen facial expressions occur in similar contexts worldwide. <em>Nature</em>. <a href="https://doi.org/10.1038/s41586-020-3037-7">doi.org/10.1038/s41586-020-3037-7</a>. Expression–context associations in naturalistic online video.</li>
+          <li id="ref-neural-2020"><strong>Horikawa, T., Cowen, A. S., Keltner, D., &amp; Kamitani, Y. (2020).</strong> The Neural Representation of Visually Evoked Emotion Is High-Dimensional, Categorical, and Distributed across Transmodal Brain Regions. <em>iScience</em>, 23(4), 101060. <a href="https://doi.org/10.1016/j.isci.2020.101060">doi.org/10.1016/j.isci.2020.101060</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7191651/">Open full text</a>.</li>
+          <li id="ref-language-2019"><strong>Jackson, J. C., et al. (2019).</strong> Emotion semantics show both cultural variation and universal structure. <em>Science</em>, 366, 1517–1522. <a href="https://doi.org/10.1126/science.aaw8160">doi.org/10.1126/science.aaw8160</a>. <a href="https://www.shh.mpg.de/1586682/colexification-mattis">Research team’s summary</a>.</li>
+          <li id="ref-expression-2019"><strong>Barrett, L. F., Adolphs, R., Marsella, S., Martinez, A. M., &amp; Pollak, S. D. (2019).</strong> Emotional Expressions Reconsidered: Challenges to Inferring Emotion From Human Facial Movements. <em>Psychological Science in the Public Interest</em>, 20(1), 1–68. <a href="https://doi.org/10.1177/1529100619832930">doi.org/10.1177/1529100619832930</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6640856/">Open full text</a>.</li>
+          <li id="ref-clip-2021"><strong>Radford, A., et al. (2021).</strong> Learning Transferable Visual Models From Natural Language Supervision. <em>ICML / PMLR</em>. <a href="https://proceedings.mlr.press/v139/radford21a.html">Paper and proceedings</a>. CLIP’s image–text training and transfer, not a validated emotion-specific space.</li>
+          <li id="ref-imagebind-2023"><strong>Girdhar, R., et al. (2023).</strong> ImageBind: One Embedding Space To Bind Them All. <em>CVPR</em>. <a href="https://arxiv.org/abs/2305.05665">arXiv:2305.05665</a>. Joint representation across images, text, audio, depth, thermal, and IMU data.</li>
+          <li id="ref-hume-docs"><strong>Hume AI.</strong> Expression Measurement API documentation: <a href="https://dev.hume.ai/expression-measurement/docs/overview">overview</a> and <a href="https://dev.hume.ai/expression-measurement/docs/scores">score semantics</a>. Vendor reference; model inventories and API semantics are version-specific and can change.</li>
+        </ul>
+      </section>
+      </main>
+    </div>
+
+    <footer>IO Research &bull; Emotional State Representation Framework &bull; <a href="#top">Back to top ↑</a></footer>
+  </div>
+</body>
+</html>

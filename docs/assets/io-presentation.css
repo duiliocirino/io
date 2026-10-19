@@ -188,7 +188,9 @@
 .io-presentation .framework-author,
 .io-presentation .panel-label,
 .io-presentation .channel-example figcaption,
-.io-presentation .decay-equation figcaption {
+.io-presentation .decay-equation figcaption,
+.io-presentation .metric-panel figcaption,
+.io-presentation .claim-table figcaption {
   color: var(--io-accent-deep);
   font: 0.7rem/1.5 var(--io-mono);
 }
@@ -274,15 +276,18 @@
   font-size: clamp(0.85rem, 1.7cqw, 1.1rem);
 }
 
-.io-presentation .channel-track {
+/* One bar recipe serves both activation channels and measured indicators. */
+.io-presentation .channel-track,
+.io-presentation .metric-track {
   height: 0.45rem;
   border-radius: 1px;
   background: var(--io-paper-muted);
 }
 
-.io-presentation .channel-track::before {
+.io-presentation .channel-track::before,
+.io-presentation .metric-track::before {
   display: block;
-  width: var(--activation);
+  width: var(--bar-width, var(--activation));
   height: 100%;
   background: var(--io-accent);
   content: "";
@@ -367,6 +372,148 @@
   font-size: clamp(0.75rem, 1.3cqw, 0.9rem);
 }
 
+/* Data readouts: quiet bars and lists, not cards. Bars always share an axis
+ * stated in the panel caption, so a length never has to be guessed. */
+.io-presentation .point-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: var(--slide-space) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.io-presentation .point-list li {
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--io-accent-line);
+  color: var(--io-ink-muted);
+  font-size: clamp(0.85rem, 1.55cqw, 1.05rem);
+  line-height: 1.55;
+}
+
+.io-presentation .point-list strong {
+  color: var(--io-ink);
+}
+
+.io-presentation .metric-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.2rem;
+  margin-top: var(--slide-space);
+}
+
+.io-presentation .metric-panel {
+  min-width: 0;
+  margin: 0;
+}
+
+.io-presentation .metric-list {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0.7rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.io-presentation .metric-list li {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr) 4.5rem;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--io-ink-muted);
+  font-size: clamp(0.8rem, 1.5cqw, 1rem);
+}
+
+/* Reference values are lighter than the observed value, never a new hue. */
+.io-presentation .metric-benchmark .metric-track::before {
+  background: var(--io-accent-line);
+}
+
+.io-presentation .metric-benchmark .metric-value {
+  color: var(--io-ink-muted);
+}
+
+.io-presentation .metric-value {
+  color: var(--io-accent-deep);
+  font: 0.9em var(--io-mono);
+  text-align: right;
+}
+
+/* Verification table: the reading-document table recipe, in the same figure +
+ * scrollable-region shape already used by wide equations. */
+.io-presentation .claim-table {
+  margin: var(--slide-space) 0 0;
+}
+
+.io-presentation .table-scroll {
+  overflow-x: auto;
+  margin-top: 0.6rem;
+  border: 1px solid var(--io-rule);
+  border-radius: var(--io-radius);
+  background: var(--io-paper-raised);
+  scrollbar-width: thin;
+  scrollbar-color: var(--io-accent) var(--io-paper-muted);
+}
+
+.io-presentation .claim-table table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: clamp(0.72rem, 1.2cqw, 0.9rem);
+}
+
+.io-presentation .claim-table th,
+.io-presentation .claim-table td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--io-rule);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.io-presentation .claim-table th {
+  color: var(--io-ink);
+  background: var(--io-paper-muted);
+  font-weight: 700;
+}
+
+.io-presentation .claim-table tbody tr:nth-child(even) td {
+  background: rgba(235, 231, 220, 0.45);
+}
+
+.io-presentation .claim-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.io-presentation .table-hint {
+  display: none;
+}
+
+/* Verdicts stay legible in black and white: the wording carries the meaning,
+ * the fill only reinforces it. */
+.io-presentation .verdict {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--io-accent-line);
+  border-radius: 0.25rem;
+  color: var(--io-accent-deep);
+  background: var(--io-accent-soft);
+  font: 700 0.66rem/1.7 var(--io-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.io-presentation .verdict-partial {
+  border-color: var(--io-rule);
+  color: var(--io-ink-muted);
+  background: var(--io-paper-muted);
+}
+
+.io-presentation .verdict-refuted {
+  border-color: var(--io-ink);
+  color: var(--io-paper-raised);
+  background: var(--io-ink);
+}
+
 .io-presentation .takeaway-list {
   display: grid;
   gap: 0.85rem;
@@ -405,7 +552,8 @@
   color: var(--io-accent);
 }
 
-.io-presentation .representation-grid {
+.io-presentation .representation-grid,
+.io-presentation .contrast-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
@@ -536,7 +684,28 @@
     gap: 1rem;
   }
 
-  .io-presentation .decay-equation .equation-hint {
+  .io-presentation .metric-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.2rem;
+  }
+
+  /* The value moves next to the label and the bar takes the full width. */
+  .io-presentation .metric-list li {
+    grid-template-columns: minmax(0, 1fr) 4.5rem;
+    row-gap: 0.4rem;
+  }
+
+  .io-presentation .metric-list .metric-track {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+
+  .io-presentation .claim-table table {
+    min-width: 46rem;
+  }
+
+  .io-presentation .decay-equation .equation-hint,
+  .io-presentation .claim-table .table-hint {
     display: block;
     margin: 0.3rem 0 0;
     color: var(--io-ink-muted);
@@ -576,11 +745,25 @@
     break-after: auto;
   }
 
-  .io-presentation .equation-scroll {
+  .io-presentation .equation-scroll,
+  .io-presentation .table-scroll {
     overflow: visible;
+    border: 0;
   }
 
-  .io-presentation .decay-equation .equation-hint {
+  .io-presentation .decay-equation .equation-hint,
+  .io-presentation .claim-table .table-hint {
     display: none;
+  }
+
+  .io-presentation .claim-table th,
+  .io-presentation .claim-table td {
+    border-color: #bbb;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .io-presentation .claim-table tbody tr {
+    break-inside: avoid;
   }
 }

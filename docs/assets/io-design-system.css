@@ -1,6 +1,11 @@
 /*
- * Shared visual foundations for IO long-form documents and hybrid HTML decks.
- * Keep the palette and typography consistent; let each format control its own layout.
+ * Shared visual foundations for IO long-form documents, hybrid HTML decks, and
+ * social carousels. Keep the palette and typography consistent; let each format
+ * control its own layout.
+ *
+ * These tokens are design version 1 (orange). Version 2 lives in
+ * io-theme-v2.css and only remaps tokens plus a few signature details, so every
+ * colour below must stay a token or be derived from one with color-mix().
  */
 :root {
   color-scheme: light;
@@ -16,6 +21,9 @@
   --io-accent-line: #e6b08b;
   --io-rule: #dcd4c5;
   --io-code: #eee9de;
+  /* Highlights (<mark>) keep a fixed dark ink so they stay legible on any surface. */
+  --io-highlight: #ffd9b8;
+  --io-highlight-ink: #302a26;
   --io-display: Georgia, "Times New Roman", serif;
   --io-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --io-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -23,13 +31,17 @@
   --io-shadow: 0 12px 34px rgba(48, 42, 38, 0.08);
 }
 
+/* Base layer for every format in the system: long-form document, deck, and
+ * social carousel. Format sheets add layout, never a new foundation. */
 .io-document *,
-.io-deck * {
+.io-deck *,
+.io-social * {
   box-sizing: border-box;
 }
 
 .io-document,
-.io-deck {
+.io-deck,
+.io-social {
   margin: 0;
   color: var(--io-ink);
   background: var(--io-paper);
@@ -37,24 +49,28 @@
 }
 
 .io-document a,
-.io-deck a {
+.io-deck a,
+.io-social a {
   color: var(--io-accent-deep);
   text-underline-offset: 0.18em;
 }
 
 .io-document a:hover,
-.io-deck a:hover {
+.io-deck a:hover,
+.io-social a:hover {
   color: var(--io-ink);
 }
 
 .io-document :focus-visible,
-.io-deck :focus-visible {
+.io-deck :focus-visible,
+.io-social :focus-visible {
   outline: 3px solid var(--io-accent);
   outline-offset: 3px;
 }
 
 .io-document .skip-link,
-.io-deck .skip-link {
+.io-deck .skip-link,
+.io-social .skip-link {
   position: absolute;
   z-index: 20;
   top: 0.75rem;
@@ -67,8 +83,65 @@
 }
 
 .io-document .skip-link:focus,
-.io-deck .skip-link:focus {
+.io-deck .skip-link:focus,
+.io-social .skip-link:focus {
   transform: translateY(0);
+}
+
+/* A phrase worth finding again. Use sparingly: a few per document, at most one
+ * per slide or card. */
+:is(.io-document, .io-deck, .io-social) mark {
+  padding: 0 0.12em;
+  border-radius: 0.12em;
+  color: var(--io-highlight-ink);
+  background: var(--io-highlight);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Template-only preview control (io-theme-switch.js); finished pages declare a
+ * single design version and do not include it. */
+:is(.io-document, .io-deck, .io-social) .theme-switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--io-rule);
+  border-radius: 999px;
+  background: var(--io-paper-raised);
+  font: 0.68rem/1 var(--io-mono);
+}
+
+:is(.io-document, .io-deck, .io-social) .theme-switch[hidden] {
+  display: none;
+}
+
+:is(.io-document, .io-deck, .io-social) .theme-switch button {
+  min-width: 2.5rem;
+  min-height: 2rem;
+  padding: 0 0.7rem;
+  border: 0;
+  border-radius: 999px;
+  color: var(--io-ink-muted);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+:is(.io-document, .io-deck, .io-social) .theme-switch button[aria-pressed="true"] {
+  color: var(--io-paper-raised);
+  background: var(--io-ink);
+}
+
+/* In a document the switch sits above the header, aligned with the content edge. */
+.io-document .container > .theme-switch {
+  display: flex;
+  width: fit-content;
+  margin: 0 0 1.25rem auto;
+}
+
+.io-document .container > .theme-switch[hidden] {
+  display: none;
 }
 
 /* Long-form reading layout */
@@ -246,7 +319,7 @@
 }
 
 .io-document tbody tr:nth-child(even) td {
-  background: rgba(235, 231, 220, 0.45);
+  background: color-mix(in srgb, var(--io-paper-muted) 45%, transparent);
 }
 
 .io-document .grid-27 {
@@ -360,8 +433,8 @@
   align-items: center;
   gap: 1rem;
   padding: 0.65rem clamp(1rem, 3vw, 2.5rem);
-  border-bottom: 1px solid rgba(220, 212, 197, 0.85);
-  background: rgba(245, 241, 232, 0.94);
+  border-bottom: 1px solid color-mix(in srgb, var(--io-rule) 85%, transparent);
+  background: color-mix(in srgb, var(--io-paper) 94%, transparent);
   backdrop-filter: blur(10px);
 }
 
@@ -606,6 +679,22 @@
 }
 
 @media print {
+  :is(.io-document, .io-deck, .io-social) .theme-switch {
+    display: none;
+  }
+
+  /* Documents may go to a greyscale printer, where a pale fill can vanish; the
+   * underline keeps the emphasis. Slides and cards print as exact-colour pages. */
+  .io-document mark {
+    text-decoration: underline 0.08em;
+    text-underline-offset: 0.18em;
+  }
+
+  :is(.io-document, .io-deck, .io-social) mark {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
   .io-document {
     padding: 0;
     background: #fff;

@@ -1,16 +1,25 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-io-theme="v2">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A concise description of this document.">
   <title>Document title · IO</title>
   <link rel="stylesheet" href="../assets/io-design-system.css">
+  <!-- Design version 2; remove data-io-theme on <html> to return to version 1. -->
+  <link rel="stylesheet" href="../assets/io-theme-v2.css">
+  <!-- Template-only version preview; leave it out of finished pages. -->
+  <script src="../assets/io-theme-switch.js" defer></script>
 </head>
 <body class="io-document">
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <div class="container">
+    <div class="theme-switch" role="group" aria-label="Design version" hidden>
+      <button type="button" data-io-theme-option="v1">v1</button>
+      <button type="button" data-io-theme-option="v2">v2</button>
+    </div>
+
     <header>
       <span class="badge">Guide · Topic</span>
       <h1>A clear title for a substantial idea</h1>
@@ -38,7 +47,7 @@
         <p>Reserve callouts for ideas that deserve a pause—not for every paragraph. A callout should clarify or summarize the surrounding explanation.</p>
         <aside class="callout">
           <strong>Key idea</strong>
-          <p>A useful takeaway is brief enough to scan and specific enough to remember.</p>
+          <p>A useful takeaway is brief enough to scan and <mark>specific enough to remember</mark>.</p>
         </aside>
       </section>
 

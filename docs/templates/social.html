@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="it" data-io-theme="v2">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Guscio per un carosello social 4:5 (1080x1350) nell'editorial design system IO: una card per idea, esportabili come singole immagini.">
+  <title>Titolo del carosello · IO Social</title>
+  <link rel="stylesheet" href="../assets/io-design-system.css">
+  <link rel="stylesheet" href="../assets/io-presentation.css">
+  <link rel="stylesheet" href="../assets/io-social.css">
+  <!-- Versione grafica 2: togli data-io-theme da <html> per tornare alla versione 1. -->
+  <link rel="stylesheet" href="../assets/io-theme-v2.css">
+  <!-- Selettore di versione solo per il template: non serve nei caroselli finiti. -->
+  <script src="../assets/io-theme-switch.js" defer></script>
+</head>
+<!-- .io-social attiva il formato; data-safe-areas mostra le bande del crop
+     quadrato che il profilo applica alla prima card (solo in anteprima). -->
+<body class="io-social" data-safe-areas>
+  <a class="skip-link" href="#card-1">Vai al carosello</a>
+
+  <header class="social-toolbar">
+    <span class="deck-brand">IO · Social · 1080 × 1350 · 4:5</span>
+    <nav class="social-nav" aria-label="Navigazione tra le card">
+      <a href="#card-1">01</a>
+      <a href="#card-2">02</a>
+      <a href="#card-3">03</a>
+    </nav>
+    <div class="theme-switch" role="group" aria-label="Versione grafica" hidden>
+      <button type="button" data-io-theme-option="v1">v1</button>
+      <button type="button" data-io-theme-option="v2">v2</button>
+    </div>
+  </header>
+
+  <main class="carousel" id="main-content">
+    <section class="card dot-field" id="card-1" aria-labelledby="card-title-1"
+             data-alt="Descrizione della prima card: titolo e sottotitolo letti in ordine.">
+      <div class="card-content">
+        <span class="card-kicker">01 · Argomento</span>
+        <h1 id="card-title-1">Un titolo che <mark>regge da solo</mark>.</h1>
+        <p class="card-lede">Una riga che spiega che cosa segue.</p>
+      </div>
+      <footer class="card-meta"><span>Scorri →</span><span class="card-index">01 / 03</span></footer>
+    </section>
+
+    <!-- Archetipi disponibili: statement, evidence (fatti o barre), contrast,
+         verdict (tabella di verifica), summary. Una card, un'idea. -->
+    <section class="card" id="card-2" aria-labelledby="card-title-2"
+             data-alt="Seconda card: un numero chiave e la sua spiegazione.">
+      <div class="card-content">
+        <span class="card-kicker">02 · Il dato</span>
+        <h2 id="card-title-2">Un numero che ancora la tesi.</h2>
+        <div class="card-facts card-facts-2">
+          <div class="card-fact"><strong>105</strong><span>etichetta del primo valore</span></div>
+          <div class="card-fact"><strong>42%</strong><span>etichetta del secondo valore</span></div>
+        </div>
+        <figure class="metric-panel">
+          <figcaption>Nome della metrica · scala dichiarata</figcaption>
+          <ul class="metric-list" aria-label="Etichette delle barre">
+            <li><span>2024</span><span class="metric-track" style="--bar-width: 60%"></span><span class="metric-value">60%</span></li>
+            <li class="metric-benchmark"><span>Riferimento</span><span class="metric-track" style="--bar-width: 75%"></span><span class="metric-value">75%</span></li>
+          </ul>
+        </figure>
+      </div>
+      <footer class="card-meta"><span>Continua →</span><span class="card-index">02 / 03</span></footer>
+    </section>
+
+    <section class="card" id="card-3" aria-labelledby="card-title-3"
+             data-alt="Terza card: sintesi e invito a salvare il post.">
+      <div class="card-content">
+        <span class="card-kicker">03 · Sintesi</span>
+        <h2 id="card-title-3">Due o tre conclusioni.</h2>
+        <ol class="takeaway-list">
+          <li><strong>Affermazione breve.</strong><span>Una riga di supporto.</span></li>
+          <li><strong>Affermazione breve.</strong><span>Una riga di supporto.</span></li>
+        </ol>
+      </div>
+      <footer class="card-meta"><span>Salva · Condividi</span><span class="card-index">03 / 03</span></footer>
+    </section>
+  </main>
+
+  <!-- Testo del post: non fa parte di nessuna immagine. -->
+  <section class="social-caption" aria-labelledby="caption-title">
+    <h2 id="caption-title">Didascalia</h2>
+    <p>Testo del post (max ~2.200 caratteri): nessuna fonte qui dentro deve stare in una card.</p>
+    <ol>
+      <li>Fonte o verifica numero 1.</li>
+      <li>Fonte o verifica numero 2.</li>
+    </ol>
+    <h3>Testi ALT</h3>
+    <span class="alt-text">01: …</span>
+    <span class="alt-text">02: …</span>
+    <span class="alt-text">03: …</span>
+  </section>
+</body>
+</html>

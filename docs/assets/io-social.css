@@ -1,0 +1,441 @@
+/*
+ * Opt-in social carousel format: portrait 4:5 cards meant to be exported as
+ * single images (Instagram carousel). Load after io-design-system.css and
+ * io-presentation.css and add .io-social to the body. The presentation sheet is
+ * loaded because it carries the shared data components (bars, lists, tables,
+ * verdicts), which are scoped with :is(.io-presentation, .io-social); this file
+ * only overrides their size for the fixed card canvas. Decks and documents are
+ * unaffected.
+ */
+
+/* The card is a fixed print canvas, not a responsive surface: 1080x1350 CSS px.
+ * Canvas-level metrics (padding, graphic rule) are px: the card must not depend
+ * on the browser window, and an element cannot query itself. Content inside the
+ * card uses container-query units against the card's content box, which is a
+ * constant 908x1116 (so 1cqw = 9.08px).
+ * Readability floor: nothing below 24px on the canvas, hence mono labels start
+ * at 2.7cqw (24.5px). If text does not fit, cut the text, never the size. */
+.io-social .card {
+  --canvas-pad-x: 86px;
+  --canvas-pad-top: 86px;
+  --canvas-pad-bottom: 108px;
+}
+.io-social {
+  --card-width: 1080px;
+  --card-height: 1350px;
+  background: var(--io-paper-muted);
+}
+
+/* Export hygiene: classic scrollbars would land inside a 1080x1350 screenshot
+ * and steal 15px from the layout width. Hidden here, and only for this format. */
+html:has(body.io-social) {
+  scrollbar-width: none;
+}
+
+html:has(body.io-social)::-webkit-scrollbar {
+  display: none;
+}
+
+.io-social .social-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.7rem clamp(0.9rem, 3vw, 2rem);
+  border-bottom: 1px solid color-mix(in srgb, var(--io-rule) 85%, transparent);
+  background: color-mix(in srgb, var(--io-paper) 94%, transparent);
+}
+
+.io-social .deck-brand {
+  color: var(--io-ink-muted);
+  font: 0.7rem/1.4 var(--io-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Preview-only jump list. It never appears in an exported card. */
+.io-social .social-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+
+.io-social .social-nav a {
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.3rem;
+  color: var(--io-ink-muted);
+  font: 0.7rem/1.4 var(--io-mono);
+  text-decoration: none;
+}
+
+.io-social .social-nav a:hover,
+.io-social .social-nav a:focus-visible {
+  color: var(--io-accent-deep);
+  background: var(--io-accent-soft);
+}
+
+/* Vertical stack of exact canvases. The column is the canvas width, never a
+ * content-sized guess, so a card is always 1080x1350 and an export cannot drift.
+ * Inline padding is zero and the toolbar is not sticky so that jumping to a card
+ * fragment leaves it flush at the viewport origin: with a 1080x1350 viewport, a
+ * plain viewport screenshot is exactly one card. */
+.io-social .carousel {
+  display: grid;
+  grid-template-columns: var(--card-width);
+  justify-content: center;
+  justify-items: center;
+  gap: clamp(1.2rem, 4vw, 2.5rem);
+  padding: clamp(1rem, 3vw, 2rem) 0 3rem;
+}
+
+@media (max-width: 1160px) {
+  .io-social .carousel {
+    justify-content: flex-start;
+  }
+}
+
+.io-social .card {
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  width: var(--card-width);
+  aspect-ratio: 4 / 5;
+  container-type: inline-size;
+  /* Bottom padding is deliberately the largest: the platform overlays its
+   * progress marks on the lower edge of the image. */
+  padding: var(--canvas-pad-top) var(--canvas-pad-x) var(--canvas-pad-bottom);
+  border: 1px solid var(--io-rule);
+  border-radius: var(--io-radius);
+  background: var(--io-paper);
+  box-shadow: var(--io-shadow);
+  /* Zero, so a card fragment lands flush with the viewport origin for export. */
+  scroll-margin-top: 0;
+}
+
+/* Same graphic mark as the deck slides, so a carousel reads as part of the set. */
+.io-social .card::before {
+  position: absolute;
+  top: 0;
+  left: var(--canvas-pad-x);
+  width: 92px;
+  height: 5px;
+  background: var(--io-accent);
+  content: "";
+}
+
+/* Optional authoring guide: the square crop the profile grid applies to the
+ * cover card. Body attribute only; never printed. */
+.io-social[data-safe-areas] .card::after {
+  position: absolute;
+  inset: 10% 0;
+  border: 2px dashed var(--io-accent-line);
+  content: "";
+}
+
+.io-social .card-content {
+  align-self: center;
+  min-width: 0;
+}
+
+.io-social .card-kicker {
+  display: block;
+  margin: 0 0 4cqw;
+  color: var(--io-accent-deep);
+  font: 700 2.7cqw/1.4 var(--io-mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.io-social .card h1,
+.io-social .card h2 {
+  margin: 0;
+  color: var(--io-ink);
+  font-family: var(--io-display);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.io-social .card h1 {
+  font-size: 11.4cqw;
+}
+
+.io-social .card h2 {
+  font-size: 9.4cqw;
+}
+
+.io-social .card-lede {
+  max-width: 26ch;
+  margin: 4cqw 0 0;
+  color: var(--io-ink-muted);
+  font-size: 3.8cqw;
+  line-height: 1.5;
+}
+
+.io-social .card-note {
+  max-width: 38ch;
+  margin: 4cqw 0 0;
+  color: var(--io-ink-muted);
+  font-size: 2.8cqw;
+  line-height: 1.55;
+}
+
+.io-social .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 6cqw;
+  padding-top: 3cqw;
+  border-top: 1px solid var(--io-rule);
+  color: var(--io-ink-muted);
+  font: 2.7cqw/1.4 var(--io-mono);
+}
+
+.io-social .card-index {
+  color: var(--io-accent-deep);
+  white-space: nowrap;
+}
+
+/* --- Card archetypes -------------------------------------------------------
+   Archetypes change what is on the card, never the identity: one idea, one
+   support element, always readable on its own. */
+.io-social .card-facts {
+  display: grid;
+  gap: 4cqw;
+  margin: 6cqw 0 0;
+}
+
+.io-social .card-facts-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.io-social .card-fact {
+  padding-top: 2.5cqw;
+  border-top: 1px solid var(--io-rule);
+}
+
+.io-social .card-fact strong {
+  display: block;
+  color: var(--io-accent-deep);
+  font: 500 9cqw/1.05 var(--io-display);
+  letter-spacing: -0.03em;
+}
+
+/* Long values such as "56% → 105–120%" need the smaller numeral step. */
+.io-social .card-fact-sm strong {
+  font-size: 5.6cqw;
+}
+
+.io-social .card-fact span {
+  display: block;
+  margin-top: 1.4cqw;
+  color: var(--io-ink-muted);
+  font-size: 2.9cqw;
+  line-height: 1.45;
+}
+
+/* Two stacked statements for a comparison: portrait has no room for columns. */
+.io-social .card-contrast-list {
+  display: grid;
+  gap: 4cqw;
+  margin: 6cqw 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.io-social .card-contrast-list li {
+  padding-top: 3cqw;
+  border-top: 1px solid var(--io-rule);
+}
+
+.io-social .card-contrast-list h3 {
+  margin: 0 0 1.6cqw;
+  color: var(--io-ink);
+  font: 500 4.6cqw/1.2 var(--io-display);
+}
+
+.io-social .card-contrast-list p {
+  margin: 0;
+  color: var(--io-ink-muted);
+  font-size: 2.9cqw;
+  line-height: 1.55;
+}
+
+.io-social .card-callout {
+  margin: 6cqw 0 0;
+  padding: 3.5cqw 4cqw;
+  border-left: 0.6cqw solid var(--io-accent);
+  background: var(--io-paper-muted);
+  color: var(--io-ink);
+  font-size: 3.4cqw;
+  line-height: 1.5;
+}
+
+/* --- Shared components sized for the canvas -------------------------------- */
+/* The shared label recipe is deck-sized (0.7rem); the canvas needs its own.
+ * Selector weight matches the shared one, and this file loads after it. */
+.io-social .card figcaption {
+  color: var(--io-accent-deep);
+  font: 2.7cqw/1.4 var(--io-mono);
+}
+
+.io-social .point-list {
+  gap: 3cqw;
+  margin: 6cqw 0 0;
+}
+
+.io-social .point-list li {
+  padding-left: 3.5cqw;
+  border-left-width: 0.4cqw;
+  font-size: 3.1cqw;
+  line-height: 1.55;
+}
+
+.io-social .metric-panel {
+  margin: 6cqw 0 0;
+}
+
+.io-social .metric-panel + .metric-panel {
+  margin-top: 5cqw;
+}
+
+.io-social .metric-list {
+  gap: 3.4cqw;
+  margin: 3cqw 0 0;
+}
+
+.io-social .metric-list li {
+  grid-template-columns: 13cqw minmax(0, 1fr) 14cqw;
+  gap: 3cqw;
+  font-size: 3cqw;
+}
+
+.io-social .metric-track {
+  height: 1.6cqw;
+}
+
+.io-social .metric-value {
+  font-size: 3cqw;
+}
+
+.io-social .claim-table {
+  margin: 6cqw 0 0;
+}
+
+/* The card never scrolls: the region is kept for accessibility in the browser
+ * preview, and released for the fixed export canvas. */
+.io-social .table-scroll {
+  overflow: visible;
+  margin-top: 3cqw;
+}
+
+.io-social .claim-table table {
+  font-size: 2.7cqw;
+}
+
+.io-social .claim-table th,
+.io-social .claim-table td {
+  padding: 2.4cqw 2.2cqw;
+  line-height: 1.5;
+}
+
+.io-social .table-hint {
+  display: none;
+}
+
+.io-social .verdict {
+  padding: 0.6cqw 1.6cqw;
+  border-radius: 0.8cqw;
+  font: 700 2.7cqw/1.8 var(--io-mono);
+}
+
+.io-social .takeaway-list {
+  gap: 3.5cqw;
+  margin: 6cqw 0 0;
+  padding-left: 5cqw;
+  font-size: 3.4cqw;
+}
+
+.io-social .takeaway-list span {
+  margin-top: 1cqw;
+  font-size: 0.85em;
+}
+
+/* --- Caption and alt text: part of the post, never part of an image --------- */
+.io-social .social-caption {
+  width: min(100%, 62rem);
+  margin: 0 auto 3rem;
+  padding: 1.5rem clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--io-rule);
+  border-radius: var(--io-radius);
+  background: var(--io-paper-raised);
+  font-size: 0.95rem;
+}
+
+.io-social .social-caption h2 {
+  margin: 0 0 0.8rem;
+  color: var(--io-ink);
+  font: 500 1.35rem/1.3 var(--io-display);
+}
+
+.io-social .social-caption p,
+.io-social .social-caption li {
+  color: var(--io-ink-muted);
+}
+
+.io-social .social-caption ol {
+  margin: 0.6rem 0 0;
+  padding-left: 1.3rem;
+}
+
+.io-social .alt-text {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--io-accent-deep);
+  font: 0.8rem/1.5 var(--io-mono);
+}
+
+/* --- Export ---------------------------------------------------------------
+   One card per 4:5 page; toolbar, navigation and the caption block stay out of
+   the printed/exported sheet. */
+@media print {
+  @page {
+    size: 1080px 1350px;
+    margin: 0;
+  }
+
+  .io-social .social-toolbar,
+  .io-social .social-nav,
+  .io-social .skip-link {
+    display: none;
+  }
+
+  .io-social[data-safe-areas] .card::after {
+    display: none;
+  }
+
+  .io-social .carousel {
+    display: block;
+    padding: 0;
+  }
+
+  .io-social .card {
+    width: 1080px;
+    height: 1350px;
+    aspect-ratio: auto;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    break-after: page;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .io-social .card:last-child {
+    break-after: auto;
+  }
+}

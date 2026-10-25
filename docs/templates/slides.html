@@ -1,11 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-io-theme="v2">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A concise description of this presentation.">
   <title>Presentation title · IO</title>
   <link rel="stylesheet" href="../assets/io-design-system.css">
+  <!-- Design version 2; remove data-io-theme on <html> to return to version 1. -->
+  <link rel="stylesheet" href="../assets/io-theme-v2.css">
+  <!-- Template-only version preview; leave it out of finished decks. -->
+  <script src="../assets/io-theme-switch.js" defer></script>
 </head>
 <body class="io-deck">
   <a class="skip-link" href="#slide-1">Skip to presentation</a>
@@ -18,13 +22,17 @@
       <a href="#slide-3">03 · Model</a>
       <a href="#slide-4">04 · Takeaway</a>
     </nav>
+    <div class="theme-switch" role="group" aria-label="Design version" hidden>
+      <button type="button" data-io-theme-option="v1">v1</button>
+      <button type="button" data-io-theme-option="v2">v2</button>
+    </div>
   </header>
 
   <main class="deck" id="main-content">
     <section class="slide" id="slide-1" aria-labelledby="slide-title">
       <div class="slide-content">
         <span class="slide-kicker">Topic · A short framing line</span>
-        <h1 id="slide-title">Emotion is a landscape, not a list.</h1>
+        <h1 id="slide-title">Emotion is a <mark>landscape</mark>, not a list.</h1>
         <p class="slide-lede">A richer vocabulary can describe distinct feelings without forcing them into separate boxes.</p>
       </div>
       <footer class="slide-footer"><span>27 dimensions · continuous experience</span><span>01 / 04</span></footer>

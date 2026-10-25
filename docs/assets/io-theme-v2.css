@@ -1,0 +1,180 @@
+/*
+ * IO design version 2 — cleaner off-white paper, green structure, citron
+ * highlights, and points as the signature element. Layouts and typography are
+ * unchanged from version 1.
+ *
+ * Opt in per page: load this file after every other io-* stylesheet and add
+ * data-io-theme="v2" to <html>. Remove the attribute to return to version 1;
+ * the io repository tags that state as design-v1.
+ *
+ * Colour roles (contrast checked on every v2 surface):
+ * - green is structure: links, labels, rules, bars, points, focus, and key
+ *   figures. Text green is 6:1 or better; graphic green at least 3:1.
+ * - citron is the highlighter on paper: <mark>, the current section or slide,
+ *   and (paler) callouts. It is always a background behind dark ink.
+ * - bright yellow appears only on the dark cover, where it is legible.
+ * Colour is never the only carrier of meaning.
+ *
+ * Each rule is the attribute plus the version 1 selector it adjusts, so it
+ * wins by specificity without !important and v1 stays untouched.
+ */
+:root[data-io-theme="v2"] {
+  --io-paper: #f8f8f4;
+  --io-paper-raised: #ffffff;
+  --io-paper-muted: #edefe7;
+  --io-ink: #1d2520;
+  --io-ink-muted: #525c54;
+  --io-accent: #3b8a2c;
+  --io-accent-deep: #2a6420;
+  --io-accent-soft: #e7f1dd;
+  --io-accent-line: #b4d39b;
+  --io-rule: #dadecf;
+  --io-code: #eff1e9;
+  --io-highlight: #e8f2a2;
+  --io-highlight-soft: #f6f9e2;
+  --io-highlight-ink: #1d2520;
+  --io-point: #3b8a2c;
+  --io-shadow: 0 12px 34px rgba(29, 37, 32, 0.07);
+}
+
+/* Highlights fill the line with a soft citron tone. A little extra space below
+ * keeps descenders inside the fill at display sizes; side padding is capped so
+ * a highlighted heading stays tight. */
+[data-io-theme="v2"] :is(.io-document, .io-deck, .io-social) mark {
+  padding: 0.04em min(0.2em, 0.5rem) 0.08em;
+  border-radius: min(0.25em, 0.3rem);
+}
+
+[data-io-theme="v2"] ::selection {
+  color: var(--io-highlight-ink);
+  background: var(--io-highlight);
+}
+
+/* Callouts read as highlighted notes. */
+[data-io-theme="v2"] .io-document .callout,
+[data-io-theme="v2"] .io-deck .slide-callout,
+[data-io-theme="v2"] .io-social .card-callout {
+  background: var(--io-highlight-soft);
+}
+
+/* The reader's current position is highlighted, not just tinted. */
+[data-io-theme="v2"] .io-research .research-index a[aria-current="location"] {
+  color: var(--io-ink);
+  background: var(--io-highlight);
+}
+
+[data-io-theme="v2"] .io-presentation .deck-nav a[aria-current="step"] {
+  color: var(--io-highlight-ink);
+  background: var(--io-highlight);
+}
+
+/* Large figures use the deep green: the brighter graphic green looks washed
+ * out at display size. No stroke or fill: the numeral is already the focus. */
+[data-io-theme="v2"] .io-presentation .semantic-stat strong,
+[data-io-theme="v2"] .io-presentation .evidence-grid h3 {
+  color: var(--io-accent-deep);
+}
+
+/* --- Points: the signature element -----------------------------------------
+ * A point on a line, like a datum on an axis. The slide/card mark is a short
+ * line ending in a point; column rules start with one; documents use points
+ * for section labels and list markers. All points are decorative pseudo-
+ * elements or markers, so assistive technology does not announce them. */
+[data-io-theme="v2"] .io-deck .slide::before {
+  /* Sits inside the top padding (never less than 1.5rem) rather than on the edge. */
+  top: clamp(0.55rem, 1.6vw, 1.4rem);
+  height: 10px;
+  background:
+    radial-gradient(circle closest-side, var(--io-point) 92%, transparent) 100% 50% / 10px 10px no-repeat,
+    linear-gradient(var(--io-accent), var(--io-accent)) 0 50% / calc(100% - 14px) 2px no-repeat;
+}
+
+[data-io-theme="v2"] .io-social .card::before {
+  top: 40px;
+  width: 110px;
+  height: 18px;
+  background:
+    radial-gradient(circle closest-side, var(--io-point) 92%, transparent) 100% 50% / 18px 18px no-repeat,
+    linear-gradient(var(--io-accent), var(--io-accent)) 0 50% / calc(100% - 26px) 4px no-repeat;
+}
+
+[data-io-theme="v2"] .io-presentation .framework-grid li,
+[data-io-theme="v2"] .io-social .card-fact,
+[data-io-theme="v2"] .io-social .card-contrast-list li {
+  position: relative;
+}
+
+/* A point where each column rule starts, centred on the 1px rule. */
+[data-io-theme="v2"] .io-presentation .framework-grid li::before,
+[data-io-theme="v2"] .io-social .card-fact::before,
+[data-io-theme="v2"] .io-social .card-contrast-list li::before {
+  position: absolute;
+  top: -0.25rem;
+  left: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--io-point);
+  content: "";
+}
+
+[data-io-theme="v2"] .io-social :is(.card-fact, .card-contrast-list li)::before {
+  top: -0.65cqw;
+  width: 1.2cqw;
+  height: 1.2cqw;
+}
+
+[data-io-theme="v2"] .io-document .section-label::before {
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  margin-right: 0.6em;
+  border-radius: 50%;
+  background: var(--io-point);
+  content: "";
+}
+
+[data-io-theme="v2"] .io-document li::marker {
+  color: var(--io-accent);
+}
+
+/* --- Cover -------------------------------------------------------------------
+ * The slide or card holding the title (h1) is inverted. Tokens are remapped on
+ * that element, so everything inside adapts without its own rule. Labels use
+ * a lighter green; bright yellow is the highlight and the point here (12:1),
+ * while --io-highlight-ink is deliberately not remapped. */
+[data-io-theme="v2"] .io-deck .slide:has(h1),
+[data-io-theme="v2"] .io-social .card:has(h1) {
+  --io-paper: #1b241e;
+  --io-paper-raised: #222c25;
+  --io-paper-muted: #26302a;
+  --io-ink: #f8f8f4;
+  --io-ink-muted: #c2cabd;
+  --io-accent: #9ed36a;
+  --io-accent-deep: #b8e28e;
+  --io-accent-soft: #2c3b2a;
+  --io-accent-line: #5d7a4c;
+  --io-rule: #3b4840;
+  --io-highlight: #fde047;
+  --io-point: #fde047;
+  color-scheme: dark;
+}
+
+/* Optional dot field: add .dot-field to a cover slide or card. Dots gather in
+ * the top-right corner and fade out radially before they reach the title or
+ * footer, so they never sit behind words. Painted as background layers, so the
+ * card's ::after stays free for the safe-area guide. On the 1080 px social
+ * canvas the dots are larger and sparser so image compression keeps them. */
+[data-io-theme="v2"] .io-deck .slide.dot-field:has(h1) {
+  background:
+    radial-gradient(circle at 100% 0%, transparent 18%, var(--io-paper) 46%),
+    radial-gradient(circle, color-mix(in srgb, var(--io-accent) 65%, transparent) 1.6px, transparent 2.1px) 0 0 / 16px 16px,
+    var(--io-paper);
+}
+
+[data-io-theme="v2"] .io-social .card.dot-field:has(h1) {
+  background:
+    radial-gradient(circle at 100% 0%, transparent 20%, var(--io-paper) 50%),
+    radial-gradient(circle, color-mix(in srgb, var(--io-accent) 65%, transparent) 3.2px, transparent 4px) 0 0 / 28px 28px,
+    var(--io-paper);
+}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-io-theme="v2">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,8 @@
   <title>Emotional State Representation & 27-D Semantic Vector Space · IO Research</title>
   <link rel="stylesheet" href="../assets/io-design-system.css">
   <link rel="stylesheet" href="../assets/io-research.css">
+  <!-- Design version 2; remove data-io-theme on <html> to return to version 1. -->
+  <link rel="stylesheet" href="../assets/io-theme-v2.css">
   <script src="../assets/io-research.js" defer></script>
 </head>
 <body class="io-document io-research" id="top">
@@ -43,7 +45,7 @@
       <section id="vector-paradigms">
         <span class="section-label">01 / Engineering Foundations</span>
         <h2>Vector representation paradigms</h2>
-        <p>For this engineering representation, each named channel has a value from <strong>0.0</strong> (no activation on the application’s scale) to <strong>1.0</strong> (its chosen maximum). A resting baseline can be nonzero. These values are designed intensity controls—not automatically calibrated probabilities, physiological measurements, or the original study’s rating scale.</p>
+        <p>For this engineering representation, each named channel has a value from <strong>0.0</strong> (no activation on the application’s scale) to <strong>1.0</strong> (its chosen maximum). A resting baseline can be nonzero. These values are <mark>designed intensity controls</mark>—not automatically calibrated probabilities, physiological measurements, or the original study’s rating scale.</p>
 
         <aside class="callout">
           <strong>Design principle: Intensity channels versus categorical probabilities</strong>
@@ -421,7 +423,7 @@
           </table>
         </div>
 
-        <aside class="callout"><strong>What the changing counts mean</strong><p>24, 12, 13, 16, and 27 describe different tasks, datasets, and constructs. They are not competing version numbers of one canonical taxonomy, and should not be added together or treated as interchangeable sets of biological primitives.</p></aside>
+        <aside class="callout"><strong>What the changing counts mean</strong><p>24, 12, 13, 16, and 27 describe different tasks, datasets, and constructs. They are <mark>not competing version numbers</mark> of one canonical taxonomy, and should not be added together or treated as interchangeable sets of biological primitives.</p></aside>
 
         <h3>Neural evidence: informative, but not a 27-channel brain specification</h3>
         <p><a href="#ref-neural-2020">Horikawa, Cowen, Keltner, &amp; Kamitani (2020)</a>, published in <em>iScience</em>, measured fMRI responses in <strong>five participants watching 2,181 videos</strong>. The analyses used video annotations for <strong>34 emotion categories and 14 affective dimensions</strong>, rather than directly reading out this document’s 27 controls.</p>
@@ -479,7 +481,7 @@
           </table>
         </div>
 
-        <aside class="callout"><strong>Recommendation for this repository</strong><p>Keep the 27-channel schema when inspectability and deliberate agent control are the goal. Add a separate, versioned latent representation only when perception or retrieval needs it. Treat the two as complementary layers, not interchangeable measurements.</p></aside>
+        <aside class="callout"><strong>Recommendation for this repository</strong><p><mark>Keep the 27-channel schema when inspectability and deliberate agent control are the goal.</mark> Add a separate, versioned latent representation only when perception or retrieval needs it. Treat the two as complementary layers, not interchangeable measurements.</p></aside>
         <p>Keep source observations, model confidence, and the designed internal state distinct. If a model estimates a person’s expression, preserve uncertainty, context, and consent; do not turn an expressive UI control into a claim of validated emotional assessment. There is no evidence here that 27 channels are optimal for every application.</p>
       </section>
 

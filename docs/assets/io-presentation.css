@@ -185,12 +185,12 @@
   border-top: 1px solid var(--io-rule);
 }
 
-.io-presentation .framework-author,
-.io-presentation .panel-label,
-.io-presentation .channel-example figcaption,
-.io-presentation .decay-equation figcaption,
-.io-presentation .metric-panel figcaption,
-.io-presentation .claim-table figcaption {
+:is(.io-presentation, .io-social) .framework-author,
+:is(.io-presentation, .io-social) .panel-label,
+:is(.io-presentation, .io-social) .channel-example figcaption,
+:is(.io-presentation, .io-social) .decay-equation figcaption,
+:is(.io-presentation, .io-social) .metric-panel figcaption,
+:is(.io-presentation, .io-social) .claim-table figcaption {
   color: var(--io-accent-deep);
   font: 0.7rem/1.5 var(--io-mono);
 }
@@ -277,15 +277,15 @@
 }
 
 /* One bar recipe serves both activation channels and measured indicators. */
-.io-presentation .channel-track,
-.io-presentation .metric-track {
+:is(.io-presentation, .io-social) .channel-track,
+:is(.io-presentation, .io-social) .metric-track {
   height: 0.45rem;
   border-radius: 1px;
   background: var(--io-paper-muted);
 }
 
-.io-presentation .channel-track::before,
-.io-presentation .metric-track::before {
+:is(.io-presentation, .io-social) .channel-track::before,
+:is(.io-presentation, .io-social) .metric-track::before {
   display: block;
   width: var(--bar-width, var(--activation));
   height: 100%;
@@ -374,7 +374,7 @@
 
 /* Data readouts: quiet bars and lists, not cards. Bars always share an axis
  * stated in the panel caption, so a length never has to be guessed. */
-.io-presentation .point-list {
+:is(.io-presentation, .io-social) .point-list {
   display: grid;
   gap: 0.55rem;
   margin: var(--slide-space) 0 0;
@@ -382,7 +382,7 @@
   list-style: none;
 }
 
-.io-presentation .point-list li {
+:is(.io-presentation, .io-social) .point-list li {
   padding-left: 0.9rem;
   border-left: 2px solid var(--io-accent-line);
   color: var(--io-ink-muted);
@@ -390,23 +390,23 @@
   line-height: 1.55;
 }
 
-.io-presentation .point-list strong {
+:is(.io-presentation, .io-social) .point-list strong {
   color: var(--io-ink);
 }
 
-.io-presentation .metric-layout {
+:is(.io-presentation, .io-social) .metric-layout {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2.2rem;
   margin-top: var(--slide-space);
 }
 
-.io-presentation .metric-panel {
+:is(.io-presentation, .io-social) .metric-panel {
   min-width: 0;
   margin: 0;
 }
 
-.io-presentation .metric-list {
+:is(.io-presentation, .io-social) .metric-list {
   display: grid;
   gap: 0.8rem;
   margin: 0.7rem 0 0;
@@ -414,7 +414,7 @@
   list-style: none;
 }
 
-.io-presentation .metric-list li {
+:is(.io-presentation, .io-social) .metric-list li {
   display: grid;
   grid-template-columns: 6.5rem minmax(0, 1fr) 4.5rem;
   align-items: center;
@@ -424,15 +424,15 @@
 }
 
 /* Reference values are lighter than the observed value, never a new hue. */
-.io-presentation .metric-benchmark .metric-track::before {
+:is(.io-presentation, .io-social) .metric-benchmark .metric-track::before {
   background: var(--io-accent-line);
 }
 
-.io-presentation .metric-benchmark .metric-value {
+:is(.io-presentation, .io-social) .metric-benchmark .metric-value {
   color: var(--io-ink-muted);
 }
 
-.io-presentation .metric-value {
+:is(.io-presentation, .io-social) .metric-value {
   color: var(--io-accent-deep);
   font: 0.9em var(--io-mono);
   text-align: right;
@@ -440,11 +440,11 @@
 
 /* Verification table: the reading-document table recipe, in the same figure +
  * scrollable-region shape already used by wide equations. */
-.io-presentation .claim-table {
+:is(.io-presentation, .io-social) .claim-table {
   margin: var(--slide-space) 0 0;
 }
 
-.io-presentation .table-scroll {
+:is(.io-presentation, .io-social) .table-scroll {
   overflow-x: auto;
   margin-top: 0.6rem;
   border: 1px solid var(--io-rule);
@@ -454,42 +454,42 @@
   scrollbar-color: var(--io-accent) var(--io-paper-muted);
 }
 
-.io-presentation .claim-table table {
+:is(.io-presentation, .io-social) .claim-table table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
   font-size: clamp(0.72rem, 1.2cqw, 0.9rem);
 }
 
-.io-presentation .claim-table th,
-.io-presentation .claim-table td {
+:is(.io-presentation, .io-social) .claim-table th,
+:is(.io-presentation, .io-social) .claim-table td {
   padding: 0.6rem 0.8rem;
   border-bottom: 1px solid var(--io-rule);
   vertical-align: top;
   line-height: 1.5;
 }
 
-.io-presentation .claim-table th {
+:is(.io-presentation, .io-social) .claim-table th {
   color: var(--io-ink);
   background: var(--io-paper-muted);
   font-weight: 700;
 }
 
-.io-presentation .claim-table tbody tr:nth-child(even) td {
-  background: rgba(235, 231, 220, 0.45);
+:is(.io-presentation, .io-social) .claim-table tbody tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--io-paper-muted) 45%, transparent);
 }
 
-.io-presentation .claim-table tbody tr:last-child td {
+:is(.io-presentation, .io-social) .claim-table tbody tr:last-child td {
   border-bottom: 0;
 }
 
-.io-presentation .table-hint {
+:is(.io-presentation, .io-social) .table-hint {
   display: none;
 }
 
 /* Verdicts stay legible in black and white: the wording carries the meaning,
  * the fill only reinforces it. */
-.io-presentation .verdict {
+:is(.io-presentation, .io-social) .verdict {
   display: inline-block;
   padding: 0.1rem 0.45rem;
   border: 1px solid var(--io-accent-line);
@@ -502,13 +502,13 @@
   white-space: nowrap;
 }
 
-.io-presentation .verdict-partial {
+:is(.io-presentation, .io-social) .verdict-partial {
   border-color: var(--io-rule);
   color: var(--io-ink-muted);
   background: var(--io-paper-muted);
 }
 
-.io-presentation .verdict-refuted {
+:is(.io-presentation, .io-social) .verdict-refuted {
   border-color: var(--io-ink);
   color: var(--io-paper-raised);
   background: var(--io-ink);

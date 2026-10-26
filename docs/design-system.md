@@ -118,4 +118,4 @@ Start from a template, keep the shared tokens as the source of truth, and add th
 
 ## Structural checks
 
-Run `python3 -m unittest discover -s tests -v` from the repository root. These dependency-free tests cover research-page markup, local links/assets, accessible label targets, outline/slide counts, and native MathML. They do not replace source checking or desktop/phone, keyboard, visual, and print review in a real browser.
+Run `python3 -m unittest discover -s tests -v` from the repository root. These dependency-free tests cover research-page markup, the `docs/index.html` research hub, local links/assets, accessible label targets, outline/slide counts, and native MathML. They do not replace source checking or desktop/phone, keyboard, visual, and print review in a real browser.

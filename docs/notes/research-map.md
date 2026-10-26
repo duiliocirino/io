@@ -1,6 +1,6 @@
 # Research map
 
-A quick overview of the research series. Status describes our progress, not scientific certainty; topic boundaries remain provisional.
+Browse the [research library](../index.html) for all packs and decks. A quick overview of the research series follows. Status describes our progress, not scientific certainty; topic boundaries remain provisional.
 
 The [source-reading guide](source-reading-guide.md) maps later expansions and repeated blocks so we can keep the original Markdown intact without duplicating discussion.
 

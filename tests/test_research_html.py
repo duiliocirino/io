@@ -16,6 +16,7 @@ import xml.etree.ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[1]
+HUB = ROOT / "docs/index.html"
 PAGES = sorted((ROOT / "docs/research").glob("*.html"))
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
 
@@ -135,6 +136,30 @@ class ResearchHTMLTests(unittest.TestCase):
                 self.assertTrue(set(page.aria_targets) <= page.ids)
                 self.assertRegex(page.source, r'class="skip-link"\s+href="#')
                 self.assertTrue(all(page.sections))
+
+    def test_hub_semantics_and_local_links(self) -> None:
+        page = inspect(HUB)
+        self.assertFalse(page.duplicates)
+        self.assertEqual((page.language, page.theme), ("en", "v2"))
+        self.assertEqual((page.h1_count, page.main_count), (1, 1))
+        self.assertTrue(page.description)
+        self.assertIn("width=device-width", page.viewport)
+        self.assertTrue(set(page.aria_targets) <= page.ids)
+        self.assertRegex(page.source, r'class="skip-link"\s+href="#')
+        self.assertEqual(len(page.sections), 3)
+        for target in page.links + page.assets:
+            with self.subTest(target=target):
+                parsed = urlsplit(target)
+                if parsed.scheme or parsed.netloc:
+                    self.assertNotIn(target, page.assets, "Reading must not require remote assets")
+                    continue
+                destination = (HUB.parent / unquote(parsed.path)).resolve() if parsed.path else HUB
+                self.assertTrue(destination.is_file(), f"Missing local target: {target}")
+                if parsed.fragment and destination.suffix == ".html":
+                    self.assertIn(unquote(parsed.fragment), inspect(destination).ids)
+        sheets = [asset for asset in page.assets if urlsplit(asset).path.endswith(".css")]
+        self.assertTrue(sheets[0].endswith("io-design-system.css"))
+        self.assertTrue(sheets[-1].endswith("io-theme-v2.css"))
 
     def test_local_links_and_offline_assets(self) -> None:
         for path in PAGES:

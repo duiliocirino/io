@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" data-io-theme="v2">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A static research hub for the IO cognitive-systems series: documents, companion decks, and working notes.">
+  <title>Research Library · IO</title>
+  <link rel="stylesheet" href="assets/io-design-system.css">
+  <link rel="stylesheet" href="assets/io-research.css">
+  <link rel="stylesheet" href="assets/io-theme-v2.css">
+</head>
+<body class="io-document io-research" id="top">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="container">
+    <header>
+      <span class="badge">Research Hub · Cognitive Systems</span>
+      <h1>Research library</h1>
+      <p class="subtitle">A static entry point for the IO research series: standalone documents, companion decks, and the working notes that record evidence, reading scope, and open questions.</p>
+      <p class="document-meta">Three research packs · Working notes · Served from <code>docs/</code> on GitHub Pages</p>
+    </header>
+
+    <nav aria-label="Research hub navigation">
+      <ul>
+        <li><a href="#research-packs">01 · Research packs</a></li>
+        <li><a href="#working-notes">02 · Working notes</a></li>
+        <li><a href="#reading-route">03 · Reading route</a></li>
+      </ul>
+    </nav>
+
+    <main id="main-content">
+      <section id="research-packs">
+        <span class="section-label">01 / Research packs</span>
+        <h2>Documents and companion decks</h2>
+        <p>Each topic has a full research document and a companion presentation. The document carries the argument, evidence, and caveats; the deck is an introduction. All pages are local HTML with relative links.</p>
+        <div class="table-container" role="region" aria-label="Research documents and companion decks, horizontally scrollable" tabindex="0">
+          <table>
+            <caption>Table 01 · Research documents and decks</caption>
+            <thead>
+              <tr>
+                <th scope="col">Topic</th>
+                <th scope="col">Research document</th>
+                <th scope="col">Companion deck</th>
+                <th scope="col">Focus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Emotion / 27 channels</strong></td>
+                <td><a href="research/emotions-research-document.html">Emotional state representation</a></td>
+                <td><a href="research/emotions-presentation-deck.html">10-slide deck</a></td>
+                <td>Taxonomies, Semantic Space Theory, and representation choices.</td>
+              </tr>
+              <tr>
+                <td><strong>Cognitive routing and attention</strong></td>
+                <td><a href="research/cognitive-routing-research-document.html">Cognitive routing and attention</a></td>
+                <td><a href="research/cognitive-routing-presentation-deck.html">12-slide deck</a></td>
+                <td>Triple-network coordination, cooperation, subdivisions, and directed evidence.</td>
+              </tr>
+              <tr>
+                <td><strong>Memory systems</strong></td>
+                <td><a href="research/memory-systems-research-document.html">Memory systems and the lifecycle of knowledge</a></td>
+                <td><a href="research/memory-systems-presentation-deck.html">12-slide deck</a></td>
+                <td>Complementary learning, working memory, consolidation, schema assimilation, and reconsolidation.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="callout">
+          <strong>Reading status</strong>
+          <p><mark>The packs are research drafts and introductions, not implementation specifications.</mark> The documents distinguish evidence, interpretation, and engineering hypotheses; the decks summarize the same argument at a newcomer-friendly level.</p>
+        </aside>
+      </section>
+
+      <section id="working-notes">
+        <span class="section-label">02 / Working notes</span>
+        <h2>Evidence, checkpoints, and open questions</h2>
+        <p>The notes are not a specification. They record reading progress, source audits, and unresolved design choices. Because GitHub Pages serves the <code>docs/</code> directory as the site root, the Markdown notes are best read in the GitHub repository.</p>
+        <p><a href="https://github.com/duiliocirino/io/tree/main/docs/notes">Open the notes directory on GitHub →</a></p>
+        <ul>
+          <li><a href="https://github.com/duiliocirino/io/blob/main/docs/notes/research-map.md">Research map</a> — topic overview, status, and next questions.</li>
+          <li><a href="https://github.com/duiliocirino/io/blob/main/docs/notes/cognitive-architecture-learning.md">Learning notebook</a> — discussion checkpoints and open questions.</li>
+          <li><a href="https://github.com/duiliocirino/io/blob/main/docs/notes/source-reading-guide.md">Source-reading guide</a> — how the original Markdown is mapped.</li>
+          <li><a href="https://github.com/duiliocirino/io/blob/main/docs/notes/cognitive-routing-plan.md">Cognitive-routing plan</a> — outline, source audit, and validation notes.</li>
+          <li><a href="https://github.com/duiliocirino/io/blob/main/docs/notes/memory-systems-plan.md">Memory-systems plan</a> — outline, source audit, and validation notes.</li>
+          <li><a href="https://github.com/duiliocirino/io/blob/main/docs/notes/memory-procedure-checklist.md">Memory procedure checklist</a> — transferable procedures and caveats.</li>
+        </ul>
+      </section>
+
+      <section id="reading-route">
+        <span class="section-label">03 / Reading route</span>
+        <h2>Start with a topic, then use the notes</h2>
+        <p>The documents are self-contained, but they share a research vocabulary. A practical route is:</p>
+        <ol>
+          <li><strong>Choose a pack.</strong> Open the research document for the topic you want to study.</li>
+          <li><strong>Read the argument first.</strong> Use the document’s contents rail and section anchors to follow the evidence and caveats.</li>
+          <li><strong>Use the deck as an introduction.</strong> The companion presentation gives a shorter route through the same material.</li>
+          <li><strong>Check the notes.</strong> The source audits and learning notebook record what was read, what remains uncertain, and what is only an engineering hypothesis.</li>
+        </ol>
+        <aside class="callout">
+          <strong>No build step</strong>
+          <p>The library is static HTML plus local CSS. Relative links keep the pages portable under the <code>docs/</code> GitHub Pages root; external DOI and GitHub links require internet access.</p>
+        </aside>
+      </section>
+    </main>
+
+    <footer>IO Research &bull; Research Library &bull; <a href="#top">Back to top ↑</a></footer>
+  </div>
+</body>
+</html>

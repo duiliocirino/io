@@ -3,6 +3,7 @@ Getting a grasp on human like programs
 
 ## Research and presentations
 
+- [Research library](docs/index.html): browse all research documents, companion decks, and working notes.
 - [Emotion research document](docs/research/emotions-research-document.html): theory, evidence, references, and an interpretable state model.
 - [Emotion presentation deck](docs/research/emotions-presentation-deck.html): a ten-slide guided summary.
 - [Cognitive routing and attention research](docs/research/cognitive-routing-research-document.html): network coordination, cooperation, subdivisions, evidence limits, and open architectural questions.

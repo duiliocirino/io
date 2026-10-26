@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en" data-io-theme="v2">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A twelve-slide introduction to complementary learning, working memory, episodic indexing, reconstruction, consolidation, schema assimilation, reconsolidation, and open engineering candidates.">
+  <title>Memory Systems and the Lifecycle of Knowledge · IO Presentation</title>
+  <link rel="stylesheet" href="../assets/io-design-system.css">
+  <link rel="stylesheet" href="../assets/io-presentation.css">
+  <link rel="stylesheet" href="../assets/io-theme-v2.css">
+  <script src="../assets/io-presentation.js" defer></script>
+</head>
+<body class="io-deck io-presentation">
+  <a class="skip-link" href="#slide-1">Skip to presentation</a>
+  <header class="deck-toolbar">
+    <span class="deck-brand">IO · Memory Systems</span>
+    <details class="deck-outline" open>
+      <summary>Slide outline</summary>
+      <nav class="deck-nav" aria-label="Slide navigation">
+        <a href="#slide-1">01 · Start</a>
+        <a href="#slide-2">02 · Split</a>
+        <a href="#slide-3">03 · Tiers</a>
+        <a href="#slide-4">04 · WM</a>
+        <a href="#slide-5">05 · Encode</a>
+        <a href="#slide-6">06 · Retrieve</a>
+        <a href="#slide-7">07 · Consolidate</a>
+        <a href="#slide-8">08 · Schema</a>
+        <a href="#slide-9">09 · Replay</a>
+        <a href="#slide-10">10 · Update</a>
+        <a href="#slide-11">11 · Build</a>
+        <a href="#slide-12">12 · Test</a>
+      </nav>
+    </details>
+    <div class="deck-controls" role="group" aria-label="Presentation controls" hidden>
+      <button type="button" data-deck-previous aria-label="Previous slide" title="Previous slide (←)">←</button>
+      <output class="deck-position" aria-label="Current slide" aria-live="off">01 / 12</output>
+      <button type="button" data-deck-next aria-label="Next slide" title="Next slide (→)">→</button>
+    </div>
+  </header>
+
+  <main class="deck" id="main-content">
+    <section class="slide" id="slide-1" aria-labelledby="slide-title-1" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">01 · Memory systems</span>
+        <h1 id="slide-title-1">Memory is a <mark>lifecycle.</mark></h1>
+        <p class="slide-lede">Encoding, retrieval, consolidation, and updating are different operations—not one storage lookup.</p>
+        <p class="opening-traits">Storage <span aria-hidden="true">/</span> Reconstruction <span aria-hidden="true">/</span> Consolidation</p>
+      </div>
+      <footer class="slide-footer"><span>A research-informed introduction · Not a software blueprint</span><span>01 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-2" aria-labelledby="slide-title-2" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">02 · The stability–plasticity problem</span>
+        <h2 id="slide-title-2">Fast episodes.<br>Slow structure.</h2>
+        <ul class="framework-grid" aria-label="Complementary learning modes">
+          <li><span class="framework-author">Fast episodic</span><h3>Specific</h3><p>Sparse, orthogonal, one-shot encoding of a particular experience.</p></li>
+          <li><span class="framework-author">Slow semantic</span><h3>General</h3><p>Distributed, overlapping structure learned gradually across experiences.</p></li>
+          <li><span class="framework-author">Why split</span><h3>Interference</h3><p>Forcing shared weights to absorb a new episode can degrade older knowledge.</p></li>
+        </ul>
+        <p class="slide-note">Complementary learning systems is a framework, not a literal list of two software modules or exact biological learning rates.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="memory-systems-research-document.html#stability-plasticity">CLS, catastrophic interference, and the fast/slow distinction →</a></span><span>02 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-3" aria-labelledby="slide-title-3" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">03 · Three functional tiers</span>
+        <h2 id="slide-title-3">Workspace, labile index, durable structure.</h2>
+        <ul class="framework-grid" aria-label="Three memory tiers">
+          <li><span class="framework-author">WM</span><h3>Active workspace</h3><p>Pointers to long-term nodes, transient maintenance, and control of access.</p></li>
+          <li><span class="framework-author">STM · labile</span><h3>Episodic index</h3><p>Fast, sparse episode record and quarantine buffer for novel or surprising content.</p></li>
+          <li><span class="framework-author">LTM</span><h3>Durable structure</h3><p>Semantic and procedural knowledge with distributed, overlapping representations.</p></li>
+        </ul>
+        <p class="slide-note">“STM” here is a Short-Term Labile Episodic Store, not a generic short-term memory box. The tiers are functional distinctions, not sealed containers.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="memory-systems-research-document.html#three-tiers">Tier functions, candidate implementations, and naming limits →</a></span><span>03 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-4" aria-labelledby="slide-title-4" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">04 · Working memory</span>
+        <h2 id="slide-title-4">Point, don’t copy.</h2>
+        <ul class="framework-grid" aria-label="Working-memory functions">
+          <li><span class="framework-author">Activation</span><h3>Pointers</h3><p>Working memory makes existing long-term nodes available rather than duplicating them.</p></li>
+          <li><span class="framework-author">Maintenance</span><h3>Warm or active</h3><p>Some items persist; activity-silent maintenance is proposed and still debated.</p></li>
+          <li><span class="framework-author">Gating</span><h3>Input / output</h3><p>What enters the workspace and what is released are separate control decisions.</p></li>
+        </ul>
+        <p class="slide-note">A context window plus controller is a candidate. A KV cache is runtime reuse, not a biological working-memory mechanism.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="memory-systems-research-document.html#working-memory">Pointer activation, activity-silent maintenance, and PBWM gating →</a></span><span>04 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-5" aria-labelledby="slide-title-5" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">05 · Episodic encoding</span>
+        <h2 id="slide-title-5">Index the episode.<br>Separate similar ones.</h2>
+        <ul class="framework-grid" aria-label="Encoding functions">
+          <li><span class="framework-author">Index</span><h3>A light pointer</h3><p>The hippocampal account indexes co-active cortical features and nodes.</p></li>
+          <li><span class="framework-author">Separation</span><h3>Distinct codes</h3><p>Sparse, orthogonal representations keep near-duplicate experiences from interfering.</p></li>
+          <li><span class="framework-author">Salience</span><h3>Priority tag</h3><p>Novel, emotional, or high-value content is written quickly into the labile store.</p></li>
+        </ul>
+        <p class="slide-note">Vector similarity alone can blur near-duplicates. Explicit episode IDs, timestamps, provenance, and separation policies matter.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="memory-systems-research-document.html#episodic-encoding">Hippocampal indexing, pattern separation, and the episode-record problem →</a></span><span>05 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-6" aria-labelledby="slide-title-6" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">06 · Retrieval</span>
+        <h2 id="slide-title-6">A cue reactivates a pattern—not a recording.</h2>
+        <ul class="framework-grid" aria-label="Retrieval functions">
+          <li><span class="framework-author">Completion</span><h3>Fill the pattern</h3><p>A partial cue can reactivate the episode index and associated long-term nodes.</p></li>
+          <li><span class="framework-author">Context</span><h3>Match the cue</h3><p>Encoding specificity and current state affect which memory is retrieved.</p></li>
+          <li><span class="framework-author">Source</span><h3>Check provenance</h3><p>Observed, inferred, and generated content can be confused.</p></li>
+        </ul>
+        <p class="slide-note">Top-k similarity is not pattern completion. Reconstruction should retain provenance and confidence.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="memory-systems-research-document.html#retrieval-reconstruction">Pattern completion, encoding specificity, and source monitoring →</a></span><span>06 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-7" aria-labelledby="slide-title-7" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">07 · Consolidation</span>
+        <h2 id="slide-title-7">Replay integrates.<br>It does not just move files.</h2>
+        <ul class="framework-grid" aria-label="Consolidation functions">
+          <li><span class="framework-author">Interleave</span><h3>Mix episodes</h3><p>New traces are replayed alongside older patterns and regularities.</p></li>
+          <li><span class="framework-author">Abstract</span><h3>Update structure</h3><p>Repeated experience can shape durable semantic or procedural knowledge.</p></li>
+          <li><span class="framework-author">Promote / clear</span><h3>Lifecycle</h3><p>After consolidation, the labile index can be archived or garbage-collected.</p></li>
+        </ul>
+        <p class="slide-note">Sleep and rest can contribute, but consolidation is not only sleep. Synaptic homeostasis and memory consolidation are related but distinct.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="memory-systems-research-document.html#consolidation-replay">Replay, sleep evidence, homeostasis, and retention limits →</a></span><span>07 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-8" aria-labelledby="slide-title-8" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">08 · Schema bypass</span>
+        <h2 id="slide-title-8">Fast-track consistency.<br>Quarantine surprise.</h2>
+        <ul class="framework-grid contrast-grid" aria-label="Schema-consistent and schema-violating paths">
+          <li><span class="framework-author">Consistent</span><h3>Fast assimilation</h3><p>Information that fits an existing schema can become durable with minimal quarantine.</p></li>
+          <li><span class="framework-author">Violating</span><h3>Slow restructuring</h3><p>Surprising or conflicting information is held in the labile store and replayed gradually.</p></li>
+        </ul>
+        <p class="slide-note">The rat evidence does not establish a reliable LLM schema classifier. “Bypass” means bypassing slow consolidation, not bypassing validation.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="memory-systems-research-document.html#cls2-procedures">Schema assimilation, evidence limits, and quarantine →</a></span><span>08 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-9" aria-labelledby="slide-title-9" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">09 · Generative replay</span>
+        <h2 id="slide-title-9">AB + BC → AC—then validate.</h2>
+        <ul class="point-list">
+          <li><strong>Recombine episodes.</strong> Recurrent interaction can link experiences through a shared item.</li>
+          <li><strong>Create a synthetic insight.</strong> The combined relation AC was inferred, not directly observed.</li>
+          <li><strong>Validate the link.</strong> Keep observed edges separate from inferred edges and record provenance.</li>
+        </ul>
+        <p class="slide-note">REMERGE is a computational model of generalization. Vector similarity is not transitive, and a generated link can be false.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="memory-systems-research-document.html#cls2-procedures">Generative replay, transitive inference, and validation →</a></span><span>09 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-10" aria-labelledby="slide-title-10" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">10 · Direct use and updating</span>
+        <h2 id="slide-title-10">Act from one episode.<br>Edit with prediction error.</h2>
+        <ul class="framework-grid contrast-grid" aria-label="Episodic control and reconsolidation">
+          <li><span class="framework-author">Episodic control</span><h3>Direct lookup</h3><p>A labile episode can support a one-shot decision before a general rule is consolidated.</p></li>
+          <li><span class="framework-author">Reconsolidation</span><h3>Bounded update</h3><p>A prediction error can reopen a retrieved trace for a time-limited, versioned correction.</p></li>
+        </ul>
+        <p class="slide-note">Neither is an unrestricted memory write. Direct lookup is not a general policy; reconsolidation is not a simple database edit.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="memory-systems-research-document.html#cls2-procedures">Episodic control, reconsolidation, and the evidence boundaries →</a></span><span>10 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-11" aria-labelledby="slide-title-11" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">11 · Engineering candidates</span>
+        <h2 id="slide-title-11">Stores are not the whole system.</h2>
+        <ul class="framework-grid" aria-label="Candidate memory-loop components">
+          <li><span class="framework-author">Hot index</span><h3>Redis candidate</h3><p>Fast recent episodes with TTL, explicit IDs, provenance, and promotion rules.</p></li>
+          <li><span class="framework-author">Durable records</span><h3>Vector DB + graph</h3><p>Persistent records and relations—not a structural connectome by themselves.</p></li>
+          <li><span class="framework-author">Parametric knowledge</span><h3>Weights / adapters</h3><p>Procedural and learned structure, distinct from a record store.</p></li>
+        </ul>
+        <p class="slide-note">The active context/controller and the consolidation worker are also needed. Redis and vector databases are candidates, not identities.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="memory-systems-research-document.html#engineering-translation">A minimal loop, data contract, and unresolved choices →</a></span><span>11 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-12" aria-labelledby="slide-title-12" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">12 · What to test</span>
+        <h2 id="slide-title-12">Measure the loop,<br>not the labels.</h2>
+        <ol class="takeaway-list">
+          <li><strong>Encoding and interference.</strong><span>Near-duplicate episodes; exact recall and separation.</span></li>
+          <li><strong>Consolidation and schema.</strong><span>Consistent versus violating episodes; quarantine and retention.</span></li>
+          <li><strong>Inference and updating.</strong><span>AB + BC links, false inferred edges, and versioned correction.</span></li>
+          <li><strong>Integration.</strong><span>Retrieval into context; provenance, latency, and cost.</span></li>
+        </ol>
+        <p class="research-link"><a href="memory-systems-research-document.html">Read the full research document →</a></p>
+      </div>
+      <footer class="slide-footer"><span>No implementation selected · Practical architecture remains open</span><span>12 / 12</span></footer>
+    </section>
+  </main>
+</body>
+</html>

@@ -5,8 +5,17 @@ Getting a grasp on human like programs
 
 - [Emotion research document](docs/research/emotions-research-document.html): theory, evidence, references, and an interpretable state model.
 - [Emotion presentation deck](docs/research/emotions-presentation-deck.html): a ten-slide guided summary.
+- [Cognitive routing and attention research](docs/research/cognitive-routing-research-document.html): network coordination, cooperation, subdivisions, evidence limits, and open architectural questions.
+- [Cognitive routing presentation deck](docs/research/cognitive-routing-presentation-deck.html): a twelve-slide introduction linked to the full research.
+- [Memory systems research](docs/research/memory-systems-research-document.html): complementary learning, working memory, encoding, retrieval, consolidation, schema assimilation, reconsolidation, and open engineering candidates.
+- [Memory systems presentation deck](docs/research/memory-systems-presentation-deck.html): a twelve-slide introduction linked to the full research.
 
 Open the HTML files directly in a modern browser. Keep `docs/assets/` alongside the documents; no installation, build step, or network connection is needed to read them. External references require internet access.
+
+## Research in progress
+
+- [Research map](docs/notes/research-map.md): a compact topic overview, discussion status, and next questions.
+- [Learning notebook](docs/notes/cognitive-architecture-learning.md): discussion checkpoints, source notes, and open questions—not a finished specification.
 
 ## HTML design system
 

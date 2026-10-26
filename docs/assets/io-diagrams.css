@@ -1,0 +1,110 @@
+/*
+ * Opt-in comparison diagrams for documents and presentations.
+ * Load after the format stylesheet and before the theme. The semantic HTML
+ * stays readable without CSS; connectors describe only the relationship named
+ * in the figure caption, never an unstated causal or anatomical connection.
+ */
+:is(.io-document, .io-deck) .io-diagram {
+  margin: 1.5rem 0;
+  padding: clamp(1rem, 2.2vw, 1.5rem);
+  border: 1px solid var(--io-rule);
+  border-radius: var(--io-radius);
+  background: var(--io-paper-raised);
+  break-inside: avoid;
+}
+
+:is(.io-document, .io-deck) .io-diagram figcaption {
+  margin-bottom: 1.1rem;
+  color: var(--io-accent-deep);
+  font: 0.72rem/1.55 var(--io-mono);
+}
+
+:is(.io-document, .io-deck) .diagram-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem;
+}
+
+:is(.io-document, .io-deck) .diagram-case {
+  min-width: 0;
+}
+
+:is(.io-document, .io-deck) .diagram-label {
+  margin: 0 0 0.7rem;
+  color: var(--io-ink);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+:is(.io-document, .io-deck) .diagram-route {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0.45rem;
+}
+
+:is(.io-document, .io-deck) .diagram-node {
+  display: grid;
+  align-items: center;
+  min-width: 0;
+  min-height: 4.5rem;
+  padding: 0.75rem;
+  border-block: 2px solid var(--io-accent-line);
+  color: var(--io-ink);
+  background: var(--io-paper-muted);
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.4;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+:is(.io-document, .io-deck) .diagram-connector {
+  align-self: center;
+  color: var(--io-accent-deep);
+  font-size: 1.4rem;
+}
+
+:is(.io-document, .io-deck) .diagram-note {
+  margin: 0.8rem 0 0;
+  color: var(--io-ink-muted);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.io-presentation .io-diagram {
+  margin: var(--slide-space) 0 0;
+  padding: clamp(0.8rem, 1.6cqw, 1.3rem);
+}
+
+.io-presentation .io-diagram figcaption {
+  font-size: clamp(0.68rem, 1.2cqw, 0.82rem);
+}
+
+.io-presentation .diagram-label,
+.io-presentation .diagram-node {
+  font-size: clamp(0.85rem, 1.6cqw, 1.05rem);
+}
+
+.io-presentation .diagram-note {
+  font-size: clamp(0.8rem, 1.3cqw, 0.95rem);
+}
+
+@media (max-width: 600px) {
+  :is(.io-document, .io-deck) .diagram-comparison {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.3rem;
+  }
+
+  :is(.io-document, .io-deck) .diagram-node {
+    min-height: 3.5rem;
+    padding: 0.65rem;
+  }
+}
+
+@media print {
+  :is(.io-document, .io-deck) .io-diagram {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

@@ -75,7 +75,7 @@ Use one main idea per slide. Vary the layout when it helps explain the material,
 The enhanced ten-slide [`research/emotions-presentation-deck.html`](research/emotions-presentation-deck.html) opts into [`assets/io-presentation.css`](assets/io-presentation.css) and [`assets/io-presentation.js`](assets/io-presentation.js) with the `io-presentation` body class. These additions do not change the basic template or the research document.
 
 - **Layout:** desktop slides prefer 16:9 and size against both viewport axes, with content allowed to grow rather than clip in unusually short windows. Typography and spacing scale with the slide's content width through container-query units; below 900 px, slides become naturally growing reading sections. Comparison columns, a category overview, and illustrative activation bars provide variety without decorative animation.
-- **Navigation:** the outline stays expanded on wide screens and becomes a disclosure at 1400 px and below. Keep this CSS breakpoint in sync with the script’s media query. The script adds a current-slide marker/counter, bounded previous/next buttons, and Left/Right, Page Up/Down, Home, and End shortcuts. Editing fields, links, disclosures, and focus inside the equation region keep their native keyboard behavior. Native fragment navigation focuses each destination slide without adding extra Tab stops. Slide fragments are authoritative across reload and back/forward navigation rather than restoring an unrelated scroll offset. With no script, outline links and native scrolling still work; enhancement-only controls stay hidden.
+- **Navigation:** the outline stays expanded on wide screens and becomes a disclosure at 1400 px and below. Keep this CSS breakpoint in sync with the script’s media query. The script adds a current-slide marker/counter, bounded previous/next buttons, and Left/Right, Page Up/Down, Home, and End shortcuts. Editing fields, links, disclosures, and focus inside equation or table scrolling regions keep their native keyboard behavior. Native fragment navigation focuses each destination slide without adding extra Tab stops. Slide fragments are authoritative across reload and back/forward navigation rather than restoring an unrelated scroll offset. With no script, outline links and native scrolling still work; enhancement-only controls stay hidden.
 - **Notation:** local MathML typesets constraints, decay, and half-life conversion. A wide equation scrolls in its own keyboard-focusable region on phones. Numerical activation examples and chosen half-lives are explicitly engineering choices, not measured or universal emotional parameters.
 - **Print:** the opt-in stylesheet requests 16:9 landscape pages, with one slide per page and no toolbar. Use the browser's CSS page size when exporting; printer settings can override it.
 
@@ -93,6 +93,12 @@ Argument decks often need measured values and claim checks, which the base deck 
 
 When checking these additions, verify the same things as for any deck: bars against their declared axis, the table reachable by keyboard and scrollable on a phone without widening the page, and verdict chips legible in a black-and-white print preview.
 
+### Comparison diagrams
+
+The routing research document and deck, and the memory research document, share the opt-in [`assets/io-diagrams.css`](assets/io-diagrams.css). Load it after the format stylesheet and before the theme. The memory document uses it for the fast/slow complementary-learning comparison. A `.io-diagram` figure contains a named `figcaption`, a `.diagram-comparison` grid, and `.diagram-route` rows made of `.diagram-node` labels and a `.diagram-connector`. Use `role="img"` with an explicit accessible label on a symbolic connector. The grid stacks on phones; print keeps the figure together.
+
+State the relationship and evidence status in the caption: a double arrow might summarize functional coupling, not anatomical wiring, causal direction, or a measured connection strength. Keep labels meaningful without colour or CSS. This is a reusable comparison primitive, not a brain-diagram or simulation engine.
+
 ### Social carousels
 
 Start with [`templates/social.html`](templates/social.html). A carousel post is a sequence of single images, so `assets/io-social.css` trades the deck's fluid slides for an **exact canvas**: each `.card` is 1080 × 1350 CSS px (4:5). Add `io-social` to the body and load the sheets in this order — `io-design-system.css`, `io-presentation.css`, `io-social.css` — because the presentation sheet now carries the shared data components, scoped with `:is(.io-presentation, .io-social)`.
@@ -109,3 +115,7 @@ Start with [`templates/social.html`](templates/social.html). A carousel post is 
 Templates link to `../assets/io-design-system.css`, which is correct for files inside `docs/templates/`. For a document stored elsewhere, update the relative path to the stylesheet. Load order is: shared stylesheet, format stylesheets (`io-research.css`, `io-presentation.css`, `io-social.css`), then `io-theme-v2.css` when the page uses v2.
 
 Start from a template, keep the shared tokens as the source of truth, and add the opt-in research, presentation, or social styles only when the document needs their layouts. Keep local assets alongside the HTML files when sharing the documents offline.
+
+## Structural checks
+
+Run `python3 -m unittest discover -s tests -v` from the repository root. These dependency-free tests cover research-page markup, local links/assets, accessible label targets, outline/slide counts, and native MathML. They do not replace source checking or desktop/phone, keyboard, visual, and print review in a real browser.

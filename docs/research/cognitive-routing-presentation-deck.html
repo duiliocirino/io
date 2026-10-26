@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en" data-io-theme="v2">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A twelve-slide introduction to cognitive routing, the triple-network framework, cooperation, network subdivisions, and architectural questions that remain open.">
+  <title>Cognitive Routing and Attention · IO Presentation</title>
+  <link rel="stylesheet" href="../assets/io-design-system.css">
+  <link rel="stylesheet" href="../assets/io-presentation.css">
+  <link rel="stylesheet" href="../assets/io-diagrams.css">
+  <link rel="stylesheet" href="../assets/io-theme-v2.css">
+  <script src="../assets/io-presentation.js" defer></script>
+</head>
+<body class="io-deck io-presentation">
+  <a class="skip-link" href="#slide-1">Skip to presentation</a>
+  <header class="deck-toolbar">
+    <span class="deck-brand">IO · Cognitive Systems</span>
+    <details class="deck-outline" open>
+      <summary>Slide outline</summary>
+      <nav class="deck-nav" aria-label="Slide navigation">
+        <a href="#slide-1">01 · Start</a>
+        <a href="#slide-2">02 · Task</a>
+        <a href="#slide-3">03 · Roles</a>
+        <a href="#slide-4">04 · Measure</a>
+        <a href="#slide-5">05 · Switch</a>
+        <a href="#slide-6">06 · Coupling</a>
+        <a href="#slide-7">07 · Maps</a>
+        <a href="#slide-8">08 · Timing</a>
+        <a href="#slide-9">09 · Meaning</a>
+        <a href="#slide-10">10 · Limits</a>
+        <a href="#slide-11">11 · Design</a>
+        <a href="#slide-12">12 · Summary</a>
+      </nav>
+    </details>
+    <div class="deck-controls" role="group" aria-label="Presentation controls" hidden>
+      <button type="button" data-deck-previous aria-label="Previous slide" title="Previous slide (←)">←</button>
+      <output class="deck-position" aria-label="Current slide" aria-live="off">01 / 12</output>
+      <button type="button" data-deck-next aria-label="Next slide" title="Next slide (→)">→</button>
+    </div>
+  </header>
+
+  <main class="deck" id="main-content">
+    <section class="slide" id="slide-1" aria-labelledby="slide-title-1" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">01 · Cognitive routing and attention</span>
+        <h1 id="slide-title-1">Cognition is <mark>coordination.</mark></h1>
+        <p class="slide-lede">Perception, memory, and control do not simply take turns. Their relationship changes with the task.</p>
+        <p class="opening-traits">Competition <span aria-hidden="true">/</span> Cooperation <span aria-hidden="true">/</span> Open architectural questions</p>
+      </div>
+      <footer class="slide-footer"><span>A research-informed introduction · Not a completed software design</span><span>01 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-2" aria-labelledby="slide-title-2" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">02 · The coordination problem</span>
+        <h2 id="slide-title-2">Keep the goal.<br>Update the situation.</h2>
+        <p class="slide-copy">You are planning what to say. An unexpected correction arrives. What must remain stable, and what should change?</p>
+        <ol class="framework-grid" aria-label="Three coordination demands">
+          <li><span class="framework-author">Maintain</span><h3>The goal</h3><p>Keep relevant constraints available rather than starting over.</p></li>
+          <li><span class="framework-author">Integrate</span><h3>The context</h3><p>Bring remembered experience and possible outcomes into the task.</p></li>
+          <li><span class="framework-author">Reorient</span><h3>The evidence</h3><p>Notice a relevant change without treating every distraction as urgent.</p></li>
+        </ol>
+      </div>
+      <footer class="slide-footer"><span><a href="cognitive-routing-research-document.html#coordination-problem">Illustrative scenario · Not a recorded neural sequence →</a></span><span>02 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-3" aria-labelledby="slide-title-3" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">03 · The triple-network framework</span>
+        <h2 id="slide-title-3">Three contributions.<br>Not three isolated minds.</h2>
+        <ul class="framework-grid" aria-label="Three network contributions">
+          <li><span class="framework-author">Default-mode · DMN</span><h3>Context</h3><p>Memory, self-related processing, social inference, and meaning.</p></li>
+          <li><span class="framework-author">Executive / control</span><h3>Regulation</h3><p>Maintain and manipulate task information; organize and evaluate plans.</p></li>
+          <li><span class="framework-author">Salience · SN</span><h3>Relevance</h3><p>Contribute to detecting important events and changing network engagement.</p></li>
+        </ul>
+        <p class="slide-note">These are broad orientations. Network boundaries and names differ across studies; none has one exclusive job.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="cognitive-routing-research-document.html#triple-network-model">Menon’s 2011 framework · Roles, anatomy, and naming →</a></span><span>03 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-4" aria-labelledby="slide-title-4" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">04 · Read the measurement first</span>
+        <h2 id="slide-title-4">A signal is not an on/off switch.</h2>
+        <ul class="framework-grid" aria-label="Three distinctions in measurement">
+          <li><span class="framework-author">Activity</span><h3>Relative change</h3><p>Activation and deactivation are measured against a baseline or comparison.</p></li>
+          <li><span class="framework-author">Connectivity</span><h3>Related variation</h3><p>Signals vary together—or oppositely. Correlation alone does not give causal direction.</p></li>
+          <li><span class="framework-author">Directionality</span><h3>Added prediction</h3><p>Directed analyses ask whether one signal helps predict another. That is not the same as perturbing it.</p></li>
+        </ul>
+        <p class="slide-note">fMRI measures blood-oxygen-related signals. Implanted-electrode recordings offer a different temporal view. Neither measures the whole brain without limitations.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="cognitive-routing-research-document.html#reading-network-evidence">Anticorrelation, preprocessing, and causal interpretation →</a></span><span>04 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-5" aria-labelledby="slide-title-5" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">05 · Where the switch metaphor came from</span>
+        <h2 id="slide-title-5">A coordinating hub.<br>A switching hypothesis.</h2>
+        <ul class="point-list">
+          <li><strong>Observe a relevant event.</strong> Auditory boundaries and visual oddballs change the pattern of task-related activity.</li>
+          <li><strong>Estimate timing and directed interactions.</strong> The right fronto-insular region emerges as an outflow hub in the modeled network.</li>
+          <li><strong>Interpret the coordination.</strong> The region may help initiate changes in network engagement—not act as a proven universal CPU.</li>
+        </ul>
+        <p class="slide-note">The 2008 fMRI study used timing and Granger analyses, not direct manipulation of the proposed hub. Menon’s 2011 paper is a broader review/framework.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="cognitive-routing-research-document.html#triple-network-model">Sridharan, Levitin &amp; Menon · 2008 →</a></span><span>05 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-6" aria-labelledby="slide-title-6" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">06 · Cooperation was already visible in 2010</span>
+        <h2 id="slide-title-6">Control can face inward.</h2>
+        <figure class="io-diagram" aria-labelledby="planning-caption">
+          <figcaption id="planning-caption">Planning-task findings · Schematic summary, not measured connection strengths</figcaption>
+          <div class="diagram-comparison">
+            <div class="diagram-case">
+              <p class="diagram-label">Autobiographical planning</p>
+              <div class="diagram-route"><span class="diagram-node">Default network</span><span class="diagram-connector" role="img" aria-label="functionally coupled with">↔</span><span class="diagram-node">Control network</span></div>
+              <p class="diagram-note">Plan using personally relevant memory and imagined outcomes.</p>
+            </div>
+            <div class="diagram-case">
+              <p class="diagram-label">Visuospatial planning</p>
+              <div class="diagram-route"><span class="diagram-node">Dorsal attention</span><span class="diagram-connector" role="img" aria-label="functionally coupled with">↔</span><span class="diagram-node">Control network</span></div>
+              <p class="diagram-note">Plan around visually presented puzzle information.</p>
+            </div>
+          </div>
+        </figure>
+        <p class="slide-note">Goal-directed does not mean external-only. The cooperation evidence predates the 2011 review.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="cognitive-routing-research-document.html#competition-and-cooperation">Spreng et al. · 2010 · Arrows denote functional coupling →</a></span><span>06 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-7" aria-labelledby="slide-title-7" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">07 · Finer maps, careful labels</span>
+        <h2 id="slide-title-7">“A” and “B” are not one universal map.</h2>
+        <ul class="framework-grid contrast-grid" aria-label="Two distinct subdivision schemes">
+          <li><span class="framework-author">Control network · Dixon 2018</span><h3>FPCN-A / B</h3><p>Relative coupling preferences for default versus dorsal-attention networks. Preferences remain context-sensitive.</p></li>
+          <li><span class="framework-author">Default territory · DiNicola 2020</span><h3>Network A / B</h3><p>Relative task preferences for episodic projection versus theory of mind, resolved through individual mapping.</p></li>
+        </ul>
+        <p class="slide-note">These subdivide different systems. Neither implies exclusive functions, and neither can simply be merged with a separate default-network core/subsystem account.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="cognitive-routing-research-document.html#network-fractionation">Subdivision schemes, individual differences, and limitations →</a></span><span>07 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-8" aria-labelledby="slide-title-8" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">08 · Intracranial evidence</span>
+        <h2 id="slide-title-8">Faster recordings.<br>Bounded conclusions.</h2>
+        <ul class="framework-grid" aria-label="Intracranial studies and their scope">
+          <li><span class="framework-author">Das &amp; Menon · 2020</span><h3>Rest / intervals</h3><p>Directed SN outflow patterns in two clinical datasets—not an encoding-versus-recall experiment.</p></li>
+          <li><span class="framework-author">Das &amp; Menon · 2024</span><h3>Memory tasks</h3><p>Anterior-insula-directed influence during encoding and recall across four experiments.</p></li>
+          <li><span class="framework-author">Interpretation</span><h3>Not a scheduler</h3><p>Phase transfer entropy estimates directed dependence. It does not prove universal continuous switching.</p></li>
+        </ul>
+        <p class="slide-note">The 2024 authors explicitly identify causal-manipulation and rapid-dynamics limitations. Clinical electrode coverage also constrains inference.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="cognitive-routing-research-document.html#temporal-and-directed-evidence">Study scope, local activity, and directed interactions →</a></span><span>08 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-9" aria-labelledby="slide-title-9" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">09 · The default network beyond idling</span>
+        <h2 id="slide-title-9">Make information meaningful.</h2>
+        <ul class="point-list">
+          <li><strong>Connect experience.</strong> Bring memory and personally relevant knowledge into current understanding.</li>
+          <li><strong>Interpret context.</strong> Contribute to semantic, social, and narrative processing—not only stimulus-free thought.</li>
+          <li><strong>Investigate integration.</strong> An ongoing internal narrative is a unifying proposal, not one proven function of every DMN operation.</li>
+        </ul>
+        <p class="slide-note">Listening to a story can draw on the DMN. Similar responses to a shared narrative do not guarantee agreement or truth.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="cognitive-routing-research-document.html#default-network-meaning">Menon · 2023 review and synthesis →</a></span><span>09 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-10" aria-labelledby="slide-title-10" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">10 · Check the shortcuts</span>
+        <h2 id="slide-title-10">Keep the model.<br>Drop the overclaim.</h2>
+        <figure class="claim-table">
+          <figcaption id="claim-table-label">Three distinctions that change the interpretation</figcaption>
+          <div class="table-scroll" role="region" aria-labelledby="claim-table-label" aria-describedby="claim-table-hint" tabindex="0">
+            <table>
+              <thead><tr><th scope="col">Shortcut</th><th scope="col">Check</th><th scope="col">Better reading</th></tr></thead>
+              <tbody>
+                <tr><td>“Control and default are always opposed.”</td><td><span class="verdict verdict-refuted">Too rigid</span></td><td>Cooperation depends on the task.</td></tr>
+                <tr><td>“All A/B labels form one atlas.”</td><td><span class="verdict verdict-partial">Unestablished</span></td><td>Keep study-specific definitions separate.</td></tr>
+                <tr><td>“Directed dependence proves the switch.”</td><td><span class="verdict verdict-partial">Too strong</span></td><td>Separate prediction, interpretation, and perturbation.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-hint" id="claim-table-hint">Scroll the table horizontally if needed →</p>
+        </figure>
+      </div>
+      <footer class="slide-footer"><span><a href="cognitive-routing-research-document.html#claims-and-limits">Full claim checks, clinical caveats, and the open fatigue hypothesis →</a></span><span>10 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-11" aria-labelledby="slide-title-11" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">11 · Architectural implications</span>
+        <h2 id="slide-title-11">Study mechanisms.<br>Leave implementation open.</h2>
+        <ul class="framework-grid contrast-grid" aria-label="Research implications and unresolved design">
+          <li><span class="framework-author">Functions to investigate</span><h3>Coordinate</h3><p>Prioritize relevant changes, combine memory with task control, and preserve context while adapting.</p></li>
+          <li><span class="framework-author">Decisions still ahead</span><h3>Compare designs</h3><p>Separate modules or modes? Which persistent signals? Which latent readouts? What independent evaluation?</p></li>
+        </ul>
+        <p class="slide-note">Selected biological mechanisms can be deliberately replicated. Distinguish their effects from prescribed responses; three brain-network names do not require three LLMs.</p>
+      </div>
+      <footer class="slide-footer"><span><a href="cognitive-routing-research-document.html#architectural-implications">A functional research foundation—not a controller specification →</a></span><span>11 / 12</span></footer>
+    </section>
+
+    <section class="slide" id="slide-12" aria-labelledby="slide-title-12" tabindex="-1">
+      <div class="slide-content">
+        <span class="slide-kicker">12 · The takeaway</span>
+        <h2 id="slide-title-12">Flexible coordination.<br>Explicit uncertainty.</h2>
+        <ol class="takeaway-list">
+          <li><strong>Control can work with internal information.</strong><span>Competition and cooperation are both part of the picture.</span></li>
+          <li><strong>Read each result at its proper scale.</strong><span>Task, measurement, atlas, and population matter.</span></li>
+          <li><strong>Use biology to formulate experiments.</strong><span>Keep findings, interpretations, and software hypotheses distinguishable.</span></li>
+        </ol>
+        <p class="research-link"><a href="cognitive-routing-research-document.html">Read the full research document →</a></p>
+      </div>
+      <footer class="slide-footer"><span>Selected-source synthesis · Practical architecture remains unresolved</span><span>12 / 12</span></footer>
+    </section>
+  </main>
+</body>
+</html>

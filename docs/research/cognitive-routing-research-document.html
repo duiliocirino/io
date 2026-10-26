@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en" data-io-theme="v2">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided research review of cognitive routing, the triple-network model, default–control cooperation, network subdivisions, and the limits of translating brain networks into a computational architecture.">
+  <title>Cognitive Routing and Attention · IO Research</title>
+  <link rel="stylesheet" href="../assets/io-design-system.css">
+  <link rel="stylesheet" href="../assets/io-research.css">
+  <link rel="stylesheet" href="../assets/io-diagrams.css">
+  <link rel="stylesheet" href="../assets/io-theme-v2.css">
+  <script src="../assets/io-research.js" defer></script>
+</head>
+<body class="io-document io-research" id="top">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="container">
+    <header>
+      <span class="badge">Research &amp; Learning · Cognitive Systems</span>
+      <h1>Cognitive routing and attention</h1>
+      <p class="subtitle">Networks, coordination, and architectural implications: how perception, memory, and goal-directed control compete and cooperate—and what that evidence does not yet tell us about building a cognitive system.</p>
+      <p class="document-meta">Research draft · 10 sections · Selected evidence, 2008–2024 · Implementation open</p>
+      <p><a href="cognitive-routing-presentation-deck.html">Open the companion presentation →</a></p>
+    </header>
+
+    <div class="research-layout">
+      <nav class="research-index" aria-label="Table of contents">
+        <details open>
+          <summary>In this document <span class="index-toggle" aria-hidden="true"></span></summary>
+          <ol>
+            <li><a href="#coordination-problem"><span class="index-number" aria-hidden="true">01</span><span>The coordination problem</span></a></li>
+            <li><a href="#reading-network-evidence"><span class="index-number" aria-hidden="true">02</span><span>Reading network evidence</span></a></li>
+            <li><a href="#triple-network-model"><span class="index-number" aria-hidden="true">03</span><span>Three networks &amp; switching</span></a></li>
+            <li><a href="#competition-and-cooperation"><span class="index-number" aria-hidden="true">04</span><span>Competition &amp; cooperation</span></a></li>
+            <li><a href="#network-fractionation"><span class="index-number" aria-hidden="true">05</span><span>Networks within networks</span></a></li>
+            <li><a href="#temporal-and-directed-evidence"><span class="index-number" aria-hidden="true">06</span><span>Timing &amp; directed influence</span></a></li>
+            <li><a href="#default-network-meaning"><span class="index-number" aria-hidden="true">07</span><span>The DMN beyond “idling”</span></a></li>
+            <li><a href="#claims-and-limits"><span class="index-number" aria-hidden="true">08</span><span>Claims, limits &amp; fatigue</span></a></li>
+            <li><a href="#architectural-implications"><span class="index-number" aria-hidden="true">09</span><span>Architectural questions</span></a></li>
+            <li><a href="#bibliography"><span class="index-number" aria-hidden="true">10</span><span>Sources &amp; reading scope</span></a></li>
+          </ol>
+        </details>
+      </nav>
+
+      <main id="main-content">
+        <section id="coordination-problem">
+          <span class="section-label">01 / Orientation</span>
+          <h2>Thinking requires coordination, not just processing power</h2>
+          <p>Imagine preparing what to say in a difficult conversation. You retrieve earlier exchanges, infer what the other person might mean, and check a possible response against your current goal. Then an unexpected correction arrives. You must attend to it without losing the goal or treating your own imagined answer as something the other person actually said.</p>
+          <p>This is a coordination problem. Different information must become available at different moments; some representations must remain stable while others change. Attention is part of that problem, but it is not the whole of it. Memory retrieval, evaluating alternatives, maintaining goals, and deciding what deserves interruption also matter.</p>
+          <p>In this document, <strong>cognitive routing</strong> is a functional shorthand for this context-sensitive coordination. It is not a claim that the brain contains a literal software router or that every mental process passes through one central switch.</p>
+          <aside class="callout">
+            <strong>The central idea</strong>
+            <p><mark>Control can coordinate internally generated information as well as external input.</mark> Goal-directed thinking is not synonymous with looking outward, and internally focused thought is not necessarily uncontrolled.</p>
+          </aside>
+          <h3>What this deep dive is—and is not</h3>
+          <p>This is a standalone learning-oriented review of selected network-neuroscience evidence. It explains the triple-network framework, cooperation and competition, subdivisions, and temporal studies before considering their relevance to a future computational architecture. It is not an exhaustive systematic review, a theory of all attention or consciousness, a diagnostic guide, or an implemented cognitive controller.</p>
+          <p>The biological mechanisms are legitimate objects of future replication. However, a neural observation, an explanatory model, and a proposed software counterpart are different claims. We keep them separate rather than requiring an engineering solution before documenting the science.</p>
+          <p><strong>Suggested route:</strong> read Sections 2–4 for the foundations, Sections 5–7 for the richer network picture, and Sections 8–9 for interpretation and design questions. The <a href="emotions-research-document.html">emotions research document</a> is a related study, not a prerequisite.</p>
+        </section>
+
+        <section id="reading-network-evidence">
+          <span class="section-label">02 / Measurement before metaphor</span>
+          <h2>What does a brain network measurement actually tell us?</h2>
+          <p>A <strong>large-scale functional network</strong> is a distributed set of brain regions whose measured activity has a related pattern under a particular analysis. “Distributed” matters: a network is not one anatomical spot. “Functional” matters too: statistical association is not the same thing as a demonstrated direct anatomical connection.</p>
+          <div class="table-container" role="region" aria-label="Network measurement terms, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 01 · Terms used throughout this document</caption>
+              <thead><tr><th scope="col">Term</th><th scope="col">What it describes</th><th scope="col">What it does not establish alone</th></tr></thead>
+              <tbody>
+                <tr><td><strong>fMRI / BOLD</strong></td><td>Functional magnetic resonance imaging often measures a blood-oxygen-level-dependent signal associated with neural activity.</td><td>A direct recording of individual neurons, or a millisecond-by-millisecond account of their interactions.</td></tr>
+                <tr><td><strong>Activation / deactivation</strong></td><td>A measured increase or decrease relative to a specified comparison or baseline.</td><td>That a region is absolutely “on” or “off,” or has stopped contributing to cognition.</td></tr>
+                <tr><td><strong>Functional connectivity</strong></td><td>Statistical dependence between activity measurements; correlation is one common measure.</td><td>A direct connection, a message being transmitted, or a causal direction.</td></tr>
+                <tr><td><strong>Coactivation / coupling</strong></td><td>Regions are jointly engaged, or their measured activity varies together. The exact analysis must be specified.</td><td>That they perform the same operation or that coactivation alone demonstrates communication.</td></tr>
+                <tr><td><strong>Anticorrelation</strong></td><td>Measurements tend to vary in opposite directions over the analyzed interval.</td><td>A permanent mutual-exclusion rule or a direct inhibitory synapse between whole networks.</td></tr>
+                <tr><td><strong>Parcellation</strong></td><td>A method for dividing brain data into regions or networks.</td><td>A unique, final inventory of sharply bounded cognitive modules.</td></tr>
+                <tr><td><strong>iEEG</strong></td><td>Intracranial electroencephalography: electrical recordings from implanted electrodes.</td><td>Complete brain coverage or measurements from an unrestricted healthy-population sample.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>Correlation is a description of variation</h3>
+          <p>If two regional signals rise and fall together, their correlation can be positive. If one tends to rise as the other falls, it can be negative. This describes the relationship between measurements—not what either signal “means.”</p>
+          <figure class="formula-card">
+            <figcaption id="correlation-label">Pearson correlation · one functional-connectivity measure <span class="equation-number">(01)</span></figcaption>
+            <div class="equation-scroll" role="region" aria-labelledby="correlation-label" tabindex="0">
+              <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                <msub><mi>r</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><mo>=</mo>
+                <mfrac><mrow><mi mathvariant="normal">cov</mi><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mrow><msub><mi>σ</mi><mi>x</mi></msub><msub><mi>σ</mi><mi>y</mi></msub></mrow></mfrac>
+              </math>
+            </div>
+            <dl class="symbol-key">
+              <div><dt><em>x, y</em></dt><dd>Two measured time series, such as regional BOLD signals.</dd></div>
+              <div><dt>cov</dt><dd>Their covariance: how their deviations vary together.</dd></div>
+              <div><dt><em>σ</em></dt><dd>Each signal’s standard deviation; both must be nonzero.</dd></div>
+              <div><dt><em>r</em></dt><dd>Linear association over the analyzed observations, from −1 to +1.</dd></div>
+            </dl>
+          </figure>
+          <p>A correlation does not identify which region influences the other; a common input can affect both. Zero correlation also does not prove independence. Network findings depend on the task, baseline, recording method, time window, and preprocessing.</p>
+          <h3>Why preprocessing matters without making all anticorrelation an artifact</h3>
+          <p><a href="#ref-murphy-2009">Murphy et al. (2009)</a> showed that regressing out a whole-brain global signal can introduce or alter negative correlations. That is a warning about interpreting a processing pipeline, not a reason to dismiss every negative relationship. <a href="#ref-chai-2012">Chai et al. (2012; online 2011)</a> also observed anticorrelations using a component-based noise-correction method without global signal regression.</p>
+          <p>The appropriate conclusion is conditional: examine how a result was obtained. Do not equate “negative correlation” with either a universal neural inhibition mechanism or a universally meaningless artifact.</p>
+        </section>
+
+        <section id="triple-network-model">
+          <span class="section-label">03 / The framework and its origins</span>
+          <h2>Three network families, not three isolated processors</h2>
+          <p><a href="#ref-menon-2011">Menon’s 2011 triple-network review</a> organized a broad account of psychopathology around the salience, default-mode, and central-executive networks. It emphasized abnormal salience mapping and difficulties accessing, engaging, and disengaging large-scale networks. It was a synthesis and proposed framework—not a new experiment proving a single cause for every disorder.</p>
+          <div class="table-container" role="region" aria-label="Triple-network roles and anatomical anchors, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 02 · A useful orientation, not an exhaustive anatomy or fixed job description</caption>
+              <thead><tr><th scope="col">Network</th><th scope="col">Selected anchors</th><th scope="col">Commonly associated contributions</th><th scope="col">Avoid this shortcut</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Default-mode network · DMN</strong></td><td>Medial prefrontal cortex; posterior cingulate/precuneus; lateral parietal and temporal regions, with memory-system interactions.</td><td>Autobiographical and episodic processing, self-related judgments, social inference, semantic/contextual integration.</td><td>“An idle processor that switches on only when nothing is happening.”</td></tr>
+                <tr><td><strong>Central-executive / frontoparietal control networks · CEN, FPN, FPCN</strong></td><td>Lateral prefrontal and posterior parietal regions; precise membership depends on the network definition.</td><td>Maintaining and manipulating task information, organizing plans, and flexibly regulating processing.</td><td>“The external-world network, incapable of controlling internal thought.”</td></tr>
+                <tr><td><strong>Salience network · SN</strong></td><td>Anterior insula and dorsal anterior cingulate cortex, with broader cortical/subcortical interactions.</td><td>Processing behaviorally relevant events and contributing to changes in engagement, attention, and control.</td><td>“A solitary executive that routes every thought through one compulsory switch.”</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Anatomical vocabulary:</strong> “medial” means toward the midline; “lateral” means toward the side; “prefrontal” refers to frontal association cortex; “parietal” refers to a region farther back. These names locate structures—they do not, by themselves, specify an algorithm.</p>
+          <p><strong>Naming caution.</strong> CEN, FPN, and FPCN are related terms, but not guaranteed to designate identical regions in every paper. Likewise, salience and cingulo-opercular systems overlap in some descriptions but should not be silently treated as identical. The <strong>dorsal attention network (DAN)</strong>, introduced below, is another relevant system, not simply another name for executive control.</p>
+          <h3>The switching hypothesis: what the 2008 study contributed</h3>
+          <p>The switching account predates the 2011 review. <a href="#ref-sridharan-2008">Sridharan, Levitin, and Menon (2008)</a> investigated an auditory event-segmentation task, a visual oddball task, and task-free resting-state data. In the auditory task, salient boundaries in music were associated with CEN/SN activation and DMN deactivation.</p>
+          <p>The researchers combined response-timing analyses with Granger-causality analysis. The right fronto-insular cortex—a region including anterior insular and adjoining frontal cortex—emerged as an outflow hub in their modeled network. The authors interpreted the pattern as evidence for a role in initiating changes in network engagement.</p>
+          <p>This is an important mechanistic hypothesis: detecting a relevant event can help reorganize processing. But “causal” in that paper is explicitly used in the sense supported by its timing and Granger/network analyses. The experiment did not directly stimulate or selectively disable the proposed hub.</p>
+          <aside class="callout">
+            <strong>Keep the useful idea; do not literalize the metaphor</strong>
+            <p>A “seesaw” describes some observed patterns of opposing task-related activity. A “switch” describes a proposed coordinating role. Neither establishes a binary controller that always turns one entire network off before another can work.</p>
+          </aside>
+        </section>
+
+        <section id="competition-and-cooperation">
+          <span class="section-label">04 / Control can face inward</span>
+          <h2>External attention and goal-directed thought are not the same axis</h2>
+          <p>A demanding visual task and careful autobiographical planning both require control. But they do not require the same information. The first emphasizes perceptual structure; the second depends on remembered experience, personally relevant knowledge, and imagined outcomes.</p>
+          <p><a href="#ref-spreng-2010">Spreng et al. (2010)</a> directly examined this distinction in 20 adults. Participants performed an autobiographical planning task and a visuospatial Tower of London task. Both involved mentally organizing steps toward a goal. The study measured task-related activity and functional coupling, rather than assigning each person to an assumed cognitive “mode.”</p>
+          <p>Autobiographical planning engaged the default network together with frontoparietal control regions. Visuospatial planning engaged dorsal-attention and control regions. Several analyses supported task-dependent differences in coupling. This is evidence that control can work with internally oriented representations—not only suppress them.</p>
+          <figure class="io-diagram" aria-labelledby="planning-diagram-caption">
+            <figcaption id="planning-diagram-caption">Figure 01 · Two planning configurations, schematically summarized from Spreng et al. (2010)</figcaption>
+            <div class="diagram-comparison">
+              <div class="diagram-case">
+                <p class="diagram-label">Autobiographical planning</p>
+                <div class="diagram-route"><span class="diagram-node">Default network</span><span class="diagram-connector" role="img" aria-label="functionally coupled with">↔</span><span class="diagram-node">Control network</span></div>
+                <p class="diagram-note">Organize remembered and imagined information toward a personal goal.</p>
+              </div>
+              <div class="diagram-case">
+                <p class="diagram-label">Visuospatial planning</p>
+                <div class="diagram-route"><span class="diagram-node">Dorsal attention network</span><span class="diagram-connector" role="img" aria-label="functionally coupled with">↔</span><span class="diagram-node">Control network</span></div>
+                <p class="diagram-note">Organize visually presented information toward a puzzle’s goal.</p>
+              </div>
+            </div>
+            <p class="diagram-note">Arrows summarize functional coupling in the reported task comparisons. They are not direct anatomical wires, causal-direction estimates, measured connection strengths, or mutually exclusive software states.</p>
+          </figure>
+          <h3>An important historical correction</h3>
+          <p>This cooperation study was published in <strong>2010</strong>. It is therefore misleading to tell the history as “a universally accepted strict 2011 seesaw, followed years later by the discovery that cooperation is possible.” The switching and cooperation lines of research were already developing alongside one another.</p>
+          <h3>What “cooperation” adds—and what it leaves open</h3>
+          <p>Cooperation means that executive control and default-network contributions can be jointly relevant to a task. It does not prove that the DMN is always an idea generator and the CEN is always a critic. Those are useful possible descriptions of some operations, not permanent identities attached to whole networks.</p>
+          <p>The study also does not imply that every form of internal thought is controlled. A spontaneous association, a carefully evaluated plan, and a task-irrelevant distraction can all involve internally generated information while differing in their relationship to the current goal.</p>
+        </section>
+
+        <section id="network-fractionation">
+          <span class="section-label">05 / Resolution and naming</span>
+          <h2>A network label can hide important internal differences</h2>
+          <p><strong>Fractionation</strong> means identifying distinguishable components within what was previously treated as one network. It does not necessarily mean discovering separate, encapsulated modules. A subdivision depends on spatial resolution, the analysis, task contrasts, and whether data are averaged across people.</p>
+          <h3>Control-network heterogeneity</h3>
+          <p><a href="#ref-dixon-2018">Dixon et al. (2018)</a> identified two frontoparietal control subsystems using connectivity analyses across four datasets and nine conditions. In that study, <strong>FPCN-A</strong> showed preferential coupling with the default network, and <strong>FPCN-B</strong> with the dorsal attention network.</p>
+          <p>The primary sample contained 24 participants, with additional datasets testing other tasks. The differentiation varied with context. The paper explicitly describes relative and flexible connectivity biases, not fixed absolute boundaries; some FPCN-B regions coupled positively with both default and dorsal-attention regions in some contexts.</p>
+          <h3>Default-network fractionation: two different approaches</h3>
+          <p><a href="#ref-andrews-hanna-2010">Andrews-Hanna et al. (2010)</a> described a midline core and two subsystems: one associated with medial-temporal structures, and another with dorsal-medial prefrontal regions. Their functional analyses distinguished mnemonic scene construction, mental-state/self-related processing, and personally significant evaluation. These were not three universal software services.</p>
+          <p>A later within-individual study by <a href="#ref-dinicola-2020">DiNicola, Braga, and Buckner (2020)</a> found neighboring, interdigitated default-network systems: a parahippocampal-linked <strong>network A</strong> preferentially recruited by episodic-projection contrasts, and a temporoparietal-junction-linked <strong>network B</strong> preferentially recruited by theory-of-mind contrasts.</p>
+          <p>That study used three independent samples of six people, each scanned four times. Repeated individual mapping helped resolve distinctions blurred by group averaging. Importantly, the dissociation extended into midline regions previously described as shared hubs, illustrating why the different accounts should not simply be joined together.</p>
+          <div class="table-container" role="region" aria-label="Different network subdivision schemes, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 03 · Similar letters do not imply identical networks</caption>
+              <thead><tr><th scope="col">Study / scheme</th><th scope="col">What is subdivided?</th><th scope="col">Reported distinction</th><th scope="col">Boundary on interpretation</th></tr></thead>
+              <tbody>
+                <tr><td>Andrews-Hanna et al. · 2010</td><td>Default network</td><td>Midline core; medial-temporal and dorsal-medial prefrontal subsystems.</td><td>One functional-anatomical account; do not automatically add its core to every later A/B map.</td></tr>
+                <tr><td>Dixon et al. · 2018</td><td>Frontoparietal control network</td><td>FPCN-A biased toward default-network coupling; FPCN-B toward dorsal attention.</td><td>Relative, context-sensitive preferences—not “internal-only” and “external-only” processors.</td></tr>
+                <tr><td>DiNicola et al. · 2020</td><td>Parallel networks within the canonical default-network territory</td><td>Network A: episodic-projection preference; network B: theory-of-mind preference.</td><td>Task contrasts and individual maps; not exclusive functions or proof of a universal core-plus-A-plus-B inventory.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>The 2020 paper explicitly cautions against concluding that remembering uses only A or theory of mind only B. Its task contrasts sampled particular processes; less constrained behavior could engage both. Individual maps also varied in how clearly the networks separated.</p>
+          <aside class="callout"><strong>A practical reading rule</strong><p>Whenever a paper uses “A,” “B,” “core,” or “executive,” ask <em>which network definition, which participants, and which measurement?</em> Do not combine labels from different papers into a single canonical brain-state schema.</p></aside>
+        </section>
+
+        <section id="temporal-and-directed-evidence">
+          <span class="section-label">06 / From slow signals to electrical recordings</span>
+          <h2>Better temporal access strengthens the question—not every conclusion</h2>
+          <p>fMRI is valuable for mapping distributed systems, but BOLD is an indirect, temporally blurred signal. Intracranial recordings offer much finer temporal access to electrical activity. They also introduce different constraints: recordings come from clinical settings, and electrode placement is driven by medical needs rather than complete experimental coverage.</p>
+          <h3>What the 2020 and 2024 studies actually examined</h3>
+          <div class="table-container" role="region" aria-label="Intracranial study scope and limitations, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 04 · Distinguish resting dynamics from task-related interactions</caption>
+              <thead><tr><th scope="col">Study</th><th scope="col">Data and question</th><th scope="col">Main relevant finding</th><th scope="col">Limit</th></tr></thead>
+              <tbody>
+                <tr><td><a href="#ref-das-2020">Das &amp; Menon · 2020</a></td><td>Two clinical iEEG datasets: eyes-closed resting wakefulness and task-free intertrial intervals.</td><td>SN electrodes showed stronger net directed outflow relative to sampled DMN/FPN electrodes, alongside distinctive temporal dynamics.</td><td>Not a direct comparison of external encoding and internal recall; resting/intertrial conditions are not identical.</td></tr>
+                <tr><td><a href="#ref-das-2024">Das &amp; Menon · 2024</a></td><td>Recordings from 177 participants across four verbal/spatial episodic-memory experiments, with encoding and recall.</td><td>Anterior-insula-directed influence toward sampled DMN/FPN nodes during both encoding and recall; task effects relative to resting baseline.</td><td>Memory-task evidence, not every kind of cognition. Available electrode coverage constrains each comparison.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Both studies use <strong>phase transfer entropy (PTE)</strong>, a measure of directed statistical dependence in signal phase. Roughly, it asks whether the past of one signal adds information about the future of another beyond what the target’s own past provides. An <strong>outflow hub</strong> has more estimated outgoing than incoming influence within the sampled network and chosen analysis.</p>
+          <h3>Directionality is not the same experiment as perturbation</h3>
+          <p>PTE and Granger analyses are informative ways to investigate directed interactions. But they remain dependent on the signals sampled, the model or estimator, time windows, and unobserved influences. They do not, alone, establish the result of deliberately altering a particular brain region.</p>
+          <p>The 2024 paper explicitly calls for direct manipulations to establish definitive causal relationships. It also states that PTE cannot reliably capture rapid shifts in network dynamics. Thus, “millisecond-resolution recording” should not become “we have proved a continuous millisecond-by-millisecond router.”</p>
+          <p>This is not a claim that all evidence is merely correlational in the same sense. <a href="#ref-menon-2023">Menon’s 2023 review</a> also discusses lesion and rodent optogenetic evidence, including anterior-insula stimulation and suppression of putative default-network regions. Such perturbations address different causal questions and have their own species, targeting, and translation limits.</p>
+          <h3>Local activity and cross-network influence are different measurements</h3>
+          <p>The 2024 study reported posterior cingulate/precuneus high-gamma suppression during encoding, but not recall, while directed anterior-insula interactions were present in both phases. A change in local activity need not mean an entire network stops participating in communication.</p>
+          <p>Similarly, the 2020 resting-iEEG study did not find consistent negative SN/FPN–DMN correlations in the measured signals. This does not erase BOLD findings: signal type and context differ. It is another reason not to turn an anticorrelation observation into a universal architectural law.</p>
+        </section>
+
+        <section id="default-network-meaning">
+          <span class="section-label">07 / Beyond the “idle brain”</span>
+          <h2>The DMN contributes to making information meaningful</h2>
+          <p>“Default” is a historical label, not a complete functional explanation. <a href="#ref-menon-2023">Menon’s 2023 review</a> synthesizes evidence across self-related judgments, social cognition, episodic/autobiographical memory, language and semantic processing, and mind wandering.</p>
+          <p>These domains share an important challenge: current information has to be understood in relation to knowledge, experience, people, and context. The same sentence can require more than perceptual decoding. Understanding “I cannot do that again” may require remembering an earlier event and inferring whose perspective matters.</p>
+          <h3>Internal and external are orientations, not sealed containers</h3>
+          <p>Listening to a story is externally driven, but comprehension draws on semantic knowledge and models of events and people. Planning is internally oriented, but may be triggered by a visible question and constrained by current facts. The useful distinction concerns information and task demands—not a total separation between the world and the mind.</p>
+          <h3>The internal-narrative proposal</h3>
+          <p>Menon proposes that the DMN integrates and broadcasts memory, language, and semantic representations to sustain an internal narrative. This is a unifying interpretation of multiple findings. It should be distinguished from the underlying task evidence: it is not proof that every DMN operation is narrative, that narration is always verbal, or that an artificial system must implement an inner monologue.</p>
+          <h3>Shared responses are not automatically shared beliefs</h3>
+          <p>The review discusses synchronization of activity between people processing shared narratives and links with comprehension and social relationships. Such findings concern similarity or temporal relationships in measured responses. They do not establish that meaningful conversation always phase-locks two minds, that the people agree, or that their shared interpretation is true.</p>
+          <p>For the proposed architecture, contextual integration is an important function to investigate. “A module containing the self” is a much stronger and currently unjustified implementation claim. The DMN literature does not specify a unique software identity component.</p>
+        </section>
+
+        <section id="claims-and-limits">
+          <span class="section-label">08 / What the shorthand leaves out</span>
+          <h2>Useful models become misleading when their scope disappears</h2>
+          <div class="table-container" role="region" aria-label="Common cognitive-routing claims and evidence checks, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 05 · Claim checks that change the interpretation</caption>
+              <thead><tr><th scope="col">Shortcut</th><th scope="col">Assessment</th><th scope="col">More defensible statement</th></tr></thead>
+              <tbody>
+                <tr><td>“CEN is external; DMN is internal; only one can work.”</td><td><strong>Too rigid</strong></td><td>Control can coordinate default-network processing during internally oriented goals. Task-dependent cooperation was demonstrated by <a href="#ref-spreng-2010">Spreng et al. (2010)</a>.</td></tr>
+                <tr><td>“Cooperation was discovered only after the 2011 model.”</td><td><strong>Chronology is wrong</strong></td><td>The 2010 planning study predates the 2011 review. Different research questions developed in parallel.</td></tr>
+                <tr><td>“FPCN-B is strictly anticorrelated with the DMN.”</td><td><strong>Overgeneralized</strong></td><td><a href="#ref-dixon-2018">Dixon et al.</a> report relative, flexible preferences and positive coupling of some FPCN-B nodes with both systems in some contexts.</td></tr>
+                <tr><td>“All A/B/core labels belong to one upgraded atlas.”</td><td><strong>Not established</strong></td><td>The studies subdivide different networks using different methods. Their anatomical and functional schemes must be kept distinct.</td></tr>
+                <tr><td>“PTE proves a continuously operating causal switch.”</td><td><strong>Too strong</strong></td><td>Directed dependence supports mechanistic hypotheses. The <a href="#ref-das-2024">2024 study</a> explicitly identifies causal and rapid-dynamics limitations.</td></tr>
+                <tr><td>“DMN activity leaking outward explains psychiatric disorders.”</td><td><strong>Not a universal causal rule</strong></td><td>The <a href="#ref-menon-2011">triple-network framework</a> organizes hypotheses about network dysfunction; it is not a diagnosis or a single proven cause.</td></tr>
+                <tr><td>“Context saturation is the exact equivalent of human fatigue.”</td><td><strong>Open project hypothesis</strong></td><td>Computational load and interference are worth investigating, but the sources reviewed here do not establish that equivalence.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>Clinical evidence is not a one-line failure specification</h3>
+          <p>Network differences can be associated with symptoms across multiple conditions. That does not mean one connectivity pattern diagnoses an individual, or that every instance of hallucination, rumination, or attentional difficulty has the same cause. A model spanning disorders is a framework for investigating mechanisms—not permission to reduce them to a faulty switch.</p>
+          <h3>Reverse inference: activity does not uniquely identify a mental state</h3>
+          <p>A region’s involvement in a task does not make it a unique detector of the corresponding mental process. If a network participates in both memory and social tasks, observing its activity does not by itself tell us which process is occurring. Task context, competing explanations, and the specificity of the evidence matter.</p>
+          <h3>Where load and fatigue fit—for now</h3>
+          <p>Our working hypothesis is that representational competition or other processing pressure could contribute to a useful computational load/fatigue signal. This creates a potential link between internal telemetry and adaptive coordination. However, resource occupancy, interference, declining performance, and a state that accumulates and recovers over time are distinct quantities.</p>
+          <p>The reviewed network evidence does not tell us that a Salience Network analogue must detect fatigue and force a DMN or offline transition. Nor does it establish attention entropy, context length, or one hidden-state direction as a calibrated fatigue measurement. Those are separate empirical and engineering questions for later study.</p>
+          <aside class="callout"><strong>Three levels of claim</strong><p><strong>Observation:</strong> a measured pattern occurs in a specified experiment. <strong>Interpretation:</strong> a model explains that pattern through coordination or control. <strong>Engineering hypothesis:</strong> implementing an analogous mechanism may produce a useful function. Moving between these levels requires additional arguments and tests.</p></aside>
+        </section>
+
+        <section id="architectural-implications">
+          <span class="section-label">09 / Functions before a final implementation</span>
+          <h2>Biological structure can motivate an experiment without settling its software form</h2>
+          <p>Deliberately reproducing selected biological mechanisms is compatible with the project’s aims. The relevant distinction is between implementing a mechanism and unnecessarily scripting its exact expression. A controlled experiment can investigate behavior arising from an imposed mechanism, provided we report what was imposed and what was learned or observed.</p>
+          <p>This document does not choose whether routing should use separate components, processing modes, learned control, or a combination. Three named brain networks do not automatically require three LLMs, three prompts, or three tensor directions.</p>
+          <div class="table-container" role="region" aria-label="Architectural functions and unresolved implementation questions, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 06 · Design implications are questions, not a completed controller</caption>
+              <thead><tr><th scope="col">Function worth investigating</th><th scope="col">Motivation from the evidence</th><th scope="col">What remains unresolved</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Relevance-sensitive reconfiguration</strong></td><td>Salience-related contributions and changes in network engagement.</td><td>Which events matter, how relevance is estimated, and how interruption costs and current goals interact.</td></tr>
+                <tr><td><strong>Controlled use of internal information</strong></td><td>Default–control cooperation during planning.</td><td>How retrieved episodes, simulations, and task constraints become jointly available and are evaluated.</td></tr>
+                <tr><td><strong>Selective specialization with coordination</strong></td><td>Heterogeneity and task-dependent coupling within broad network families.</td><td>Which distinctions deserve explicit mechanisms, which should be learned, and whether separate components are needed.</td></tr>
+                <tr><td><strong>Contextual integration over time</strong></td><td>Memory, semantic, and narrative-related contributions discussed in the DMN literature.</td><td>What persists between interactions, how it changes, and how observations remain distinguishable from simulations.</td></tr>
+                <tr><td><strong>Load-aware regulation</strong></td><td>A project hypothesis linking bounded processing to internal telemetry.</td><td>How to define load and fatigue, validate their measurements, and test their influence independently.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>A worked scenario—not a recorded neural sequence</h3>
+          <p>Suppose the system is helping plan a future event. It needs prior preferences and remembered constraints, but also has to evaluate a proposed plan against the current request. That motivates coordinated access to memory and task control, not a rule that internally oriented processing must exclude executive evaluation.</p>
+          <p>An incoming correction then changes the available date. A relevance-sensitive mechanism may redirect processing toward that evidence while preserving the goal. The system can subsequently reassess the remembered assumptions and the plan together. This example illustrates functional requirements; it does not assign measured brain activations or prescribe a particular LLM execution loop.</p>
+          <h3>Latent representations remain a research question</h3>
+          <p>A model may encode information useful for estimating relevance, uncertainty, or aspects of an interaction. But information being represented, being reliably decoded, participating causally in behavior, and being useful in a feedback controller are different claims. A successful readout would need validation for the particular model, task, layer, context, and intended target.</p>
+          <p>Transformer attention weights, contextual hidden states, a key/value cache, and learned parameters are also distinct objects. None should be labeled “the Salience Network” simply because it supports a useful analogy. The detailed latent-readout and memory studies belong to the broader research series.</p>
+          <h3>Questions for later experiments</h3>
+          <ul>
+            <li><strong>What changes?</strong> Does coordination alter access to information, maintenance of a goal, computation allocation, memory retrieval, or action release?</li>
+            <li><strong>What persists?</strong> Is there an enduring state, or only a different configuration for the current operation?</li>
+            <li><strong>What is the biological hypothesis?</strong> Which mechanism is deliberately reproduced, and what outcome would support or challenge its usefulness?</li>
+            <li><strong>What are the comparisons?</strong> Compare the proposed mechanism with simpler alternatives, including fixed routing or an unmodified baseline, without assuming which must win.</li>
+            <li><strong>What is measured independently?</strong> Evaluate task performance, handling of relevant versus irrelevant interruptions, memory consistency, and resource costs—not merely whether chosen state labels become active.</li>
+            <li><strong>What remains an intervention?</strong> Distinguish effects of architecture, learned behavior, and prompt prescriptions. Simpler prompting is an open preference; fewer tokens do not automatically mean less behavioral prescription.</li>
+          </ul>
+          <aside class="callout"><strong>Where this leaves the project</strong><p><mark>A functional research foundation is possible before practical resolution.</mark> The next step is to formulate and compare architectural hypotheses—not to disguise the remaining questions as an already validated design.</p></aside>
+        </section>
+
+        <section id="bibliography">
+          <span class="section-label">10 / References and source scope</span>
+          <h2>Selected sources and further reading</h2>
+          <p>This is a selected-source narrative review, not an exhaustive or systematic survey. It draws on foundational and follow-up work from 2008–2024. Primary-study results are distinguished from reviews and engineering proposals. The <a href="../notes/cognitive-routing-plan.md">working plan and source audit</a> records reading scope and delivery checks.</p>
+          <p><strong>Access limitation:</strong> Menon (2011) is cited for the framework and clinical scope using its indexed abstract and bibliographic record; the complete review was not independently inspected for this draft. The switching, cooperation, fractionation, and directed-dynamics discussions rely on the open primary texts listed below, alongside the 2023 review. No software controller or latent-to-network mapping has been validated here.</p>
+          <ul class="citation-list">
+            <li id="ref-menon-2011"><strong>Menon, V. (2011).</strong> Large-scale brain networks and psychopathology: a unifying triple network model. <em>Trends in Cognitive Sciences</em>, 15(10), 483–506. <a href="https://doi.org/10.1016/j.tics.2011.08.003">doi.org/10.1016/j.tics.2011.08.003</a>. <a href="https://europepmc.org/article/MED/21908230">Indexed abstract</a>. A review proposing the triple-network account of psychopathology; not a new switching experiment.</li>
+            <li id="ref-sridharan-2008"><strong>Sridharan, D., Levitin, D. J., &amp; Menon, V. (2008).</strong> A critical role for the right fronto-insular cortex in switching between central-executive and default-mode networks. <em>PNAS</em>, 105(34), 12569–12574. <a href="https://doi.org/10.1073/pnas.0800005105">doi.org/10.1073/pnas.0800005105</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2527952/">Open text</a>. Task/rest fMRI, timing, and Granger/network analyses; “causal” is qualified by the authors’ analytical usage.</li>
+            <li id="ref-spreng-2010"><strong>Spreng, R. N., Stevens, W. D., Chamberlain, J. P., Gilmore, A. W., &amp; Schacter, D. L. (2010).</strong> Default network activity, coupled with the frontoparietal control network, supports goal-directed cognition. <em>NeuroImage</em>, 53(1), 303–317. <a href="https://doi.org/10.1016/j.neuroimage.2010.06.016">doi.org/10.1016/j.neuroimage.2010.06.016</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2914129/">Open text</a>. Planning-task evidence for context-dependent default/control and dorsal-attention/control coupling.</li>
+            <li id="ref-murphy-2009"><strong>Murphy, K., Birn, R. M., Handwerker, D. A., Jones, T. B., &amp; Bandettini, P. A. (2009).</strong> The impact of global signal regression on resting state correlations: Are anti-correlated networks introduced? <em>NeuroImage</em>, 44(3), 893–905. <a href="https://doi.org/10.1016/j.neuroimage.2008.09.036">doi.org/10.1016/j.neuroimage.2008.09.036</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2750906/">Open text</a>. A methodological warning about preprocessing-induced negative relationships.</li>
+            <li id="ref-chai-2012"><strong>Chai, X. J., et al. (2012; online 2011).</strong> Anticorrelations in resting state networks without global signal regression. <em>NeuroImage</em>, 59(2), 1420–1428. <a href="https://doi.org/10.1016/j.neuroimage.2011.08.048">doi.org/10.1016/j.neuroimage.2011.08.048</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3230748/">Open text</a>. Evidence that anticorrelations are not necessarily explained by global signal regression alone.</li>
+            <li id="ref-dixon-2018"><strong>Dixon, M. L., et al. (2018).</strong> Heterogeneity within the frontoparietal control network and its relationship to the default and dorsal attention networks. <em>PNAS</em>, 115(7), E1598–E1607. <a href="https://doi.org/10.1073/pnas.1715766115">doi.org/10.1073/pnas.1715766115</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5816169/">Open text</a>. Relative FPCN subsystem coupling, context sensitivity, and parcellation/individual differences.</li>
+            <li id="ref-andrews-hanna-2010"><strong>Andrews-Hanna, J. R., et al. (2010).</strong> Functional-Anatomic Fractionation of the Brain’s Default Network. <em>Neuron</em>, 65(4), 550–562. <a href="https://doi.org/10.1016/j.neuron.2010.02.005">doi.org/10.1016/j.neuron.2010.02.005</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2848443/">Open text</a>. A core/subsystem account of default-network organization.</li>
+            <li id="ref-dinicola-2020"><strong>DiNicola, L. M., Braga, R. M., &amp; Buckner, R. L. (2020).</strong> Parallel distributed networks dissociate episodic and social functions within the individual. <em>Journal of Neurophysiology</em>, 123(3), 1144–1179. <a href="https://doi.org/10.1152/jn.00529.2019">doi.org/10.1152/jn.00529.2019</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7099479/">Open text</a>. Repeated individual mapping and relative task preferences; the authors explicitly reject exclusive-function interpretations.</li>
+            <li id="ref-das-2020"><strong>Das, A., &amp; Menon, V. (2020).</strong> Spatiotemporal Integrity and Spontaneous Nonlinear Dynamic Properties of the Salience Network Revealed by Human Intracranial Electrophysiology: A Multicohort Replication. <em>Cerebral Cortex</em>, 30(10), 5309–5321. <a href="https://doi.org/10.1093/cercor/bhaa111">doi.org/10.1093/cercor/bhaa111</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7566690/">Open text</a>. Resting/intertrial iEEG and phase-transfer-entropy analysis in two clinical datasets.</li>
+            <li id="ref-das-2024"><strong>Das, A., &amp; Menon, V. (2024).</strong> Electrophysiological dynamics of salience, default mode, and frontoparietal networks during episodic memory formation and recall revealed through multi-experiment iEEG replication. <em>eLife</em>. <a href="https://doi.org/10.7554/eLife.99018">doi.org/10.7554/eLife.99018</a>. <a href="https://elifesciences.org/articles/99018">Open article and assessments</a>. Four memory experiments; see the explicit causal, task-generalization, and rapid-dynamics limitations.</li>
+            <li id="ref-menon-2023"><strong>Menon, V. (2023).</strong> 20 years of the default mode network: a review and synthesis. <em>Neuron</em>, 111(16), 2469–2487. <a href="https://doi.org/10.1016/j.neuron.2023.04.023">doi.org/10.1016/j.neuron.2023.04.023</a>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10524518/">Open text</a>. A synthesis of multiple DMN functions; internal-narrative integration/broadcasting is presented as a unifying proposal.</li>
+          </ul>
+          <p><a href="cognitive-routing-presentation-deck.html">Continue with the twelve-slide presentation →</a></p>
+        </section>
+      </main>
+    </div>
+    <footer>IO Research &bull; Cognitive Routing and Attention &bull; <a href="#top">Back to top ↑</a></footer>
+  </div>
+</body>
+</html>

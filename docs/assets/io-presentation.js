@@ -87,10 +87,10 @@
 
   document.addEventListener("keydown", (event) => {
     if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-    // Preserve editing, native disclosure/link behavior, and local equation
-    // scrolling. Up/down and Space remain ordinary browser scrolling everywhere.
+    // Preserve editing, native disclosure/link behavior, and local equation or
+    // table scrolling. Up/down and Space remain ordinary browser scrolling.
     if (event.target instanceof Element && event.target.closest(
-      "a, summary, input, select, textarea, [contenteditable], .equation-scroll"
+      "a, summary, input, select, textarea, [contenteditable], .equation-scroll, .table-scroll"
     )) return;
     /** @type {Record<string, number>} */
     const targets = {

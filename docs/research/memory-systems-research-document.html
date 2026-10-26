@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en" data-io-theme="v2">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided research review of complementary learning systems, working memory, episodic indexing, reconstruction, consolidation, schema assimilation, reconsolidation, and the limits of mapping biological memory onto Redis, vector databases, and model context.">
+  <title>Memory Systems and the Lifecycle of Knowledge · IO Research</title>
+  <link rel="stylesheet" href="../assets/io-design-system.css">
+  <link rel="stylesheet" href="../assets/io-research.css">
+  <link rel="stylesheet" href="../assets/io-diagrams.css">
+  <link rel="stylesheet" href="../assets/io-theme-v2.css">
+  <script src="../assets/io-research.js" defer></script>
+</head>
+<body class="io-document io-research" id="top">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="container">
+    <header>
+      <span class="badge">Research &amp; Learning · Cognitive Systems</span>
+      <h1>Memory systems and the lifecycle of knowledge</h1>
+      <p class="subtitle">Complementary learning, episodic indexing, reconstruction, consolidation, and updating—plus the limits of translating biological memory into Redis, vector databases, and model context.</p>
+      <p class="document-meta">Research draft · 12 sections · Selected evidence, 1986–2021 · Implementation open</p>
+      <p><a href="memory-systems-presentation-deck.html">Open the companion presentation →</a></p>
+    </header>
+
+    <div class="research-layout">
+      <nav class="research-index" aria-label="Table of contents">
+        <details open>
+          <summary>In this document <span class="index-toggle" aria-hidden="true"></span></summary>
+          <ol>
+            <li><a href="#memory-lifecycle"><span class="index-number" aria-hidden="true">01</span><span>The lifecycle problem</span></a></li>
+            <li><a href="#stability-plasticity"><span class="index-number" aria-hidden="true">02</span><span>Stability &amp; plasticity</span></a></li>
+            <li><a href="#three-tiers"><span class="index-number" aria-hidden="true">03</span><span>Three tiers</span></a></li>
+            <li><a href="#working-memory"><span class="index-number" aria-hidden="true">04</span><span>Working memory</span></a></li>
+            <li><a href="#episodic-encoding"><span class="index-number" aria-hidden="true">05</span><span>Encoding &amp; separation</span></a></li>
+            <li><a href="#retrieval-reconstruction"><span class="index-number" aria-hidden="true">06</span><span>Retrieval &amp; reconstruction</span></a></li>
+            <li><a href="#consolidation-replay"><span class="index-number" aria-hidden="true">07</span><span>Consolidation &amp; replay</span></a></li>
+            <li><a href="#cls2-procedures"><span class="index-number" aria-hidden="true">08</span><span>CLS 2.0 procedures</span></a></li>
+            <li><a href="#transferable-procedures"><span class="index-number" aria-hidden="true">09</span><span>Transferable procedures</span></a></li>
+            <li><a href="#engineering-translation"><span class="index-number" aria-hidden="true">10</span><span>Engineering candidates</span></a></li>
+            <li><a href="#evidence-and-experiments"><span class="index-number" aria-hidden="true">11</span><span>Evidence &amp; experiments</span></a></li>
+            <li><a href="#bibliography"><span class="index-number" aria-hidden="true">12</span><span>Sources &amp; scope</span></a></li>
+          </ol>
+        </details>
+      </nav>
+
+      <main id="main-content">
+        <section id="memory-lifecycle">
+          <span class="section-label">01 / Orientation</span>
+          <h2>A memory is a lifecycle, not a stored file</h2>
+          <p>Imagine recalling a conversation from two weeks ago. A phrase triggers the memory; you reconstruct the exchange, place it in a context, and notice that one detail has since changed. The memory is not simply “read” from a shelf. It is selected, reconstructed, checked against current information, and sometimes updated.</p>
+          <p>This document separates four related operations: <strong>encoding</strong> an episode, <strong>accessing</strong> it through a cue, <strong>consolidating</strong> it into durable structure, and <strong>reconstructing or updating</strong> it during use. Storage is necessary, but storage alone does not implement these operations.</p>
+          <aside class="callout">
+            <strong>The central distinction</strong>
+            <p><mark>A memory store is not a memory system.</mark> Redis, a vector database, and a context window can support parts of a loop, but they do not by themselves perform pattern separation, reconstruction, consolidation, schema integration, or reconsolidation.</p>
+          </aside>
+          <h3>What this deep dive is—and is not</h3>
+          <p>This is a selected-source narrative review of the memory deep dive and adjacent memory-related passages. It explains the source’s proposed three tiers and procedures, checks selected claims against primary abstracts and bibliographic records, and then considers engineering candidates. It is not an exhaustive systematic review, a complete neurobiological model, or an implemented memory architecture.</p>
+          <p>The source uses <strong>WM</strong> for Working Memory, <strong>STM</strong> for a Short-Term Labile Episodic Store, and <strong>LTM</strong> for a Long-Term Structural Connectome. Those labels describe functional roles in the source’s account. They should not be treated as literal software containers or as interchangeable textbook categories.</p>
+          <p><strong>Suggested route:</strong> Sections 2–4 establish the learning problem and working-memory functions; Sections 5–8 follow encoding, retrieval, consolidation, and CLS 2.0 procedures; Sections 9–11 separate transferable candidates from engineering hypotheses and experiments.</p>
+        </section>
+
+        <section id="stability-plasticity">
+          <span class="section-label">02 / The learning dilemma</span>
+          <h2>Why one memory system is never enough</h2>
+          <p><a href="#ref-mcclelland-1995">McClelland, McNaughton, and O’Reilly (1995)</a> proposed complementary learning systems: a fast hippocampal system for specific episodes and a slower neocortical system for structured, distributed knowledge. The fast system can encode a particular experience without immediately rewriting the shared structure that supports generalization.</p>
+          <p>The problem is <strong>catastrophic interference</strong>. If a network with overlapping representations is forced to learn a new episode at a high learning rate, the shared weight changes can degrade older knowledge. The proposed solution is not one universal store with one learning rate, but different representational geometries and timescales.</p>
+          <div class="table-container" role="region" aria-label="Fast episodic and slow semantic learning compared, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 01 · Complementary modes, stated as a framework rather than a literal software contract</caption>
+              <thead><tr><th scope="col">Mode</th><th scope="col">Representational emphasis</th><th scope="col">Useful function</th><th scope="col">Important limit</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Fast episodic</strong></td><td>Sparse, orthogonal, specific codes; rapid one-shot change.</td><td>Record a particular experience; support immediate cue-based recall.</td><td>Fast plasticity is not the same as durable semantic integration; biological timescales are approximate.</td></tr>
+                <tr><td><strong>Slow semantic / procedural</strong></td><td>Distributed, overlapping representations; gradual incremental change.</td><td>Extract regularities, generalize, and stabilize skills or world knowledge.</td><td>Slow learning alone does not specify an algorithm; CLS is a framework, not a blueprint.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figure class="io-diagram" aria-labelledby="fast-slow-caption">
+            <figcaption id="fast-slow-caption">Figure 01 · Two complementary learning modes, schematically summarized</figcaption>
+            <div class="diagram-comparison">
+              <div class="diagram-case">
+                <p class="diagram-label">Fast episodic learning</p>
+                <div class="diagram-route"><span class="diagram-node">Specific episode</span><span class="diagram-connector" role="img" aria-label="indexed by">→</span><span class="diagram-node">Labile index</span></div>
+                <p class="diagram-note">Sparse, orthogonal, rapid; supports one-shot recall without immediately rewriting the whole world model.</p>
+              </div>
+              <div class="diagram-case">
+                <p class="diagram-label">Slow semantic / procedural learning</p>
+                <div class="diagram-route"><span class="diagram-node">Distributed knowledge</span><span class="diagram-connector" role="img" aria-label="integrated into">↔</span><span class="diagram-node">Stable structure</span></div>
+                <p class="diagram-note">Overlapping representations, gradual update; supports generalization and durable skills.</p>
+              </div>
+            </div>
+            <p class="diagram-note">The arrows summarize functional relationships in the complementary-learning account. They are not anatomical wiring, measured connection strengths, or literal data paths.</p>
+          </figure>
+          <p><a href="#ref-kumaran-2016">Kumaran, Hassabis, and McClelland (2016)</a> updated the framework: replay can weight experience statistics by goal, recurrent hippocampal activation can support some forms of generalization, and neocortical learning can be rapid when new information is consistent with known structure. This is a development of the theory, not proof that every biological procedure transfers directly to an artificial system.</p>
+        </section>
+
+        <section id="three-tiers">
+          <span class="section-label">03 / Functional tiers</span>
+          <h2>Workspace, labile index, and durable structure</h2>
+          <p>The source describes three tiers with different jobs. They are useful as functional distinctions, but their boundaries are not sealed boxes. A working-memory representation can point into long-term knowledge; a labile episode can later be consolidated; and a durable record can be retrieved back into an active workspace.</p>
+          <div class="table-container" role="region" aria-label="Three memory tiers and candidate implementations, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 02 · Source functions and engineering candidates</caption>
+              <thead><tr><th scope="col">Source tier</th><th scope="col">Function in the source</th><th scope="col">Candidate implementation</th><th scope="col">What the candidate does not establish</th></tr></thead>
+              <tbody>
+                <tr><td><strong>WM</strong></td><td>Active workspace; pointers to long-term nodes; transient maintenance; control of what enters and leaves.</td><td>Model context plus a retrieval/control layer; a KV cache may preserve some runtime representations.</td><td>A token window is not a biological working memory, and a KV cache is not a durable memory tier.</td></tr>
+                <tr><td><strong>STM</strong></td><td>Short-Term Labile Episodic Store: fast episodic index and quarantine buffer; sparse pattern separation.</td><td>A hot episodic index such as a Redis vector cache, with TTL, explicit episode IDs, provenance, and promotion rules.</td><td>Cache eviction is not biological forgetting or pattern separation; Redis is a substrate candidate, not STM itself.</td></tr>
+                <tr><td><strong>LTM</strong></td><td>Long-Term Structural Connectome: semantic and procedural structure with distributed, overlapping representations.</td><td>Durable vector records, a relational graph, and parametric knowledge in weights or adapters.</td><td>A vector database is a record store, not a connectome; similarity search does not implement generalization or consolidation.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Naming caution.</strong> The source’s “STM” is not a generic short-term memory box. It is specifically a labile episodic store. Likewise, “LTM” includes semantic and procedural knowledge, not only declarative facts. A single vector database cannot represent all of those functions.</p>
+          <aside class="callout">
+            <strong>Three tiers, not three components</strong>
+            <p>The tiers describe different functional constraints. A future architecture may combine them in one service, separate services, or learned mechanisms. The source does not prescribe a three-container design.</p>
+          </aside>
+        </section>
+
+        <section id="working-memory">
+          <span class="section-label">04 / Activation and control</span>
+          <h2>Working memory is activation, not a copy-paste box</h2>
+          <p>The source describes working memory as <strong>activated long-term memory</strong>: control holds lightweight pointers that temporarily make existing long-term nodes available, rather than duplicating whole records. This is consistent with embedded-processes and dynamic-coding accounts of working memory (<a href="#ref-cowan-2008">Cowan, 2008</a>; <a href="#ref-stokes-2015">Stokes, 2015</a>).</p>
+          <p><strong>Activity-silent maintenance</strong> is a proposed mechanism: some items may remain “warm” in short-term synaptic states and be reactivated by a pulse rather than continuously firing. Stokes’s review presents this as a dynamic-coding framework, but it is not a settled universal mechanism. The source also distinguishes a <strong>focus of attention</strong>—usually one actively selected item—from the other warm items. This is a selection proposal, not a fixed number of LLM slots. Working-memory maintenance is still debated, and estimates of capacity vary with task and definition. The source’s “3–7 items” is a useful teaching approximation, not a fixed software parameter.</p>
+          <p><strong>Gating</strong> is a separate function. The PBWM model proposes that prefrontal–basal-ganglia circuits control which items enter working memory and which candidate outputs are released (<a href="#ref-oreilly-frank-2006">O’Reilly &amp; Frank, 2006</a>; <a href="#ref-chatham-2014">Chatham, Frank, &amp; Badre, 2014</a>). Maintenance and output release are not the same operation.</p>
+          <div class="table-container" role="region" aria-label="Working-memory functions and engineering counterparts, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 03 · What a context window supplies and what it does not</caption>
+              <thead><tr><th scope="col">Function</th><th scope="col">Biological proposal</th><th scope="col">Engineering candidate</th><th scope="col">Limit</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Activation</strong></td><td>Pointers transiently light up existing long-term nodes.</td><td>Retrieve records and place references or selected content into the active context.</td><td>Context tokens are not pointers into a stable long-term graph.</td></tr>
+                <tr><td><strong>Focus / selection</strong></td><td>One item is actively selected; other held items remain warm.</td><td>An active slot or attention focus; reinsert other items when needed.</td><td>Selection policy and capacity are task-dependent, not a fixed software limit.</td></tr>
+                <tr><td><strong>Maintenance</strong></td><td>Persistent firing or activity-silent synaptic warmth; reactivation pulses.</td><td>Keep selected state in context or a runtime cache; reinsert when needed.</td><td>KV cache is runtime reuse, not a biological maintenance mechanism.</td></tr>
+                <tr><td><strong>Gating</strong></td><td>Input gates decide what enters; output gates decide what is released.</td><td>A controller that selects retrievals and controls emission or action.</td><td>A context window by itself has no input/output gating policy.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>A practical candidate is therefore <strong>active context + controller + optional runtime cache</strong>. That combination approximates some working-memory functions, but it does not reproduce the biological mechanisms or establish a cognitive equivalence.</p>
+        </section>
+
+        <section id="episodic-encoding">
+          <span class="section-label">05 / Encoding and separation</span>
+          <h2>Index the episode, then keep similar episodes distinct</h2>
+          <p><a href="#ref-teyler-1986">Teyler and DiScenna’s hippocampal indexing theory (1986)</a> proposes that the hippocampus forms an index of the neocortical areas activated by an experience. Reactivating the index can reactivate the associated cortical pattern and support recall. The index is a pointer-like record, not a copy of the whole experience.</p>
+          <p><strong>Pattern separation</strong> is the complementary encoding problem. The dentate gyrus and related circuits can transform similar inputs into more distinct representations; CA3 is associated with pattern completion. <a href="#ref-yassa-2011">Yassa and Stark (2011)</a> review pattern separation in the hippocampus, and <a href="#ref-neunuebel-2014">Neunuebel and Knierim (2014)</a> report direct evidence for CA3 pattern completion and dentate-gyrus pattern separation in a spatial task.</p>
+          <p>The source adds <strong>salience tagging</strong>: novel, emotional, or high-value content is written quickly into the labile store. This is a plausible prioritization function, but the source does not provide a validated salience algorithm.</p>
+          <div class="table-container" role="region" aria-label="Episodic encoding fields and their functions, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 04 · A possible episode record, not a required schema</caption>
+              <thead><tr><th scope="col">Field</th><th scope="col">Why it matters</th><th scope="col">Risk if omitted</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Episode ID</strong></td><td>Gives each experience an explicit identity.</td><td>Near-duplicate episodes blur into one vector.</td></tr>
+                <tr><td><strong>Timestamp and sequence</strong></td><td>Preserves order, duration, and temporal context.</td><td>Embeddings alone do not encode when something happened.</td></tr>
+                <tr><td><strong>Entities and relations</strong></td><td>Supports later graph retrieval and inference.</td><td>Similarity search cannot enforce relational structure.</td></tr>
+                <tr><td><strong>Context and cues</strong></td><td>Supports encoding specificity and state-dependent retrieval.</td><td>A cue that matches content but not context may retrieve the wrong episode.</td></tr>
+                <tr><td><strong>Provenance</strong></td><td>Distinguishes observation, inference, and generated content.</td><td>Inferred links can become false memories.</td></tr>
+                <tr><td><strong>Salience and schema status</strong></td><td>Guides quarantine, fast-tracking, and replay priority.</td><td>Every episode may be treated as equally important.</td></tr>
+                <tr><td><strong>Version</strong></td><td>Supports correction and reconsolidation.</td><td>An update can overwrite the original without auditability.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>An engineering implementation should therefore use explicit episode IDs and metadata, not only an embedding. Pattern separation may require deliberate sparse or orthogonal keys, dimensionality expansion, or an explicit duplicate-detection policy. Similarity search by itself does not guarantee separation.</p>
+        </section>
+
+        <section id="retrieval-reconstruction">
+          <span class="section-label">06 / Retrieval</span>
+          <h2>A cue reactivates a pattern; it does not replay a recording</h2>
+          <p>In the source’s loop, a partial cue activates the labile index, which reactivates distributed long-term nodes, and working memory reconstructs the episode. This is <strong>pattern completion</strong>, not literal playback. The reconstructed memory can include gaps, inferences, and context-dependent details.</p>
+          <p>Retrieval is also cue-dependent. <a href="#ref-tulving-1973">Tulving and Thomson’s encoding-specificity account (1973)</a> emphasizes that a cue is effective when it matches the encoding context. The source later proposes state- and affect-biased retrieval; that is a design hypothesis, not a validated LLM mechanism. <a href="#ref-johnson-1993">Johnson, Hashtroudi, and Lindsay’s source-monitoring framework (1993)</a> explains why provenance matters: a remembered content can be confused with its source.</p>
+          <div class="table-container" role="region" aria-label="Retrieval functions and engineering candidates, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 05 · Reconstruction is more than top-k similarity</caption>
+              <thead><tr><th scope="col">Retrieval function</th><th scope="col">Source account</th><th scope="col">Engineering candidate</th><th scope="col">Limit</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Cue activation</strong></td><td>A partial cue activates an index.</td><td>Search the hot index and durable records using cue features.</td><td>Top-k retrieval may return a similar but wrong episode.</td></tr>
+                <tr><td><strong>Pattern completion</strong></td><td>CA3-like recurrent activation completes the episode pattern.</td><td>Graph traversal or associative reconstruction across linked records.</td><td>Vector similarity is not completion; it does not fill missing relations.</td></tr>
+                <tr><td><strong>Contextual reconstruction</strong></td><td>Long-term nodes are reinstated into working memory.</td><td>Assemble retrieved records with current context and task constraints.</td><td>The result is a reconstruction, not a verbatim record.</td></tr>
+                <tr><td><strong>Source checking</strong></td><td>Memory source and confidence can be confused.</td><td>Expose provenance, confidence, and version metadata.</td><td>Provenance fields do not by themselves prevent confabulation.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>A retrieval pipeline should query the hot store first, then durable records, reconstruct the episode, and retain provenance. It should not treat the nearest embedding as the remembered event.</p>
+        </section>
+
+        <section id="consolidation-replay">
+          <span class="section-label">07 / Consolidation</span>
+          <h2>Replay integrates episodes into durable structure</h2>
+          <p>The source describes interleaved replay: during offline or reflective processing, labile episodes are reactivated and mixed with older semantic patterns, gradually updating long-term structure. Biological replay includes sharp-wave-ripple activity, but the source’s speed and scheduling details should not be read as a literal software timer.</p>
+          <p>Sleep and rest can contribute to consolidation. <a href="#ref-rasch-2013">Rasch and Born (2013)</a> and <a href="#ref-klinzing-2019">Klinzing, Niethard, and Born (2019)</a> review active systems-consolidation accounts, especially hippocampal–cortical interactions during sleep. <a href="#ref-tambini-2010">Tambini, Ketz, and Davachi (2010)</a> found that post-learning rest correlations predicted later associative memory, but this is correlational fMRI evidence, not direct proof of replay or a universal mechanism.</p>
+          <p>Synaptic homeostasis is adjacent but not identical to memory consolidation. <a href="#ref-tononi-2014">Tononi and Cirelli (2014)</a> propose sleep-related renormalization and integration; <a href="#ref-de-vivo-2017">de Vivo et al. (2017)</a> found structural synaptic changes in sampled mouse cortex; <a href="#ref-cary-2021">Cary and Turrigiano (2021)</a> found stable functional synaptic strengths across sleep/wake in sampled juvenile-rat circuits. The evidence is condition-dependent, and “sleep weakens all synapses” is not an adequate summary.</p>
+          <div class="table-container" role="region" aria-label="Consolidation, transfer, replay, and forgetting distinguished, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 06 · Related processes that should not be collapsed</caption>
+              <thead><tr><th scope="col">Process</th><th scope="col">What it can mean</th><th scope="col">What it is not</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Consolidation</strong></td><td>Stabilizing and integrating an experience into durable structure.</td><td>A literal file move from one store to another.</td></tr>
+                <tr><td><strong>Replay</strong></td><td>Reactivation of patterns related to previous experience.</td><td>Exact audiovisual playback; replay also occurs during waking rest.</td></tr>
+                <tr><td><strong>Synaptic homeostasis</strong></td><td>Maintaining useful activity and connection-strength ranges.</td><td>A universal rule that sleep erases memories or weakens every synapse.</td></tr>
+                <tr><td><strong>Forgetting / garbage collection</strong></td><td>Reducing access, interference, or storage cost.</td><td>Simple deletion of a memory record; biological forgetting is more selective and context-dependent.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>An engineering consolidation worker could interleave new episodes with existing records, abstract regularities, update a graph or adapter, and then promote or archive the labile episode. The worker should record what changed and preserve source provenance. “Garbage collection” is an engineering lifecycle term, not a biological description of forgetting.</p>
+        </section>
+
+        <section id="cls2-procedures">
+          <span class="section-label">08 / CLS 2.0</span>
+          <h2>Four procedures that modify the basic loop</h2>
+          <p>The source’s “CLS 2.0” adds procedures beyond the simple fast-to-slow transfer. These are important candidates, but each has a narrower evidence base than the source’s summary suggests.</p>
+          <div class="table-container" role="region" aria-label="CLS 2.0 procedures, evidence, and engineering candidates, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 07 · Four procedures and their limits</caption>
+              <thead><tr><th scope="col">Procedure</th><th scope="col">Source description</th><th scope="col">Evidence status</th><th scope="col">Engineering candidate</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Schema bypass</strong></td><td>Schema-consistent information is fast-tracked into durable structure; schema-violating information is quarantined and slowly replayed.</td><td><a href="#ref-tse-2007">Tse et al. (2007)</a> used a rat paired-associate task: one-trial traces could become rapidly hippocampal-independent once a schema had developed. This is not an LLM schema classifier.</td><td>Explicit consistency check; fast-track or quarantine; retain source and schema status. “Bypass” means bypassing slow consolidation, not bypassing validation.</td></tr>
+                <tr><td><strong>Generative replay and transitive inference</strong></td><td>Recombine episodes—AB and BC—into ABC/AC, producing synthetic insight.</td><td><a href="#ref-kumaran-2012">Kumaran and McClelland’s REMERGE model (2012)</a> proposes generalization through recurrent interaction of episodic memories. It is a computational model, not proof of a universal transitive-inference algorithm.</td><td>Graph inference or recombinatorial replay; label inferred links as inferred and validate them. Vector similarity is not transitive.</td></tr>
+                <tr><td><strong>Episodic control</strong></td><td>Working memory can query the labile store directly for a one-shot decision.</td><td>Discussed in the CLS update (<a href="#ref-kumaran-2016">Kumaran et al., 2016</a>) and relevant to artificial agents; the source presents it as an architectural implication.</td><td>Bounded direct lookup from the hot store for novel situations; do not treat one episode as a general policy.</td></tr>
+                <tr><td><strong>Reconsolidation</strong></td><td>A prediction error makes a retrieved long-term trace labile; working memory edits it and re-stabilizes it.</td><td><a href="#ref-nader-2000">Nader, Schafe, and LeDoux (2000)</a> showed retrieval-triggered lability and protein-synthesis dependence in a rat fear-memory paradigm. It does not establish that every retrieval or every memory is editable.</td><td>Prediction-error-triggered, versioned update with a bounded window, provenance, and rollback.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Schema bypass caveat.</strong> The source’s “almost immediately” language is stronger than the animal evidence supports for human cognition. The defensible statement is that, in a specific rat paradigm, new traces consistent with a developed schema could become rapidly hippocampal-independent.</p>
+          <p><strong>Transitivity caveat.</strong> The REMERGE account is about recurrent interaction and generalization, not a guarantee that vector embeddings encode transitive relations. A system must distinguish observed edges from inferred edges and validate the latter.</p>
+          <p><strong>Reconsolidation caveat.</strong> Reconsolidation is not a simple database edit. It is a time-limited, condition-dependent process studied in specific memory paradigms. An engineering update should be versioned and auditable, not silently overwrite a record.</p>
+        </section>
+
+        <section id="transferable-procedures">
+          <span class="section-label">09 / Broader procedure checklist</span>
+          <h2>Procedures that a storage-only mapping would miss</h2>
+          <p>The source’s memory block is not an exhaustive list of memory-relevant biology. The following procedures are worth carrying into the design discussion, but they are candidates or constraints—not all validated transferable algorithms. The <a href="../notes/memory-procedure-checklist.md">full checklist</a> records additional items.</p>
+          <div class="table-container" role="region" aria-label="Additional memory procedures and engineering implications, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 08 · Additional procedures and their design implications</caption>
+              <thead><tr><th scope="col">Procedure</th><th scope="col">Why it matters</th><th scope="col">Engineering implication</th><th scope="col">Caveat</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Procedural memory</strong></td><td>Skills and policies are not merely declarative facts. <a href="#ref-squire-2004">Squire (2004)</a> distinguishes declarative and nondeclarative memory systems.</td><td>Use parametric weights, adapters, or policy modules alongside record stores.</td><td>A vector database cannot represent procedural knowledge by itself.</td></tr>
+                <tr><td><strong>Input/output gating</strong></td><td>What enters working memory and what is released are separate decisions (<a href="#ref-oreilly-frank-2006">O’Reilly &amp; Frank, 2006</a>; <a href="#ref-chatham-2014">Chatham et al., 2014</a>).</td><td>Add a controller around the active context and emission/action path.</td><td>A token window has no built-in gating policy.</td></tr>
+                <tr><td><strong>State- and affect-biased retrieval</strong></td><td>The source later proposes that current mode, emotion, and salience bias retrieval.</td><td>Store affect/context tags and weight retrieval by state as well as similarity.</td><td>The biological-to-LLM mapping is a hypothesis; no calibrated controller is established.</td></tr>
+                <tr><td><strong>Acetylcholine-like sensory-versus-memory weighting</strong></td><td><a href="#ref-hasselmo-1999">Hasselmo (1999)</a> proposes a role for acetylcholine in shifting the balance between encoding and retrieval.</td><td>Could become attention or logit bias toward live input versus internal records.</td><td>Direct Transformer mapping is speculative and should be tested, not assumed.</td></tr>
+                <tr><td><strong>Encoding specificity</strong></td><td>A cue works best when it matches the encoding context (<a href="#ref-tulving-1973">Tulving &amp; Thomson, 1973</a>).</td><td>Store context and use it in the retrieval query.</td><td>Context metadata can be incomplete or wrong.</td></tr>
+                <tr><td><strong>Source monitoring</strong></td><td>Memories can be confused with their source (<a href="#ref-johnson-1993">Johnson et al., 1993</a>).</td><td>Track provenance, confidence, and whether content was observed or inferred.</td><td>Provenance fields do not guarantee truth.</td></tr>
+                <tr><td><strong>Retrieval-induced forgetting</strong></td><td>Retrieving one memory can weaken competing memories (<a href="#ref-anderson-1994">Anderson, Bjork, &amp; Bjork, 1994</a>).</td><td>Monitor interference and retention; do not assume more retrieval is always better.</td><td>A caution, not necessarily a desired procedure.</td></tr>
+                <tr><td><strong>Constructive episodic simulation</strong></td><td>Episodic memory can support imagined future or counterfactual scenarios (<a href="#ref-addis-2009">Addis et al., 2009</a>).</td><td>Use generative recombination for planning or simulation.</td><td>It is not the same as consolidation or verified inference.</td></tr>
+                <tr><td><strong>Temporal order and sequence</strong></td><td>Episodes include order, duration, and co-occurrence.</td><td>Store timestamps and sequence metadata, not only embeddings.</td><td>Timestamps do not by themselves establish causal order.</td></tr>
+                <tr><td><strong>Replay selectivity</strong></td><td>Not every episode is equally replayed or consolidated.</td><td>Prioritize by salience, schema status, relevance, and recency.</td><td>Selection criteria are open and require validation.</td></tr>
+                <tr><td><strong>Adaptive forgetting / pruning</strong></td><td>Reducing interference and storage cost can be useful.</td><td>Use retention, archival, and pruning policies.</td><td>Biological forgetting is not equivalent to deleting a row.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>The checklist is deliberately broader than the source’s four-stage loop. The document’s engineering section should therefore treat memory as a set of functions and lifecycle rules, not as three named stores.</p>
+        </section>
+
+        <section id="engineering-translation">
+          <span class="section-label">10 / Engineering translation</span>
+          <h2>A minimal loop, with implementation choices still open</h2>
+          <p>The user’s proposed parallel—STM → Redis vector cache, LTM → vector database, WM → model context—is a useful starting hypothesis. A more complete minimal loop would separate the active workspace, the hot episodic index, durable records, parametric knowledge, and the consolidation/retrieval layer.</p>
+          <div class="table-container" role="region" aria-label="Memory-loop components and unresolved choices, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 09 · Candidate components, not a selected architecture</caption>
+              <thead><tr><th scope="col">Component</th><th scope="col">Candidate role</th><th scope="col">Open choice</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Active context + controller</strong></td><td>Working-memory-like workspace; selects what is available and what is emitted.</td><td>Which context budget, retrieval policy, and gating rules?</td></tr>
+                <tr><td><strong>Hot episodic index</strong></td><td>Fast recent-episode store; quarantine for novel or schema-violating events.</td><td>Redis or another store? TTL, promotion, orthogonalization, and provenance rules?</td></tr>
+                <tr><td><strong>Durable records</strong></td><td>Long-term declarative and episodic records with metadata.</td><td>Vector database plus document store? How are versions and deletions handled?</td></tr>
+                <tr><td><strong>Relational graph</strong></td><td>Entities, relations, and inferred links for pattern completion and transitivity.</td><td>Which relations are transitive? How are inferred edges validated?</td></tr>
+                <tr><td><strong>Parametric knowledge</strong></td><td>Learned semantic/procedural structure in weights or adapters.</td><td>When should consolidation update parameters versus external records?</td></tr>
+                <tr><td><strong>Consolidation/replay worker</strong></td><td>Interleaves episodes, abstracts regularities, updates structure, promotes or archives.</td><td>Schedule, selectivity, schema checks, and rollback policy?</td></tr>
+                <tr><td><strong>Retrieval/verification layer</strong></td><td>Reconstructs episodes and reports provenance and confidence.</td><td>How to detect false completion, stale records, and conflicting sources?</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>A practical data contract would include an episode ID, timestamp, context, entities, embedding, provenance, salience, schema status, and version. The exact schema is not selected here; it is an experiment design question.</p>
+          <aside class="callout">
+            <strong>The hard part is lifecycle, not storage</strong>
+            <p><mark>The algorithms—separation, completion, consolidation, schema checking, inference, and reconsolidation—are the core.</mark> Redis and vector databases are candidate substrates, not implementations of those procedures.</p>
+          </aside>
+          <p><strong>What remains open:</strong> whether LTM should be external records, parametric updates, or both; how a schema is represented; how TTL and promotion work; how inferred links are validated; how privacy and provenance are enforced; and what evaluation criteria distinguish useful memory from confabulation.</p>
+        </section>
+
+        <section id="evidence-and-experiments">
+          <span class="section-label">11 / Claims and tests</span>
+          <h2>Keep the analogy, test the procedure</h2>
+          <div class="table-container" role="region" aria-label="Memory-mapping claims and checks, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 10 · Claim checks for the proposed technical parallel</caption>
+              <thead><tr><th scope="col">Claim</th><th scope="col">Assessment</th><th scope="col">More defensible statement</th></tr></thead>
+              <tbody>
+                <tr><td>“Redis = STM.”</td><td><strong>Candidate analogy</strong></td><td>Redis can be a hot episodic index, but it does not implement pattern separation, labile plasticity, or biological forgetting.</td></tr>
+                <tr><td>“Vector DB = LTM.”</td><td><strong>Partial</strong></td><td>A vector database can store durable declarative records, but it is not a structural connectome or a procedural-learning system.</td></tr>
+                <tr><td>“Context = WM.”</td><td><strong>Partial</strong></td><td>A context window is an active workspace, but it lacks pointer-based activation, activity-silent maintenance, and input/output gating.</td></tr>
+                <tr><td>“Schema bypass is a validated LLM algorithm.”</td><td><strong>Not established</strong></td><td>The animal evidence supports rapid schema-consistent assimilation in a specific paradigm; an LLM schema classifier still needs validation.</td></tr>
+                <tr><td>“Vector similarity gives transitive inference.”</td><td><strong>False as stated</strong></td><td>Similarity is not transitive. Use graph relations or recombinatorial replay, and label inferred links as inferred.</td></tr>
+                <tr><td>“Reconsolidation is a simple database edit.”</td><td><strong>Too strong</strong></td><td>Reconsolidation is a bounded, prediction-error-dependent process; engineering updates should be versioned and auditable.</td></tr>
+                <tr><td>“Sleep is the same as offline consolidation.”</td><td><strong>Overgeneralized</strong></td><td>Sleep can contribute to consolidation, but consolidation also occurs in waking rest, and the evidence is condition-dependent.</td></tr>
+                <tr><td>“More retrieval is always better.”</td><td><strong>Not established</strong></td><td>Retrieval can improve access but can also induce interference; retention and interference must be measured.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>A staged experiment plan</h3>
+          <ol>
+            <li><strong>Encoding and interference.</strong> Create synthetic episodes with near-duplicates; test explicit IDs, orthogonal keys, and exact recent-episode recall.</li>
+            <li><strong>Consolidation and schema.</strong> Compare schema-consistent versus schema-violating episodes; measure fast-track/quarantine, retention, and drift.</li>
+            <li><strong>Transitive inference.</strong> Encode AB and BC; compare graph inference with vector-only retrieval; measure correct AC links and false inferred links.</li>
+            <li><strong>Reconsolidation.</strong> Introduce a prediction error; test versioned correction, rollback, and provenance.</li>
+            <li><strong>Integration.</strong> Retrieve records into the active context; measure interference, provenance, latency, and storage cost.</li>
+          </ol>
+          <p>Useful measures include exact recall, interference between similar episodes, schema-classification accuracy, inferred-link precision and false-link rate, retention and drift after consolidation, provenance completeness, latency, and cost. These experiments can compare candidate mechanisms without assuming that Redis, a vector database, or a particular graph design is the answer.</p>
+          <aside class="callout">
+            <strong>What this document does not deliver</strong>
+            <p>No implementation, thresholds, schema, or controller is selected. The practical architecture remains open; the next step is a small memory-loop experiment, not a full three-tier system.</p>
+          </aside>
+        </section>
+
+        <section id="bibliography">
+          <span class="section-label">12 / References and source scope</span>
+          <h2>Selected sources and reading limits</h2>
+          <p>This is a selected-source narrative review, not an exhaustive or systematic survey. It uses the source conversation’s memory deep dive plus primary abstracts and bibliographic records. Many sources were checked through Crossref, Europe PMC, or OpenAlex records; full texts were not independently audited for every entry. The <a href="../notes/memory-systems-plan.md">working plan and source audit</a> and the <a href="../notes/memory-procedure-checklist.md">procedure checklist</a> record scope and delivery checks.</p>
+          <p><strong>Important scope limits:</strong> the source’s three-tier table and “fast/slow” timescales are a teaching synthesis, not a precise implementation specification. The animal studies cited for schema assimilation and reconsolidation do not establish universal human or LLM mechanisms. The activity-silent working-memory account is a proposed framework with ongoing debate.</p>
+          <ul class="citation-list">
+            <li id="ref-mcclelland-1995"><strong>McClelland, J. L., McNaughton, B. L., &amp; O’Reilly, R. C. (1995).</strong> Why there are complementary learning systems in the hippocampus and neocortex: Insights from the successes and failures of connectionist models of learning and memory. <em>Psychological Review</em>, 102(3), 419–457. <a href="https://doi.org/10.1037/0033-295x.102.3.419">doi.org/10.1037/0033-295x.102.3.419</a>. The foundational CLS framework; not a direct software design.</li>
+            <li id="ref-kumaran-2016"><strong>Kumaran, D., Hassabis, D., &amp; McClelland, J. L. (2016).</strong> What learning systems do intelligent agents need? Complementary learning systems theory updated. <em>Trends in Cognitive Sciences</em>, 20(7), 512–534. <a href="https://doi.org/10.1016/j.tics.2016.05.004">doi.org/10.1016/j.tics.2016.05.004</a>. Updates CLS with replay, rapid schema-consistent learning, and relevance to artificial agents.</li>
+            <li id="ref-kumaran-2012"><strong>Kumaran, D., &amp; McClelland, J. L. (2012).</strong> Generalization through the recurrent interaction of episodic memories: A model of the hippocampal system. <em>Psychological Review</em>, 119(3), 573–616. <a href="https://doi.org/10.1037/a0028681">doi.org/10.1037/a0028681</a>. The REMERGE model of generalization through recurrent episodic interaction.</li>
+            <li id="ref-tse-2007"><strong>Tse, D., Langston, R. F., Kakeyama, M., Bethus, I., Spooner, P. A., Wood, E. R., Witter, M. P., &amp; Morris, R. G. M. (2007).</strong> Schemas and memory consolidation. <em>Science</em>, 316(5829), 76–82. <a href="https://doi.org/10.1126/science.1135935">doi.org/10.1126/science.1135935</a>. Rat paired-associate evidence for rapid schema-consistent assimilation; not a universal LLM algorithm.</li>
+            <li id="ref-nader-2000"><strong>Nader, K., Schafe, G. E., &amp; LeDoux, J. E. (2000).</strong> Fear memories require protein synthesis in the amygdala for reconsolidation after retrieval. <em>Nature</em>, 406, 722–726. <a href="https://doi.org/10.1038/35021052">doi.org/10.1038/35021052</a>. Retrieval-triggered lability in a specific fear-memory paradigm; not proof of universal memory editing.</li>
+            <li id="ref-teyler-1986"><strong>Teyler, T. J., &amp; DiScenna, P. (1986).</strong> The hippocampal memory indexing theory. <em>Behavioral Neuroscience</em>, 100(2), 147–154. <a href="https://doi.org/10.1037/0735-7044.100.2.147">doi.org/10.1037/0735-7044.100.2.147</a>. The index-of-neocortical-activity account.</li>
+            <li id="ref-cowan-2008"><strong>Cowan, N. (2008).</strong> What are the differences between long-term, short-term, and working memory? <em>Progress in Brain Research</em>, 169, 323–338. <a href="https://doi.org/10.1016/S0079-6123(07)00020-9">doi.org/10.1016/S0079-6123(07)00020-9</a>. Embedded-processes account; capacity estimates vary by task and definition.</li>
+            <li id="ref-stokes-2015"><strong>Stokes, M. G. (2015).</strong> “Activity-silent” working memory in prefrontal cortex: a dynamic coding framework. <em>Trends in Cognitive Sciences</em>, 19(7), 394–405. <a href="https://doi.org/10.1016/j.tics.2015.05.004">doi.org/10.1016/j.tics.2015.05.004</a>. A review proposing dynamic, activity-silent maintenance; the mechanism remains debated.</li>
+            <li id="ref-miller-2001"><strong>Miller, E. K., &amp; Cohen, J. D. (2001).</strong> An integrative theory of prefrontal cortex function. <em>Annual Review of Neuroscience</em>, 24, 167–202. <a href="https://doi.org/10.1146/annurev.neuro.24.1.167">doi.org/10.1146/annurev.neuro.24.1.167</a>. Control as integration of task-relevant information, not a homunculus.</li>
+            <li id="ref-oreilly-frank-2006"><strong>O’Reilly, R. C., &amp; Frank, M. J. (2006).</strong> Making working memory work: A computational model of learning in the prefrontal cortex and basal ganglia. <em>Neural Computation</em>, 18(2), 283–328. <a href="https://doi.org/10.1162/089976606775093909">doi.org/10.1162/089976606775093909</a>. PBWM computational model with dynamic gating.</li>
+            <li id="ref-chatham-2014"><strong>Chatham, C. H., Frank, M. J., &amp; Badre, D. (2014).</strong> Corticostriatal output gating during selection from working memory. <em>Neuron</em>, 81(4), 930–942. <a href="https://doi.org/10.1016/j.neuron.2014.01.002">doi.org/10.1016/j.neuron.2014.01.002</a>. Evidence for output gating from working memory.</li>
+            <li id="ref-yassa-2011"><strong>Yassa, M. A., &amp; Stark, C. E. L. (2011).</strong> Pattern separation in the hippocampus. <em>Trends in Neurosciences</em>, 34(10), 515–525. <a href="https://doi.org/10.1016/j.tins.2011.06.006">doi.org/10.1016/j.tins.2011.06.006</a>. Review of hippocampal pattern separation.</li>
+            <li id="ref-neunuebel-2014"><strong>Neunuebel, J. P., &amp; Knierim, J. J. (2014).</strong> CA3 retrieves coherent representations from degraded input: Direct evidence for CA3 pattern completion and dentate gyrus pattern separation. <em>Neuron</em>, 81(2), 416–427. <a href="https://doi.org/10.1016/j.neuron.2013.11.017">doi.org/10.1016/j.neuron.2013.11.017</a>. Direct spatial-task evidence for the two complementary processes.</li>
+            <li id="ref-squire-2004"><strong>Squire, L. R. (2004).</strong> Memory systems of the brain: A brief history and current perspective. <em>Neurobiology of Learning and Memory</em>, 82(3), 171–177. <a href="https://doi.org/10.1016/j.nlm.2004.06.005">doi.org/10.1016/j.nlm.2004.06.005</a>. Declarative and nondeclarative/procedural memory systems.</li>
+            <li id="ref-tulving-1973"><strong>Tulving, E., &amp; Thomson, D. M. (1973).</strong> Encoding specificity and retrieval processes in episodic memory. <em>Psychological Review</em>, 80(4), 352–373. <a href="https://doi.org/10.1037/h0020071">doi.org/10.1037/h0020071</a>. Retrieval depends on cue–context matching.</li>
+            <li id="ref-johnson-1993"><strong>Johnson, M. K., Hashtroudi, S., &amp; Lindsay, D. S. (1993).</strong> Source monitoring. <em>Psychological Bulletin</em>, 114(1), 3–28. <a href="https://doi.org/10.1037/0033-2909.114.1.3">doi.org/10.1037/0033-2909.114.1.3</a>. Source and provenance matter for memory accuracy.</li>
+            <li id="ref-anderson-1994"><strong>Anderson, M. C., Bjork, R. A., &amp; Bjork, E. L. (1994).</strong> Remembering can cause forgetting: Retrieval dynamics in long-term memory. <em>Journal of Experimental Psychology: Learning, Memory, and Cognition</em>, 20(5), 1063–1087. <a href="https://doi.org/10.1037/0278-7393.20.5.1063">doi.org/10.1037/0278-7393.20.5.1063</a>. Retrieval can weaken competing memories.</li>
+            <li id="ref-addis-2009"><strong>Addis, D. R., Pan, L., Vu, M.-A., Laiser, N., &amp; Schacter, D. L. (2009).</strong> Constructive episodic simulation of the future and the past: Distinct subsystems of a core brain network mediate imagining and remembering. <em>Neuropsychologia</em>, 47, 2222–2238. <a href="https://doi.org/10.1016/j.neuropsychologia.2008.10.026">doi.org/10.1016/j.neuropsychologia.2008.10.026</a>. Episodic memory supports constructive simulation; not a consolidation algorithm.</li>
+            <li id="ref-hasselmo-1999"><strong>Hasselmo, M. E. (1999).</strong> Neuromodulation: acetylcholine and memory consolidation. <em>Trends in Cognitive Sciences</em>, 3, 351–359. <a href="https://doi.org/10.1016/S1364-6613(99)01365-0">doi.org/10.1016/S1364-6613(99)01365-0</a>. A proposal about acetylcholine’s role in shifting encoding versus retrieval; the LLM mapping is speculative.</li>
+            <li id="ref-rasch-2013"><strong>Rasch, B., &amp; Born, J. (2013).</strong> About sleep’s role in memory. <em>Physiological Reviews</em>, 93(2), 681–766. <a href="https://doi.org/10.1152/physrev.00032.2012">doi.org/10.1152/physrev.00032.2012</a>. Review of active systems consolidation during sleep; not proof of one universal mechanism.</li>
+            <li id="ref-klinzing-2019"><strong>Klinzing, J. G., Niethard, N., &amp; Born, J. (2019).</strong> Mechanisms of systems memory consolidation during sleep. <em>Nature Neuroscience</em>, 22, 1598–1610. <a href="https://doi.org/10.1038/s41593-019-0467-3">doi.org/10.1038/s41593-019-0467-3</a>. Integrative account of sleep-related consolidation; details vary by task and stage.</li>
+            <li id="ref-tononi-2014"><strong>Tononi, G., &amp; Cirelli, C. (2014).</strong> Sleep and the price of plasticity: From synaptic and cellular homeostasis to memory consolidation and integration. <em>Neuron</em>, 81(1), 12–34. <a href="https://doi.org/10.1016/j.neuron.2013.12.025">doi.org/10.1016/j.neuron.2013.12.025</a>. Theoretical review linking homeostasis and integration; not a direct observation of universal pruning.</li>
+            <li id="ref-de-vivo-2017"><strong>de Vivo, L., Bellesi, M., Marshall, W., Bushong, E. A., Ellisman, M. H., Tononi, G., &amp; Cirelli, C. (2017).</strong> Ultrastructural evidence for synaptic scaling across the wake/sleep cycle. <em>Science</em>, 355(6324), 507–510. <a href="https://doi.org/10.1126/science.aah5982">doi.org/10.1126/science.aah5982</a>. Structural correlate in sampled mouse cortex, not a direct memory-loss measurement.</li>
+            <li id="ref-cary-2021"><strong>Cary, B. A., &amp; Turrigiano, G. G. (2021).</strong> Stability of neocortical synapses across sleep and wake states during the critical period in rats. <em>eLife</em>, 10, e66304. <a href="https://doi.org/10.7554/eLife.66304">doi.org/10.7554/eLife.66304</a>. A counterpoint to obligatory widespread downscaling; not proof that sleep never changes synapses.</li>
+            <li id="ref-tambini-2010"><strong>Tambini, A., Ketz, N., &amp; Davachi, L. (2010).</strong> Enhanced brain correlations during rest are related to memory for recent experiences. <em>Neuron</em>, 65(2), 280–290. <a href="https://doi.org/10.1016/j.neuron.2010.01.001">doi.org/10.1016/j.neuron.2010.01.001</a>. Correlational fMRI evidence for post-learning rest and retention, not direct causal proof of replay.</li>
+          </ul>
+          <p><a href="memory-systems-presentation-deck.html">Continue with the twelve-slide presentation →</a></p>
+        </section>
+      </main>
+    </div>
+    <footer>IO Research &bull; Memory Systems and the Lifecycle of Knowledge &bull; <a href="#top">Back to top ↑</a></footer>
+  </div>
+</body>
+</html>

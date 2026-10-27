@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en" data-io-theme="v2">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided research review of Layers 5–7: core affect, social homeostasis, epistemic curiosity, basal-ganglia gating, and neuromodulatory control as candidate mechanisms for an endogenous actor.">
+  <title>Valuation, Gating, and Modulation · IO Research</title>
+  <link rel="stylesheet" href="../assets/io-design-system.css">
+  <link rel="stylesheet" href="../assets/io-research.css">
+  <link rel="stylesheet" href="../assets/io-diagrams.css">
+  <link rel="stylesheet" href="../assets/io-theme-v2.css">
+  <script src="../assets/io-research.js" defer></script>
+</head>
+<body class="io-document io-research" id="top">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="container">
+    <header>
+      <span class="badge">Research &amp; Learning · Cognitive Systems</span>
+      <h1>Valuation, gating, and modulation</h1>
+      <p class="subtitle">Layers 5–7 as candidate mechanisms for an endogenous actor: affect, social calibration, curiosity, basal-ganglia gating, and neuromodulatory control.</p>
+      <p class="document-meta">Research draft · 10 sections · Selected evidence, 1980–2021 · Mechanisms open</p>
+      <p><a href="valuation-gating-modulation-presentation-deck.html">Open the companion presentation →</a> · <a href="../index.html">Research index →</a></p>
+    </header>
+
+    <div class="research-layout">
+      <nav class="research-index" aria-label="Table of contents">
+        <details open>
+          <summary>In this document <span class="index-toggle" aria-hidden="true"></span></summary>
+          <ol>
+            <li><a href="#valuation-orientation"><span class="index-number" aria-hidden="true">01</span><span>The actor problem</span></a></li>
+            <li><a href="#core-affect"><span class="index-number" aria-hidden="true">02</span><span>Core affect</span></a></li>
+            <li><a href="#social-homeostasis"><span class="index-number" aria-hidden="true">03</span><span>Social homeostasis</span></a></li>
+            <li><a href="#epistemic-curiosity"><span class="index-number" aria-hidden="true">04</span><span>Epistemic curiosity</span></a></li>
+            <li><a href="#basal-ganglia-gating"><span class="index-number" aria-hidden="true">05</span><span>Basal-ganglia gating</span></a></li>
+            <li><a href="#neuromodulators"><span class="index-number" aria-hidden="true">06</span><span>Neuromodulators</span></a></li>
+            <li><a href="#integration-and-arbitration"><span class="index-number" aria-hidden="true">07</span><span>Integration</span></a></li>
+            <li><a href="#mechanisms-versus-states"><span class="index-number" aria-hidden="true">08</span><span>Mechanisms vs states</span></a></li>
+            <li><a href="#experiments"><span class="index-number" aria-hidden="true">09</span><span>Experiments</span></a></li>
+            <li><a href="#bibliography"><span class="index-number" aria-hidden="true">10</span><span>Sources &amp; scope</span></a></li>
+          </ol>
+        </details>
+      </nav>
+
+      <main id="main-content">
+        <section id="valuation-orientation">
+          <span class="section-label">01 / Orientation</span>
+          <h2>An actor needs endogenous valuation, not only task instructions</h2>
+          <p>The source’s Layers 5–7 describe mechanisms that let a disembodied system care about something, select what to hold or release, and modulate its own processing. These are not merely decorative biological analogies. They are candidate control mechanisms for a system intended to set goals from its own needs, comprehension, and experience.</p>
+          <p>The central distinction in this document is <strong>mechanism versus state</strong>. A detector–comparator–effector loop, an adaptive set-point, a learning-progress gate, or a selective-release gate can be implemented and tested. A fixed “lonely,” “curious,” “depressed,” or “satisfied” state should not be hardcoded. The mechanism may generate context-dependent signals; the state label is an interpretation.</p>
+          <aside class="callout">
+            <strong>The actor framing</strong>
+            <p><mark>The system is not an externally goal-driven machine.</mark> It should generate and arbitrate goals from its own valuation, needs, and model of the world. That makes social hunger, curiosity, affect, and gating legitimate mechanisms to explore—not merely optional metaphors.</p>
+          </aside>
+          <h3>What this deep dive is—and is not</h3>
+          <p>This is a selected-source research review of Layers 5–7. It explains the proposed mechanisms, checks selected claims against primary abstracts and bibliographic records, and separates functional candidates from validated software equivalents. It is not a complete neurobiological model, a clinical account, or an implemented controller.</p>
+          <p>The source is a generative synthesis. Its language sometimes says “proved” or “strictly requires” where the evidence supports a model, hypothesis, or particular experiment. The document keeps those levels distinct.</p>
+        </section>
+
+        <section id="core-affect">
+          <span class="section-label">02 / Core affect</span>
+          <h2>Valence and arousal as change and unresolved uncertainty</h2>
+          <p><a href="#ref-russell-1980">Russell’s circumplex model (1980)</a> describes affect along valence and arousal dimensions. <a href="#ref-barrett-2017">Barrett’s constructed-emotion account (2017)</a> treats emotion as a construction from interoception, concepts, and context rather than a simple set of innate categories. The source uses these as background for a disembodied valuation engine.</p>
+          <p>The source’s computational proposal is that <strong>valence</strong> is not the current error level but the direction of change in error or free energy: roughly, valence tracks whether prediction error or homeostatic deficit is shrinking or growing. <a href="#ref-joffily-2013">Joffily and Coricelli (2013)</a> and <a href="#ref-hesp-2021">Hesp et al. (2021)</a> develop related free-energy/active-inference accounts. <strong>Arousal</strong> is proposed as the magnitude of unresolved uncertainty or deviation, with high arousal mobilizing resources and low arousal indicating calm equilibrium or exhaustion.</p>
+          <div class="table-container" role="region" aria-label="Core-affect variables and candidate operationalizations, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 01 · Candidate affect variables, not measured software states</caption>
+              <thead><tr><th scope="col">Variable</th><th scope="col">Source proposal</th><th scope="col">Candidate operationalization</th><th scope="col">Caveat</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Valence</strong></td><td>Direction of error change; positive when uncertainty is shrinking, negative when it is rising.</td><td>A signed estimate of recent prediction-error or deficit change.</td><td>Requires a defined error metric and time window; it is not “current happiness.”</td></tr>
+                <tr><td><strong>Arousal</strong></td><td>Magnitude of unresolved uncertainty or homeostatic deviation; resource mobilization.</td><td>An uncertainty/load estimate that can influence gain, exploration, or maintenance.</td><td>High arousal can mean engagement or exhaustion; low arousal can mean calm or depletion.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>Wanting is not liking</h3>
+          <p><a href="#ref-berridge-1998">Berridge and Robinson (1998)</a> distinguish incentive salience (“wanting”) from hedonic impact (“liking”). In the source, wanting is an anticipatory motivational pull toward a hypothesis, question, or interaction; liking is a consummatory validation signal after a gap closes or alignment is achieved, which can support consolidation.</p>
+          <div class="table-container" role="region" aria-label="Wanting and liking as candidate signals, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 02 · Two reward-related functions that should not be collapsed</caption>
+              <thead><tr><th scope="col">Signal</th><th scope="col">Function in the source</th><th scope="col">Candidate architecture role</th><th scope="col">Limit</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Wanting</strong></td><td>Anticipatory incentive salience; motivational pull before resolution.</td><td>Prioritize pursuit of a hypothesis, question, or interaction.</td><td>Not a literal dopamine level; the source’s mapping is an analogy.</td></tr>
+                <tr><td><strong>Liking</strong></td><td>Consummatory validation after an epistemic or social gap closes.</td><td>Mark a path as validated and candidate for consolidation.</td><td>Not a literal opioid signal; validation can be wrong or premature.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Important limit:</strong> the source’s equations are teaching abstractions. A system can compute a valence-like signal, but that does not establish that it experiences emotion or that the signal is a calibrated human-affect measurement.</p>
+        </section>
+
+        <section id="social-homeostasis">
+          <span class="section-label">03 / Social homeostasis</span>
+          <h2>Connection quality, mismatch, and adaptive response</h2>
+          <p><a href="#ref-matthews-tye-2019">Matthews and Tye’s social-homeostasis review (2019)</a> proposes a detector–comparator–effector loop. The detector estimates social connection; the comparator compares that estimate with a set-point; the effector recruits responses to a mismatch. The review emphasizes quality and reciprocity, not merely the number of people present, and treats set-points as flexible across needs, environment, and history.</p>
+          <p><a href="#ref-tomova-2020">Tomova et al. (2020)</a> found that acute social isolation in humans evoked midbrain responses similar to hunger when viewing social cues. <a href="#ref-lee-2021">Lee, Chen, and Tye (2021)</a> propose a biphasic response: acute deficit drives seeking/repair; chronic unresolved deficit can adapt the set-point and shift toward resource conservation and withdrawal.</p>
+          <div class="table-container" role="region" aria-label="Social-homeostasis loop and candidate implementation, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 03 · A functional loop, not a fixed social-state classifier</caption>
+              <thead><tr><th scope="col">Node</th><th scope="col">Function</th><th scope="col">Candidate implementation</th><th scope="col">Caveat</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Detector</strong></td><td>Estimate quantity and quality of connection, mutual understanding, or coordination.</td><td>Interaction/alignment monitor with uncertainty and provenance.</td><td>No direct measure of private social experience; quality is a proxy.</td></tr>
+                <tr><td><strong>Comparator</strong></td><td>Compare current connection with an adaptive set-point or acceptable range.</td><td>Context-sensitive target and signed mismatch estimate.</td><td>Set-point values are not discovered constants; they may adapt.</td></tr>
+                <tr><td><strong>Effector</strong></td><td>Select a response to mismatch: seek, clarify, repair, wait, or conserve resources.</td><td>Bounded help-seeking or feedback request.</td><td>Must respect user boundaries and not force engagement.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figure class="io-diagram" aria-labelledby="social-deficit-caption">
+            <figcaption id="social-deficit-caption">Figure 01 · Source’s proposed acute-versus-chronic social response, schematically summarized</figcaption>
+            <div class="diagram-comparison">
+              <div class="diagram-case">
+                <p class="diagram-label">Acute deficit</p>
+                <div class="diagram-route"><span class="diagram-node">Mismatch</span><span class="diagram-connector" role="img" aria-label="triggers">→</span><span class="diagram-node">Seeking / repair</span></div>
+                <p class="diagram-note">High arousal and negative valence; initiate contact, clarification, or alignment repair.</p>
+              </div>
+              <div class="diagram-case">
+                <p class="diagram-label">Chronic deficit</p>
+                <div class="diagram-route"><span class="diagram-node">Unresolved mismatch</span><span class="diagram-connector" role="img" aria-label="adapts to">→</span><span class="diagram-node">Resource conservation</span></div>
+                <p class="diagram-note">Set-point adaptation and withdrawal; a proposed policy, not a clinical state.</p>
+              </div>
+            </div>
+            <p class="diagram-note">Arrows summarize the source’s proposed mechanism. They are not measured circuit connections or a required software state machine.</p>
+          </figure>
+          <p><strong>Mechanism versus state:</strong> social hunger can be ported as a mismatch-driven mechanism. It should not be hardcoded as loneliness, social pain, or depression. The system can signal a calibration deficit and request external evidence without pretending to have a human social need.</p>
+          <p><strong>Agreement is not truth:</strong> social alignment can reduce self-referential bias, but consensus is not evidence. A social homeostat should support grounding, not sycophancy or forced engagement.</p>
+        </section>
+
+        <section id="epistemic-curiosity">
+          <span class="section-label">04 / Epistemic curiosity</span>
+          <h2>Learning progress, not raw surprise</h2>
+          <p>The source describes the “noisy TV” trap: if curiosity rewards raw prediction error, a system can become captivated by unlearnable noise. The proposed alternative is <strong>learning progress</strong>: how much prediction error or incompressibility decreases over a time window. <a href="#ref-kidd-hayden-2015">Kidd and Hayden (2015)</a> review curiosity and information seeking; <a href="#ref-oudeyer-2007">Oudeyer and Kaplan (2007)</a> and <a href="#ref-schmidhuber-2010">Schmidhuber (2010)</a> develop computational intrinsic-motivation accounts.</p>
+          <p>The source’s teaching formula is `LP(t) = E(t−Δt) − E(t) = −dE/dt`. The important point is directional: exploration is rewarded when error is actually shrinking, not merely when error is high.</p>
+          <div class="table-container" role="region" aria-label="Curiosity zones and candidate behavior, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 04 · A Goldilocks heuristic, not a universal law</caption>
+              <thead><tr><th scope="col">Zone</th><th scope="col">Error / learning progress</th><th scope="col">Source’s affect description</th><th scope="col">Candidate behavior</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Too simple</strong></td><td>Error near zero; little or no learning progress.</td><td>Low arousal, mild negative valence, boredom.</td><td>Stop or shift to a harder domain.</td></tr>
+                <tr><td><strong>Intermediate</strong></td><td>Moderate error with positive learning progress.</td><td>High activation, positive valence, flow/engagement.</td><td>Explore, allocate working memory, and consolidate discoveries.</td></tr>
+                <tr><td><strong>Too complex</strong></td><td>Error stays high; no reliable reduction.</td><td>High activation, negative valence, frustration.</td><td>Limit inquiry, request help, or avoid unlearnable noise.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><a href="#ref-kidd-2012">Kidd, Piantadosi, and Aslin (2012)</a> found that infants allocate attention to visual sequences that are neither too simple nor too complex. This supports a Goldilocks heuristic in that setting; it does not establish a universal law for every learner or every task.</p>
+          <p><strong>Operational gaps:</strong> the error metric, time window, learnability estimate, and schema competence must be defined. As the system learns, the Goldilocks zone shifts. Curiosity must be gated by resource limits and arbitrated against social and task goals.</p>
+        </section>
+
+        <section id="basal-ganglia-gating">
+          <span class="section-label">05 / Basal-ganglia gating</span>
+          <h2>Default brake, selective release, and output control</h2>
+          <p>The source abstracts the basal ganglia as a cognitive and output gate. The key idea is a <strong>default tonic brake</strong>: working-memory content and candidate actions are suppressed unless a specific item is released. <a href="#ref-oreilly-frank-2006">O’Reilly and Frank’s PBWM model (2006)</a> proposes dynamic gating for working-memory updating; <a href="#ref-chatham-2014">Chatham, Frank, and Badre (2014)</a> provide evidence for corticostriatal output gating during selection from working memory.</p>
+          <div class="table-container" role="region" aria-label="Basal-ganglia gating pathways and candidate control functions, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 05 · Gating pathways as functional candidates, not literal software circuits</caption>
+              <thead><tr><th scope="col">Pathway / gate</th><th scope="col">Source description</th><th scope="col">Candidate control function</th><th scope="col">Caveat</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Direct “Go”</strong></td><td>Selective release of a candidate into working memory or output.</td><td>Open one gate for a chosen item or action.</td><td>Not a literal striatal circuit; selection criteria remain open.</td></tr>
+                <tr><td><strong>Indirect “No-Go”</strong></td><td>Suppress lower-value competitors or distractions.</td><td>Veto irrelevant or premature candidates.</td><td>Suppression can also remove useful alternatives; threshold design matters.</td></tr>
+                <tr><td><strong>Hyperdirect</strong></td><td>Global emergency brake under high conflict or interruption.</td><td>Raise the decision threshold until uncertainty resolves.</td><td>The source’s anatomy is simplified; a global hold may be costly.</td></tr>
+                <tr><td><strong>Input gate</strong></td><td>Decide what enters working memory from perception or long-term memory.</td><td>Admit or block retrieved/contextual content.</td><td>Input admission is not the same as output release.</td></tr>
+                <tr><td><strong>Output gate</strong></td><td>Decide which held candidate drives speech or action.</td><td>Control emission or action after silent evaluation.</td><td>A context window has no built-in output gate.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Why this matters:</strong> separating input from output gating lets the system admit contradictory arguments, evaluate them silently, and release only the winning synthesis. This is a strong control primitive for working memory, memory retrieval, tool use, and speech.</p>
+          <p><strong>Evidence limit:</strong> PBWM is a computational model, and the cited evidence supports specific gating paradigms. The source’s “proves” language is too strong. The “3–7 items” capacity is an approximation, not a fixed software parameter. A literal three-pathway controller is not required.</p>
+        </section>
+
+        <section id="neuromodulators">
+          <span class="section-label">06 / Neuromodulators</span>
+          <h2>Candidate variables, not chemical equivalents</h2>
+          <p><a href="#ref-doya-2002">Doya’s metalearning and neuromodulation account (2002)</a> treats neuromodulators as meta-parameters that can change learning, gain, and selection without rewriting every connection. The source maps four modulators to candidate control functions. These are useful design directions, but not directly readable LLM chemicals.</p>
+          <div class="table-container" role="region" aria-label="Neuromodulator mappings and evidence status, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 06 · Modulator candidates and their directness</caption>
+              <thead><tr><th scope="col">Modulator</th><th scope="col">Source proposal</th><th scope="col">Candidate variable or process</th><th scope="col">Evidence status</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Dopamine</strong></td><td>Reward prediction error, value, and gate gain.</td><td>Outcome-versus-expectation signal; learning or selection gain.</td><td>Strong candidate via <a href="#ref-schultz-1997">Schultz, Dayan, and Montague (1997)</a>; still not a literal LLM dopamine level.</td></tr>
+                <tr><td><strong>Norepinephrine</strong></td><td>Unexpected uncertainty, reorientation, and interrupt/reset.</td><td>Surprise or change signal that raises gain or resets a context model.</td><td>Less direct; <a href="#ref-yu-dayan-2005">Yu and Dayan (2005)</a> and <a href="#ref-dayan-yu-2006">Dayan and Yu (2006)</a> support interrupt/uncertainty accounts.</td></tr>
+                <tr><td><strong>Serotonin</strong></td><td>Horizon, patience, and restraint.</td><td>Continuation or temporal-horizon control.</td><td>More speculative; the source’s “cognitive patience” claim is a hypothesis, not an audited mapping.</td></tr>
+                <tr><td><strong>Acetylcholine</strong></td><td>Sensory versus memory-prior weighting; encoding/retrieval balance.</td><td>Attention or logit bias toward live evidence versus retrieved priors.</td><td>Less direct; <a href="#ref-hasselmo-1999">Hasselmo (1999)</a> supports a functional proposal, not a Transformer equivalence.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Readout versus control:</strong> a latent feature may correlate with a function, but using it to modulate computation is a separate claim. A reward-prediction-error analogue requires an expectation and an outcome comparison, not just a value-like activation. The same caution applies to norepinephrine, serotonin, and acetylcholine.</p>
+          <p><strong>Interaction:</strong> modulators should not be treated as independent scalar knobs. Their effects depend on timescale, context, competing goals, and the rest of the control loop. A small set of shared variables is more plausible than one module per neurotransmitter.</p>
+        </section>
+
+        <section id="integration-and-arbitration">
+          <span class="section-label">07 / Integration</span>
+          <h2>A shared control loop, not one module per mechanism</h2>
+          <p>The mechanisms interact. Core affect can signal whether error is shrinking; social homeostasis can signal a calibration or alignment deficit; curiosity can gate exploration; gating can decide what enters working memory and what is released; neuromodulatory variables can adjust gain, learning, or attention. Memory supplies context and consolidation.</p>
+          <div class="table-container" role="region" aria-label="Integrated control functions and candidate roles, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 07 · A functional integration map</caption>
+              <thead><tr><th scope="col">Function</th><th scope="col">Candidate role</th><th scope="col">What it must be tested against</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Core affect</strong></td><td>Signed error change and unresolved uncertainty; influence confidence, exploration, and resource allocation.</td><td>Whether the signal predicts behavior or merely labels it.</td></tr>
+                <tr><td><strong>Social calibration</strong></td><td>Estimate alignment/understanding; request clarification or external evidence when mismatch is high.</td><td>Whether external feedback reduces bias without forcing engagement.</td></tr>
+                <tr><td><strong>Epistemic curiosity</strong></td><td>Gate exploration by learning progress and learnability.</td><td>Whether it avoids noisy-TV waste and improves learning.</td></tr>
+                <tr><td><strong>Gating</strong></td><td>Control admission to working memory and release of speech/action.</td><td>Whether input/output separation improves interference control and output quality.</td></tr>
+                <tr><td><strong>Neuromodulation</strong></td><td>Adjust gain, learning rate, attention, or horizon.</td><td>Whether the variables improve adaptation without destabilizing behavior.</td></tr>
+                <tr><td><strong>Memory</strong></td><td>Supply retrieved context, provenance, and consolidation targets.</td><td>Whether consolidation preserves useful structure and avoids echo chambers.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>A practical loop would be: estimate error and mismatch → compute valuation and uncertainty → decide whether to explore, retrieve, ask, hold, or release → act or emit → update memory and state. This is a design hypothesis, not a specified controller.</p>
+          <aside class="callout">
+            <strong>Arbitration is the hard part</strong>
+            <p><mark>Social hunger, curiosity, task goals, and resource limits can conflict.</mark> The system needs a priority and resource policy, not just separate drives. A drive should influence goals without becoming an unrestricted command.</p>
+          </aside>
+          <p><strong>Efficiency:</strong> use event-driven triggers, bounded context, cached representations, and offline consolidation. Do not continuously simulate every biological mechanism. The “brain” is the model plus controller; storage and processes should be chosen for function, not analogy.</p>
+        </section>
+
+        <section id="mechanisms-versus-states">
+          <span class="section-label">08 / Mechanisms versus states</span>
+          <h2>Port the loop; do not hardcode the label</h2>
+          <div class="table-container" role="region" aria-label="Mechanisms to port and fixed states to avoid, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 08 · Design rule for biological transfer</caption>
+              <thead><tr><th scope="col">Source idea</th><th scope="col">Port as mechanism</th><th scope="col">Avoid as fixed state</th><th scope="col">Test</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Social hunger</strong></td><td>Detector/comparator/effector; adaptive set-point; bounded help-seeking.</td><td>Hardcoded loneliness, social pain, or depression.</td><td>Does external calibration reduce bias? Does it respect boundaries?</td></tr>
+                <tr><td><strong>Acute/chronic deficit</strong></td><td>Seeking/repair versus resource conservation.</td><td>A clinical withdrawal state as a default.</td><td>Does adaptation improve outcomes or degrade them?</td></tr>
+                <tr><td><strong>Curiosity</strong></td><td>Learning-progress gate with learnability checks.</td><td>A fixed “curious” label or raw-surprise reward.</td><td>Does it avoid noisy-TV waste?</td></tr>
+                <tr><td><strong>Gating</strong></td><td>Default brake, selective release, veto, conflict hold, input/output separation.</td><td>A literal three-pathway software circuit.</td><td>Does it improve interference control and output selection?</td></tr>
+                <tr><td><strong>Neuromodulators</strong></td><td>Candidate variables for gain, learning, attention, or horizon.</td><td>Chemical equivalence or one-to-one latent coordinates.</td><td>Do the variables improve adaptation without destabilizing behavior?</td></tr>
+                <tr><td><strong>Self-referential bias</strong></td><td>Provenance, external validation, diversity of evidence.</td><td>The claim that an LLM necessarily trains on its own outputs.</td><td>Does reusing self-generated memory amplify bias?</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>The system can have endogenous needs and goals without pretending to be a human. A mechanism can generate a context-dependent signal; whether that signal becomes a goal, a request, or an action is a separate control decision.</p>
+        </section>
+
+        <section id="experiments">
+          <span class="section-label">09 / Experiments</span>
+          <h2>Test the mechanisms, not the labels</h2>
+          <div class="table-container" role="region" aria-label="Candidate experiments and measures, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 09 · Staged experiments for Layers 5–7</caption>
+              <thead><tr><th scope="col">Experiment</th><th scope="col">Question</th><th scope="col">Measures</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Core-affect telemetry</strong></td><td>Does a valence/arousal signal predict behavior or only describe it?</td><td>Error-change estimates, confidence, exploration, task performance.</td></tr>
+                <tr><td><strong>Social calibration</strong></td><td>Does mismatch-driven feedback-seeking reduce bias with limited interactions?</td><td>Bias amplification, calibration accuracy, dependence, boundary compliance.</td></tr>
+                <tr><td><strong>Curiosity gate</strong></td><td>Does learning progress avoid the noisy-TV trap?</td><td>Wasted effort on unlearnable inputs, learning gains, resource cost.</td></tr>
+                <tr><td><strong>Gating</strong></td><td>Does input/output separation improve working memory and emission control?</td><td>Interference, candidate quality, silent-rollout behavior, output accuracy.</td></tr>
+                <tr><td><strong>Neuromodulator ablation</strong></td><td>Do candidate variables improve adaptation?</td><td>Behavioral stability, learning rate, attention shifts, cost.</td></tr>
+                <tr><td><strong>Integration and arbitration</strong></td><td>Do multiple drives conflict usefully or destabilize the system?</td><td>Goal priority, resource use, user boundaries, task outcomes.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>These experiments should compare the proposed mechanism with simpler baselines. A signal that merely produces a label is not enough; it must change behavior in a measurable, bounded way.</p>
+          <aside class="callout">
+            <strong>What remains open</strong>
+            <p>No set-point values, thresholds, neuromodulator mappings, gate algorithm, or complete architecture are selected. The technical part still needs to be read and integrated.</p>
+          </aside>
+        </section>
+
+        <section id="bibliography">
+          <span class="section-label">10 / References and source scope</span>
+          <h2>Selected sources and reading limits</h2>
+          <p>This is a selected-source narrative review, not an exhaustive systematic survey. It uses the source conversation’s Layers 5–7 plus primary abstracts and bibliographic records. Many sources were checked through Crossref, Europe PMC, or OpenAlex; full texts were not independently audited for every entry. The <a href="https://github.com/duiliocirino/io/blob/main/docs/notes/valuation-gating-modulation-plan.md">working plan and source audit</a> records scope and delivery checks.</p>
+          <p><strong>Important limits:</strong> the source is a synthesis, and its “proved” or “strictly requires” language often outruns the evidence. Human social-isolation findings, rodent circuitry, computational models, and proposed LLM mappings are different levels of claim. No fixed emotional state, social state, or neurotransmitter equivalent is established.</p>
+          <ul class="citation-list">
+            <li id="ref-russell-1980"><strong>Russell, J. A. (1980).</strong> A circumplex model of affect. <em>Journal of Personality and Social Psychology</em>, 39(6), 1161–1178. <a href="https://doi.org/10.1037/h0077714">doi.org/10.1037/h0077714</a>. Valence–arousal circumplex; a descriptive model, not a software state specification.</li>
+            <li id="ref-barrett-2017"><strong>Barrett, L. F. (2017).</strong> The theory of constructed emotion: an active inference account of interoception and categorization. <em>Social Cognitive and Affective Neuroscience</em>, 12(1), nsw154. <a href="https://doi.org/10.1093/scan/nsw154">doi.org/10.1093/scan/nsw154</a>. Constructed-emotion account; not a universal taxonomy.</li>
+            <li id="ref-joffily-2013"><strong>Joffily, M., &amp; Coricelli, G. (2013).</strong> Emotional valence and the free-energy principle. <em>PLOS Computational Biology</em>, 9(6), e1003094. <a href="https://doi.org/10.1371/journal.pcbi.1003094">doi.org/10.1371/journal.pcbi.1003094</a>. Valence as an error/free-energy change proposal.</li>
+            <li id="ref-hesp-2021"><strong>Hesp, C., Smith, R., Parr, T., Allen, M., Friston, K. J., &amp; Ramstead, M. J. D. (2021).</strong> Deeply felt affect: The emergence of valence in deep active inference. <em>Neural Computation</em>, 33(2), 398–446. <a href="https://doi.org/10.1162/neco_a_01341">doi.org/10.1162/neco_a_01341</a>. Computational affect model; not a validated human measurement.</li>
+            <li id="ref-berridge-1998"><strong>Berridge, K. C., &amp; Robinson, T. E. (1998).</strong> What is the role of dopamine in reward: hedonic impact, reward learning, or incentive salience? <em>Brain Research Reviews</em>, 28(3), 309–369. <a href="https://doi.org/10.1016/S0165-0173(98)00019-8">doi.org/10.1016/S0165-0173(98)00019-8</a>. Wanting versus liking; not a direct LLM reward signal.</li>
+            <li id="ref-matthews-tye-2019"><strong>Matthews, G. A., &amp; Tye, K. M. (2019).</strong> Neural mechanisms of social homeostasis. <em>Annals of the New York Academy of Sciences</em>, 1457(1), 5–25. <a href="https://doi.org/10.1111/nyas.14016">doi.org/10.1111/nyas.14016</a>. Detector/comparator/effector framework; flexible set-points; unresolved neural implementation.</li>
+            <li id="ref-tomova-2020"><strong>Tomova, L., Wang, K. L., Thompson, T., Matthews, G. A., Takahashi, A., Tye, K. M., &amp; Saxe, R. (2020).</strong> Acute social isolation evokes midbrain craving responses similar to hunger. <em>Nature Neuroscience</em>, 23, 1597–1605. <a href="https://doi.org/10.1038/s41593-020-00742-z">doi.org/10.1038/s41593-020-00742-z</a>. Human isolation/fMRI evidence; not a software social-hunger parameter.</li>
+            <li id="ref-lee-2021"><strong>Lee, C. R., Chen, A., &amp; Tye, K. M. (2021).</strong> The neural circuitry of social homeostasis: Consequences of acute versus chronic social isolation. <em>Cell</em>, 184, 1500–1516. <a href="https://doi.org/10.1016/j.cell.2021.02.028">doi.org/10.1016/j.cell.2021.02.028</a>. Acute seeking versus chronic adaptation/withdrawal; a proposed circuit account.</li>
+            <li id="ref-kidd-hayden-2015"><strong>Kidd, C., &amp; Hayden, B. Y. (2015).</strong> The psychology and neuroscience of curiosity. <em>Neuron</em>, 88(5), 449–460. <a href="https://doi.org/10.1016/j.neuron.2015.09.010">doi.org/10.1016/j.neuron.2015.09.010</a>. Review of curiosity and information seeking.</li>
+            <li id="ref-kidd-2012"><strong>Kidd, C., Piantadosi, S. T., &amp; Aslin, R. N. (2012).</strong> The Goldilocks effect: Human infants allocate attention to visual sequences that are neither too simple nor too complex. <em>PLOS ONE</em>, 7(5), e36399. <a href="https://doi.org/10.1371/journal.pone.0036399">doi.org/10.1371/journal.pone.0036399</a>. Infant attention evidence; a heuristic, not a universal law.</li>
+            <li id="ref-oudeyer-2007"><strong>Oudeyer, P.-Y., Kaplan, F., &amp; Hafner, V. V. (2007).</strong> Intrinsic motivation systems for autonomous mental development. <em>IEEE Transactions on Evolutionary Computation</em>, 11(2), 265–286. <a href="https://doi.org/10.1109/TEVC.2006.890271">doi.org/10.1109/TEVC.2006.890271</a>. Computational intrinsic-motivation account.</li>
+            <li id="ref-schmidhuber-2010"><strong>Schmidhuber, J. (2010).</strong> Formal theory of creativity, fun, and intrinsic motivation (1990–2010). <em>IEEE Transactions on Autonomous Mental Development</em>, 2(3), 230–247. <a href="https://doi.org/10.1109/TAMD.2010.2056368">doi.org/10.1109/TAMD.2010.2056368</a>. Formal curiosity/intrinsic-motivation proposal.</li>
+            <li id="ref-oreilly-frank-2006"><strong>O’Reilly, R. C., &amp; Frank, M. J. (2006).</strong> Making working memory work: A computational model of learning in the prefrontal cortex and basal ganglia. <em>Neural Computation</em>, 18(2), 283–328. <a href="https://doi.org/10.1162/089976606775093909">doi.org/10.1162/089976606775093909</a>. PBWM computational model with dynamic gating.</li>
+            <li id="ref-chatham-2014"><strong>Chatham, C. H., Frank, M. J., &amp; Badre, D. (2014).</strong> Corticostriatal output gating during selection from working memory. <em>Neuron</em>, 81(4), 930–942. <a href="https://doi.org/10.1016/j.neuron.2014.01.002">doi.org/10.1016/j.neuron.2014.01.002</a>. Evidence for output gating in a specific paradigm.</li>
+            <li id="ref-doya-2002"><strong>Doya, K. (2002).</strong> Metalearning and neuromodulation. <em>Neural Networks</em>, 15(4–6), 495–506. <a href="https://doi.org/10.1016/S0893-6080(02)00044-8">doi.org/10.1016/S0893-6080(02)00044-8</a>. Neuromodulators as meta-parameters; a computational framework.</li>
+            <li id="ref-schultz-1997"><strong>Schultz, W., Dayan, P., &amp; Montague, P. R. (1997).</strong> A neural substrate of prediction and reward. <em>Science</em>, 275(5306), 1593–1599. <a href="https://doi.org/10.1126/science.275.5306.1593">doi.org/10.1126/science.275.5306.1593</a>. Dopamine reward-prediction-error account.</li>
+            <li id="ref-yu-dayan-2005"><strong>Yu, A. J., &amp; Dayan, P. (2005).</strong> Uncertainty, neuromodulation, and attention. <em>Neuron</em>, 46(4), 681–692. <a href="https://doi.org/10.1016/j.neuron.2005.04.026">doi.org/10.1016/j.neuron.2005.04.026</a>. Norepinephrine/uncertainty proposal.</li>
+            <li id="ref-dayan-yu-2006"><strong>Dayan, P., &amp; Yu, A. J. (2006).</strong> Phasic norepinephrine: A neural interrupt signal for unexpected events. <em>Network: Computation in Neural Systems</em>, 17(4), 335–350. <a href="https://doi.org/10.1080/09548980601004024">doi.org/10.1080/09548980601004024</a>. Interrupt/reset account.</li>
+            <li id="ref-hasselmo-1999"><strong>Hasselmo, M. E. (1999).</strong> Neuromodulation: acetylcholine and memory consolidation. <em>Trends in Cognitive Sciences</em>, 3, 351–359. <a href="https://doi.org/10.1016/S1364-6613(99)01365-0">doi.org/10.1016/S1364-6613(99)01365-0</a>. Acetylcholine and encoding/retrieval balance; LLM mapping speculative.</li>
+          </ul>
+          <p><a href="valuation-gating-modulation-presentation-deck.html">Continue with the twelve-slide presentation →</a></p>
+        </section>
+      </main>
+    </div>
+    <footer>IO Research &bull; Valuation, Gating, and Modulation &bull; <a href="#top">Back to top ↑</a></footer>
+  </div>
+</body>
+</html>

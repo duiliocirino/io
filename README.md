@@ -10,6 +10,8 @@ Getting a grasp on human like programs
 - [Cognitive routing presentation deck](docs/research/cognitive-routing-presentation-deck.html): a twelve-slide introduction linked to the full research.
 - [Memory systems research](docs/research/memory-systems-research-document.html): complementary learning, working memory, encoding, retrieval, consolidation, schema assimilation, reconsolidation, and open engineering candidates.
 - [Memory systems presentation deck](docs/research/memory-systems-presentation-deck.html): a twelve-slide introduction linked to the full research.
+- [Valuation, gating, and modulation research](docs/research/valuation-gating-modulation-research-document.html): Layers 5–7, affect, social homeostasis, curiosity, basal-ganglia gating, and neuromodulatory control.
+- [Valuation, gating, and modulation presentation deck](docs/research/valuation-gating-modulation-presentation-deck.html): a twelve-slide introduction linked to the full research.
 
 Open the HTML files directly in a modern browser. Keep `docs/assets/` alongside the documents; no installation, build step, or network connection is needed to read them. External references require internet access.
 

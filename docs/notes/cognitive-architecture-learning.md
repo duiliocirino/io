@@ -331,6 +331,20 @@ The source expands core affect at lines 280–296, social homeostasis at lines 3
 
 Open questions: which relational and epistemic goals do we actually need; how are quality, targets, uncertainty, and time windows defined; which targets should adapt; and how should conflicting goals and resource limits influence action?
 
+### User synthesis after Parts 1–3
+
+**Status:** the affect / social-homeostasis / curiosity block is read. The user sees useful parallels with the emotion, routing, memory, gating, and telemetry research, but treats the interactions as hypotheses to test and measure. No valuation controller or deficit port is selected.
+
+- **Parts 1–2:** core affect and social homeostasis are useful functional parallels; self-referential bias and limited early interaction require calibration; deficits need a deliberate decision about whether and how to port them.
+- **Part 3:** curiosity and learning progress are promising but nontrivial; the Goldilocks/Wundt structure needs operational definitions.
+- **Overall:** architecture choices must consider the model (“brain”), stores, and processes, and use their characteristics efficiently rather than reproducing every biological module.
+
+**User clarification:** the system is intended to be an actor with endogenous goals, not a machine whose goals are supplied only from outside. Biological needs and mechanisms—including social hunger—are therefore legitimate candidates to replicate and test. The distinction is between **mechanisms** and **fixed states**: port the detector/comparator/effector loop, adaptive set-points, and resource constraints, not a hardcoded “lonely,” “depressed,” or “socially satisfied” state.
+
+Working interpretation: social hunger can motivate calibration, feedback-seeking, or alignment repair, but it should be context-sensitive, bounded, and non-coercive. A social homeostat cannot guarantee truth; agreement is not evidence. Early low-interaction systems should not treat self-generated outputs as independent evidence, and learning progress is a better exploration signal than raw surprise only when the error metric, time window, and learnability gate are defined.
+
+**Research outputs:** [Valuation, gating, and modulation research](../research/valuation-gating-modulation-research-document.html) · [12-slide deck](../research/valuation-gating-modulation-presentation-deck.html) · [source audit](valuation-gating-modulation-plan.md). The drafts cover core affect, social homeostasis, curiosity, basal-ganglia gating, neuromodulators, and the mechanisms-versus-states distinction.
+
 ### Selected source register for this checkpoint
 
 These are theory/review readings, not a complete audit of every experiment they cite. The Tomova and Eisenberger studies were not independently reread at this checkpoint.
@@ -402,7 +416,11 @@ Return to this checkpoint with the LLM bridge at source lines 704–831, especia
 
 ## Cognitive action selection and gating
 
-**Status:** the user endorses the functional relevance of the opening Layer 6 abstraction and asks where its two components receive deeper treatment. The source destinations are identified; biological claims and implementation details have not been independently reviewed at this checkpoint.
+**Status:** the user has read the dedicated Layer 6 expansion and considers the basal-ganglia/PBWM gating process crucial and interesting. The source destinations are identified; biological claims and implementation details have not been independently reviewed at this checkpoint.
+
+### User checkpoint
+
+The transferable idea is a **default brake plus selective release**: keep working-memory content and candidate outputs suppressed by default, open a gate for a relevant item, veto lower-value competitors, and apply a global hold when conflict or interruption is high. Input gating and output gating are separate: what enters the workspace is not the same decision as what is allowed to drive speech or action. This is a strong candidate control layer for the architecture, but it should not be treated as a literal three-pathway software controller or as proof that the biological circuit maps directly to an LLM.
 
 ### User takeaway
 
@@ -423,11 +441,13 @@ This is compatible with deliberately implementing a biologically motivated mecha
 
 ## Global modulation and latent-derived control signals
 
-**Status:** the user identifies Layer 7 as important and proposes investigating latent-derived modulatory factors. This is an initial research question; no chemical-to-parameter equivalence, reliable probe, or control implementation has been established.
+**Status:** the user has read the Layer 7 expansion and sees it as important for porting modulatory variables into the disembodied architecture. The user sees direct usage for dopamine, less direct usage for norepinephrine, even less for serotonin, and least for acetylcholine; all suggest candidate variables, processes, or directions rather than literal chemical equivalents. No reliable probe or control implementation has been established.
 
-### User hypothesis
+### User hypothesis and checkpoint
 
 Explore whether dopamine-, norepinephrine-, and serotonin-inspired factors can be extracted from an LLM's latent representations. Acetylcholine seems to the user like a somewhat different kind of “check,” but still potentially applicable; the meaning and mechanism of that check remain to be explored.
+
+The user's current ranking is pragmatic rather than established: dopamine has the clearest candidate role in value, prediction error, and gating; norepinephrine is less direct; serotonin and acetylcholine are still more speculative. All four can suggest variables, processes, or control directions, but none should be treated as a one-to-one LLM parameter.
 
 ### Distinctions needed now
 

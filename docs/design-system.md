@@ -95,7 +95,7 @@ When checking these additions, verify the same things as for any deck: bars agai
 
 ### Comparison diagrams
 
-The routing research document and deck, and the memory research document, share the opt-in [`assets/io-diagrams.css`](assets/io-diagrams.css). Load it after the format stylesheet and before the theme. The memory document uses it for the fast/slow complementary-learning comparison. A `.io-diagram` figure contains a named `figcaption`, a `.diagram-comparison` grid, and `.diagram-route` rows made of `.diagram-node` labels and a `.diagram-connector`. Use `role="img"` with an explicit accessible label on a symbolic connector. The grid stacks on phones; print keeps the figure together.
+The routing research document and deck, the memory research document, and the valuation/gating/modulation research document share the opt-in [`assets/io-diagrams.css`](assets/io-diagrams.css). Load it after the format stylesheet and before the theme. The memory document uses it for the fast/slow complementary-learning comparison; the valuation document uses it for the acute/chronic social-deficit comparison. A `.io-diagram` figure contains a named `figcaption`, a `.diagram-comparison` grid, and `.diagram-route` rows made of `.diagram-node` labels and a `.diagram-connector`. Use `role="img"` with an explicit accessible label on a symbolic connector. The grid stacks on phones; print keeps the figure together.
 
 State the relationship and evidence status in the caption: a double arrow might summarize functional coupling, not anatomical wiring, causal direction, or a measured connection strength. Keep labels meaningful without colour or CSS. This is a reusable comparison primitive, not a brain-diagram or simulation engine.
 

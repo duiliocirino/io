@@ -19,6 +19,7 @@ Open the HTML files directly in a modern browser. Keep `docs/assets/` alongside 
 
 - [Research map](docs/notes/research-map.md): a compact topic overview, discussion status, and next questions.
 - [Learning notebook](docs/notes/cognitive-architecture-learning.md): discussion checkpoints, source notes, and open questions—not a finished specification.
+- [Source gap register](docs/notes/source-gap-register.md): consolidated coverage audit and open integration questions.
 
 ## HTML design system
 

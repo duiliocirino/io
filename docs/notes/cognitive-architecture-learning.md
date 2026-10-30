@@ -414,6 +414,21 @@ Return to this checkpoint with the LLM bridge at source lines 704–831, especia
 - **[S13] Ravichander, A., Belinkov, Y., & Hovy, E. (2021).** *Probing the Probing Paradigm: Does Probing Accuracy Entail Task Relevance?* EACL, 3363–3377. [ACL record](https://aclanthology.org/2021.eacl-main.295/). DOI: 10.18653/v1/2021.eacl-main.295. **Read:** abstract and bibliographic record only; full experiments not audited. Relevant methodological warning, not direct evidence about social-quality readouts.
 - **[S14] Rimsky, N., et al. (2024).** *Steering Llama 2 via Contrastive Activation Addition.* ACL, 15504–15522. [ACL record](https://aclanthology.org/2024.acl-long.828/). DOI: 10.18653/v1/2024.acl-long.828. **Read:** abstract and bibliographic record only; detailed intervention/generalization results remain to be reviewed. A candidate for the later steering study, not evidence of a complete emotion interface.
 
+## Latent affect readout and steering correction
+
+**Status:** the user disagrees with treating the 27 semantic feelings as constructed by DMN/LTM transmodal hubs in an LLM. The proposed route is to read the chosen model's internal representations and neuron/feature activations, build a calibrated control state, and steer from it. This is a correction to the source's biological framing, not a claim that the LLM has 27 natural emotional states.
+
+**Sources identified for later study:**
+- [arXiv:2602.00986](https://arxiv.org/abs/2602.00986) — sparse reward subsystem; value neurons and dopamine-like TD-error neurons; causal intervention evidence; model confidence and process-reward applications.
+- [arXiv:2604.07382](https://arxiv.org/html/2604.07382v1) — latent affective geometry; GoEmotions categories plus neutral; valence/arousal alignment; activation steering causally shifts perceived valence.
+- Anthropic's emotion-concepts work and the so-called J-Space are related lenses; J-Space is especially speculative/preprint material and should not be treated as validated architecture.
+
+**Caveats:** the 27 labels are dataset categories, not natural kinds. The underlying geometry may be a continuous valence/arousal manifold plus semantic clusters, not 27 independent neuron states. Probes are model- and layer-specific; individual neurons are often polysemantic; mean pooling loses token-level dynamics. Steering can degrade coherence, push states off-manifold, and create safety externalities. Readout must be calibrated before steering is trusted.
+
+**Architectural implication:** Section 2 (“Blending Out”) is the readout bridge; Section 3 (“Blending In”) is the steering bridge. The external homeostatic loop supplies temporal continuity that the LLM lacks: persistence across ticks, decay, set-points, and re-entry. The third part is deferred until readout and steering are validated.
+
+**Monitoring:** the runtime dashboard should be an observability layer, not decoration. It should show latent trajectories, affect state, memory retrieval, gating decisions, action traces, input modality, uncertainty, provenance, and resource budget over time.
+
 ## Cognitive action selection and gating
 
 **Status:** the user has read the dedicated Layer 6 expansion and considers the basal-ganglia/PBWM gating process crucial and interesting. The source destinations are identified; biological claims and implementation details have not been independently reviewed at this checkpoint.
@@ -475,3 +490,5 @@ Treat the source's one-to-one mappings as hypotheses to check. Distinguish an im
 - **LLM return:** “Deep Look at Mechanism 2: Neuromodulators Mapped to Transformer Math,” lines 784–792, proposes inference-time controls. These are engineering proposals, not proof of directly readable chemical equivalents.
 
 Keep this topic linked to latent-readout reliability, persistent state, gating, and the user's distinction between intentional biological replication and unnecessarily scripted expression. The detailed biological and implementation study remains for later; no new literature audit was performed at this checkpoint.
+
+**Consolidated coverage audit:** [source gap register](source-gap-register.md).

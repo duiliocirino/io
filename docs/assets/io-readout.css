@@ -1,0 +1,206 @@
+/*
+ * Opt-in data-display refinements for the Qwen readout analysis.
+ * Load after io-research.css and before io-theme-v2.css.
+ * The page remains readable without CSS; charts and status blocks are
+ * decorative structure around already-visible values and captions.
+ */
+.io-readout .metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: 0.8rem;
+  margin: 1.4rem 0;
+}
+
+.io-readout .metric {
+  padding: 1rem;
+  border: 1px solid var(--io-rule);
+  border-radius: var(--io-radius);
+  background: var(--io-paper-raised);
+}
+
+.io-readout .metric-label {
+  display: block;
+  color: var(--io-ink-muted);
+  font: 0.68rem/1.4 var(--io-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.io-readout .metric-value {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--io-accent-deep);
+  font-family: var(--io-display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.io-readout .metric-note {
+  margin: 0.35rem 0 0;
+  color: var(--io-ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.io-readout .chart-card {
+  margin: 1.6rem 0;
+  padding: clamp(1rem, 2.2vw, 1.5rem);
+  border: 1px solid var(--io-rule);
+  border-radius: var(--io-radius);
+  background: var(--io-paper-raised);
+}
+
+.io-readout .chart-card figcaption {
+  margin-bottom: 0.9rem;
+  color: var(--io-accent-deep);
+  font: 0.72rem/1.55 var(--io-mono);
+}
+
+.io-readout .chart-card svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.io-readout .chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.2rem;
+  margin: 0.8rem 0 0;
+  color: var(--io-ink-muted);
+  font-size: 0.78rem;
+}
+
+.io-readout .chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.io-readout .chart-legend i {
+  display: inline-block;
+  width: 1.2rem;
+  height: 0.18rem;
+  background: var(--io-accent);
+  border-radius: 999px;
+}
+
+.io-readout .chart-legend i.secondary {
+  background: var(--io-accent-line);
+}
+
+.io-readout .chart-legend i.tertiary {
+  background: var(--io-ink-muted);
+}
+
+.io-readout .bar-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1rem 0;
+}
+
+.io-readout .bar-row {
+  display: grid;
+  grid-template-columns: minmax(8rem, 16rem) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.io-readout .bar-label {
+  color: var(--io-ink);
+  font-size: 0.84rem;
+  font-weight: 650;
+}
+
+.io-readout .bar-track {
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--io-paper-muted);
+  overflow: hidden;
+}
+
+.io-readout .bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--io-accent);
+}
+
+.io-readout .bar-value {
+  color: var(--io-accent-deep);
+  font: 0.72rem/1.4 var(--io-mono);
+  text-align: right;
+}
+
+.io-readout .heat-table td {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.72rem;
+}
+
+.io-readout .heat-table th:first-child {
+  position: sticky;
+  left: 0;
+  background: var(--io-paper-muted);
+}
+
+.io-readout .delta-positive {
+  color: var(--io-accent-deep);
+  font-weight: 650;
+}
+
+.io-readout .delta-negative {
+  color: #8d3d3d;
+  font-weight: 650;
+}
+
+.io-readout .pending {
+  margin: 1.5rem 0;
+  padding: 1.1rem 1.2rem;
+  border: 1px dashed var(--io-accent-line);
+  border-radius: var(--io-radius);
+  background: var(--io-paper-muted);
+}
+
+.io-readout .pending strong {
+  color: var(--io-accent-deep);
+}
+
+.io-readout .status-pill {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border: 1px solid var(--io-accent-line);
+  border-radius: 999px;
+  color: var(--io-accent-deep);
+  background: var(--io-accent-soft);
+  font: 0.65rem/1.4 var(--io-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.io-readout .note {
+  margin: 0.8rem 0 0;
+  color: var(--io-ink-muted);
+  font-size: 0.86rem;
+}
+
+.io-readout .figure-note {
+  margin: 0.7rem 0 0;
+  color: var(--io-ink-muted);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 600px) {
+  .io-readout .bar-row {
+    grid-template-columns: minmax(6rem, 10rem) minmax(0, 1fr) auto;
+  }
+}
+
+@media print {
+  .io-readout .chart-card,
+  .io-readout .metric,
+  .io-readout .pending {
+    break-inside: avoid;
+  }
+}

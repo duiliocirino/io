@@ -16,14 +16,15 @@
       <span class="badge">Research Hub · Cognitive Systems</span>
       <h1>Research library</h1>
       <p class="subtitle">A static entry point for the IO research series: standalone documents, companion decks, and the working notes that record evidence, reading scope, and open questions.</p>
-      <p class="document-meta">Four research packs · Working notes · Served from <code>docs/</code> on GitHub Pages</p>
+      <p class="document-meta">Four research packs · Practical experiments · Working notes · Served from <code>docs/</code> on GitHub Pages</p>
     </header>
 
     <nav aria-label="Research hub navigation">
       <ul>
         <li><a href="#research-packs">01 · Research packs</a></li>
-        <li><a href="#working-notes">02 · Working notes</a></li>
-        <li><a href="#reading-route">03 · Reading route</a></li>
+        <li><a href="#practical-experiments">02 · Practical experiments</a></li>
+        <li><a href="#working-notes">03 · Working notes</a></li>
+        <li><a href="#reading-route">04 · Reading route</a></li>
       </ul>
     </nav>
 
@@ -77,8 +78,24 @@
         </aside>
       </section>
 
+      <section id="practical-experiments">
+        <span class="section-label">02 / Practical experiments</span>
+        <h2>A separate exploratory track</h2>
+        <p>The source packs explain ideas and evidence. The practical track tests model-specific readout, quantization transfer, and later steering. It is preliminary engineering work, not a source review.</p>
+        <p><a href="experiments/index.html">Open the practical experiments hub →</a></p>
+        <ul>
+          <li><a href="experiments/qwen-latent-readout-analysis.html">Qwen 3.5 9B readout analysis</a> — BF16 and 8-bit results with a Q6 placeholder.</li>
+          <li><a href="https://github.com/duiliocirino/io/blob/main/docs/notes/qwen-latent-experiment-plan.md">Qwen 3.5 9B latent experiment plan</a> — model variants, layer sweep, probe calibration, and steering tests.</li>
+          <li><a href="https://github.com/duiliocirino/io/blob/main/docs/notes/quantization-transfer-plan.md">Quantization transfer plan</a> — BF16, bitsandbytes 8-bit, and GGUF Q8/Q6 caveats.</li>
+        </ul>
+        <aside class="callout">
+          <strong>Separation of concerns</strong>
+          <p><mark>The research packs are source exploration; the practical experiments are model-specific preliminary tests.</mark> They share vocabulary but should not be read as the same kind of evidence.</p>
+        </aside>
+      </section>
+
       <section id="working-notes">
-        <span class="section-label">02 / Working notes</span>
+        <span class="section-label">03 / Working notes</span>
         <h2>Evidence, checkpoints, and open questions</h2>
         <p>The notes are not a specification. They record reading progress, source audits, and unresolved design choices. Because GitHub Pages serves the <code>docs/</code> directory as the site root, the Markdown notes are best read in the GitHub repository.</p>
         <p><a href="https://github.com/duiliocirino/io/tree/main/docs/notes">Open the notes directory on GitHub →</a></p>
@@ -95,7 +112,7 @@
       </section>
 
       <section id="reading-route">
-        <span class="section-label">03 / Reading route</span>
+        <span class="section-label">04 / Reading route</span>
         <h2>Start with a topic, then use the notes</h2>
         <p>The documents are self-contained, but they share a research vocabulary. A practical route is:</p>
         <ol>

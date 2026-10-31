@@ -1,0 +1,27 @@
+[project]
+name = "io-brain"
+version = "0.1.0"
+description = "Latent readout and control experiments for a persistent cognitive architecture."
+requires-python = ">=3.13,<4.0,!=3.14.1"
+dependencies = [
+    "transformers",
+    "torch",
+    "numpy",
+    "scikit-learn",
+    "accelerate",
+    "safetensors",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+multimodal = ["pillow", "torchvision==0.29.1"]
+acceleration = ["causal-conv1d", "flash-linear-attention"]
+gguf = ["gguf", "kernels>=0.17.2,<0.18.0"]
+quantization = ["bitsandbytes"]
+
+[tool.poetry]
+packages = [{ include = "io_brain", from = "src" }]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

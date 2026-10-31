@@ -56,3 +56,12 @@ dkms.conf
 
 # Python structural-test bytecode
 __pycache__/
+
+# Python project runtime artifacts
+.venv/
+runs/
+models/
+data/raw/
+
+# Editor state
+.vscode/

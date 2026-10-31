@@ -1,0 +1,11 @@
+[model]
+id = "Qwen/Qwen3.5-9B"
+dtype = "bfloat16"
+device = "cuda"
+layer = 20
+
+[data]
+path = "data/calibration/contrastive.jsonl"
+
+[output]
+path = "runs/readout-v1.json"

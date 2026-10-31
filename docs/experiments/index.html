@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-io-theme="v2">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Practical exploratory track for the IO cognitive-systems work: Qwen 3.5 9B readout, quantization transfer, and pending steering experiments.">
+  <title>Practical experiments · IO</title>
+  <link rel="stylesheet" href="../assets/io-design-system.css">
+  <link rel="stylesheet" href="../assets/io-research.css">
+  <link rel="stylesheet" href="../assets/io-readout.css">
+  <link rel="stylesheet" href="../assets/io-theme-v2.css">
+  <script src="../assets/io-research.js" defer></script>
+</head>
+<body class="io-document io-research io-readout" id="top">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="container">
+    <header>
+      <span class="badge">Practical track · Preliminary</span>
+      <h1>Practical experiments</h1>
+      <p class="subtitle">A separate exploratory track from the source-exploration research packs. This track tests whether the 27-channel latent projection can be read, calibrated, and later steered in Qwen 3.5 9B.</p>
+      <p class="document-meta">Readout v1 · BF16 + 8-bit complete · Q6 pending · Steering not started · Updated 2026-10-31</p>
+      <p><a href="../index.html">Research library →</a> · <a href="../notes/qwen-latent-experiment-plan.md">Experiment plan →</a> · <a href="../notes/quantization-transfer-plan.md">Quantization plan →</a></p>
+    </header>
+
+    <div class="research-layout">
+      <nav class="research-index" aria-label="Table of contents">
+        <details open>
+          <summary>In this track <span class="index-toggle" aria-hidden="true"></span></summary>
+          <ol>
+            <li><a href="#scope"><span class="index-number" aria-hidden="true">01</span><span>Scope</span></a></li>
+            <li><a href="#readout"><span class="index-number" aria-hidden="true">02</span><span>Readout v1</span></a></li>
+            <li><a href="#status"><span class="index-number" aria-hidden="true">03</span><span>Status</span></a></li>
+            <li><a href="#next"><span class="index-number" aria-hidden="true">04</span><span>Next</span></a></li>
+          </ol>
+        </details>
+      </nav>
+
+      <main id="main-content">
+        <section id="scope">
+          <span class="section-label">01 / Scope</span>
+          <h2>This is engineering exploration, not source study</h2>
+          <p>The research packs explain source ideas: cognitive routing, memory systems, valuation and gating, affect, and latent representation. This practical track does something different: it calibrates a model-specific readout, tests quantized transfer, and prepares a later steering experiment.</p>
+          <aside class="callout">
+            <strong>Two tracks</strong>
+            <p><mark>Source exploration gives the vocabulary and hypotheses; practical experiments test whether those hypotheses survive contact with a model.</mark> The 27 channels are a model-derived projection, not a validated semantic feeling system.</p>
+          </aside>
+        </section>
+
+        <section id="readout">
+          <span class="section-label">02 / Readout v1</span>
+          <h2>What the Qwen 3.5 9B readout shows</h2>
+          <p>The readout peaks around decoder layer 14. BF16 and bitsandbytes 8-bit readout are nearly identical, but gate and intensity best layers shift from 23 to 19. The Q6 checkpoint is downloaded but not yet run.</p>
+          <p><a href="qwen-latent-readout-analysis.html">Open the narrative readout analysis →</a></p>
+        </section>
+
+        <section id="status">
+          <span class="section-label">03 / Status</span>
+          <h2>Current experiment state</h2>
+          <div class="table-container" role="region" aria-label="Experiment status, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 01 · Practical experiment status</caption>
+              <thead><tr><th>Part</th><th>Status</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td>BF16 readout</td><td>Complete</td><td>Layer sweep 10–28; best mean R² around layer 14.</td></tr>
+                <tr><td>8-bit readout</td><td>Complete</td><td>Bitsandbytes; 8-bit weights + FP16 compute.</td></tr>
+                <tr><td>8-bit gates</td><td>Complete</td><td>Best F1 layer 19; recalibrated on 8-bit.</td></tr>
+                <tr><td>8-bit intensity</td><td>Complete</td><td>Best active-MAE layer 19.</td></tr>
+                <tr><td>Q6 readout/gates/intensity</td><td>Pending</td><td>Q6_K downloaded; native Transformers GGUF dequantizes on this GPU.</td></tr>
+                <tr><td>Steering v1</td><td>Not started</td><td>Only after Q6 transfer and backend choice.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="next">
+          <span class="section-label">04 / Next</span>
+          <h2>Run Q6, then move to bounded steering</h2>
+          <p>The next sequence is Q6-dequantized readout, gates, and intensity; compare against BF16 and 8-bit; choose the production backend; then start <code>experiments/steering/v1/</code>.</p>
+          <p>Steering must be tested separately from readout. Read-best is not steer-best.</p>
+          <ul>
+            <li><a href="../notes/qwen-latent-experiment-plan.md">Qwen 3.5 9B latent experiment plan</a></li>
+            <li><a href="../notes/quantization-transfer-plan.md">Quantization transfer plan</a></li>
+            <li><a href="https://github.com/duiliocirino/io/blob/main/experiments/README.md">Experiments README</a></li>
+            <li><a href="https://github.com/duiliocirino/io/blob/main/data/calibration/rubric.md">Calibration rubric</a></li>
+          </ul>
+        </section>
+      </main>
+    </div>
+
+    <footer>IO practical experiments · Preliminary track · Updated 2026-10-31</footer>
+  </div>
+</body>
+</html>

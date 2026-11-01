@@ -59,7 +59,7 @@ If Gate 1 fails, the 27D state is only a diagnostic projection, not a reliable c
 - `experiments/readout/v1/intensity.py` separates binary activation from continuous intensity calibration; `intensity_report.py` visualizes the active/absent MAE tradeoff.
 - Start with the contrastive file for the first readout experiment; use mixed scenarios later for co-activation validation.
 - The rubric is `data/calibration/rubric.md`.
-- Q8 is a practical compromise for VRAM; FP16/BF16 is the cleaner reference for latent geometry. Bitsandbytes 8-bit is the practical Python path; native Transformers GGUF dequantizes on this GPU. Q6 is downloaded but not yet run; true Q6 needs llama.cpp or a custom backend.
+- Q8 is a practical compromise for VRAM; FP16/BF16 is the cleaner reference for latent geometry. Bitsandbytes 8-bit is the practical Python path; native Transformers GGUF dequantizes on this GPU. Q6-dequantized readout, gates, and intensity are now complete; true Q6 still needs llama.cpp or a custom backend.
 - **C++/CUDA** only if the hot projection/steering path becomes a measured bottleneck.
 - **C** later for the persistent BrainState and gating kernel, if it proves simpler and faster.
 

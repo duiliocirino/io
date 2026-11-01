@@ -18,7 +18,7 @@
       <span class="badge">Practical track · Preliminary</span>
       <h1>Practical experiments</h1>
       <p class="subtitle">A separate exploratory track from the source-exploration research packs. This track tests whether the 27-channel latent projection can be read, calibrated, and later steered in Qwen 3.5 9B.</p>
-      <p class="document-meta">Readout v1 · BF16 + 8-bit complete · Q6 pending · Steering not started · Updated 2026-10-31</p>
+      <p class="document-meta">Readout v1 · BF16 + 8-bit + Q6-dequantized complete · Steering not started · Updated 2026-10-31</p>
       <p><a href="../index.html">Research library →</a> · <a href="../notes/qwen-latent-experiment-plan.md">Experiment plan →</a> · <a href="../notes/quantization-transfer-plan.md">Quantization plan →</a></p>
     </header>
 
@@ -49,7 +49,7 @@
         <section id="readout">
           <span class="section-label">02 / Readout v1</span>
           <h2>What the Qwen 3.5 9B readout shows</h2>
-          <p>The readout peaks around decoder layer 14. BF16 and bitsandbytes 8-bit readout are nearly identical, but gate and intensity best layers shift from 23 to 19. The Q6 checkpoint is downloaded but not yet run.</p>
+          <p>The readout peaks around decoder layer 14. BF16, bitsandbytes 8-bit, and Q6-dequantized readout are nearly identical, but gate and intensity best layers shift across backends: BF16 gate 23, 8-bit gate 19, Q6-dequantized gate 28; BF16 intensity 23, 8-bit intensity 19, Q6-dequantized intensity 23.</p>
           <p><a href="qwen-latent-readout-analysis.html">Open the narrative readout analysis →</a></p>
         </section>
 
@@ -65,8 +65,8 @@
                 <tr><td>8-bit readout</td><td>Complete</td><td>Bitsandbytes; 8-bit weights + FP16 compute.</td></tr>
                 <tr><td>8-bit gates</td><td>Complete</td><td>Best F1 layer 19; recalibrated on 8-bit.</td></tr>
                 <tr><td>8-bit intensity</td><td>Complete</td><td>Best active-MAE layer 19.</td></tr>
-                <tr><td>Q6 readout/gates/intensity</td><td>Pending</td><td>Q6_K downloaded; native Transformers GGUF dequantizes on this GPU.</td></tr>
-                <tr><td>Steering v1</td><td>Not started</td><td>Only after Q6 transfer and backend choice.</td></tr>
+                <tr><td>Q6-dequantized readout/gates/intensity</td><td>Complete</td><td>Q6_K run through native Transformers GGUF; weight-only/dequantized, not true Q6 matmul.</td></tr>
+                <tr><td>Steering v1</td><td>Not started</td><td>Only after backend choice.</td></tr>
               </tbody>
             </table>
           </div>
@@ -74,8 +74,8 @@
 
         <section id="next">
           <span class="section-label">04 / Next</span>
-          <h2>Run Q6, then move to bounded steering</h2>
-          <p>The next sequence is Q6-dequantized readout, gates, and intensity; compare against BF16 and 8-bit; choose the production backend; then start <code>experiments/steering/v1/</code>.</p>
+          <h2>Q6 is complete; choose a backend, then move to bounded steering</h2>
+          <p>The next sequence is to compare Q6-dequantized against BF16 and 8-bit, choose the production backend, then start <code>experiments/steering/v1/</code>.</p>
           <p>Steering must be tested separately from readout. Read-best is not steer-best.</p>
           <ul>
             <li><a href="../notes/qwen-latent-experiment-plan.md">Qwen 3.5 9B latent experiment plan</a></li>

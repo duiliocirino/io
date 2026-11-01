@@ -78,12 +78,19 @@ The bitsandbytes 8-bit run is close to BF16:
 
 This suggests coarse readout survives 8-bit loading, but gate/intensity calibration is backend-sensitive.
 
-## Q6 status
+## Q6-dequantized result
 
-`models/qwen3.5-base-q6/Qwen3.5-9B-Base.Q6_K.gguf` is downloaded and loads on CPU, but it dequantizes. A Q6 readout has not been run yet because the GPU was occupied.
+`models/qwen3.5-base-q6/Qwen3.5-9B-Base.Q6_K.gguf` was run through native Transformers GGUF. It dequantizes on this GPU, so the result is **Q6 weights + dequantized BF16 compute**, not true Q6 matmul.
+
+- readout layer 14: mean R² ≈ 0.865 vs BF16 0.865;
+- Q6 coarse error ≈ 12.7%;
+- gate best layer shifts to 28, mean F1 ≈ 0.622 vs BF16 0.626;
+- intensity best layer shifts to 23, active MAE ≈ 0.308 vs BF16 0.304.
+
+Q6-dequantized readout is close; gates and intensity are close but slightly weaker than the 8-bit run. This is a weight-only transfer check, not proof of true Q6_K behavior.
 
 ## Decision gate
 
-If Q6-dequantized readout and gates degrade substantially, do not use Q6 as a control path. If they remain close, treat Q6 as a deployment candidate only after true Q6 inference is tested with llama.cpp or a custom backend.
+Q6-dequantized readout and gates do not degrade substantially. Treat Q6 as a deployment candidate only after true Q6 inference is tested with llama.cpp or a custom backend. Recalibrate thresholds on the exact backend.
 
 No thresholds or final architecture are selected here.

@@ -57,7 +57,7 @@ Native Transformers GGUF is weight-only/dequantized on this GPU. Label Q6 output
 
 `experiments/readout/v1/gate_report.py` builds a gate dashboard with F1/threshold heatmaps, layer summaries, selected-layer metrics, FPR-cap warnings, and an optional Base-vs-Default comparison.
 
-`experiments/readout/v1/narrative_report.py` builds the narrative experiment page from readout, gate, and intensity JSON, with BF16/8-bit charts and an explicit Q6 placeholder:
+`experiments/readout/v1/narrative_report.py` builds the narrative experiment page from readout, gate, and intensity JSON, with BF16, 8-bit, and Q6-dequantized charts:
 
 ```bash
 poetry run python experiments/readout/v1/narrative_report.py

@@ -47,7 +47,7 @@ The `multimodal` extra adds `pillow` and `torchvision` for later image experimen
 ## Practical experiments
 
 - [Practical experiments hub](docs/experiments/index.html): separate exploratory track for model-specific readout and steering work.
-- [Qwen 3.5 9B readout analysis](docs/experiments/qwen-latent-readout-analysis.html): narrative report with BF16/8-bit results and a Q6 placeholder.
+- [Qwen 3.5 9B readout analysis](docs/experiments/qwen-latent-readout-analysis.html): narrative report with BF16, 8-bit, and Q6-dequantized results.
 - [Qwen 3.5 9B latent experiment plan](docs/notes/qwen-latent-experiment-plan.md): model variants, layer sweep, probe calibration, and steering tests.
 - [Quantization transfer plan](docs/notes/quantization-transfer-plan.md): BF16, bitsandbytes 8-bit, and GGUF Q8/Q6 caveats.
 

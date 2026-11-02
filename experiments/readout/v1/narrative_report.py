@@ -108,6 +108,8 @@ def build_report(
     intensity: Path,
     intensity_8bit: Path,
     intensity_q6: Path,
+    robustness: Path,
+    constrained_intensity: Path,
     out: Path,
 ) -> None:
     base = json.loads(readout.read_text(encoding="utf-8"))
@@ -119,6 +121,8 @@ def build_report(
     int_base = json.loads(intensity.read_text(encoding="utf-8"))
     int_q8 = json.loads(intensity_8bit.read_text(encoding="utf-8"))
     int_q6 = json.loads(intensity_q6.read_text(encoding="utf-8"))
+    robust = json.loads(robustness.read_text(encoding="utf-8"))
+    constrained = json.loads(constrained_intensity.read_text(encoding="utf-8"))
 
     layers = base["layers"]
     base_lm = base["layer_metrics"]
@@ -271,6 +275,24 @@ def build_report(
         mean([channel["deadzone_active_mae"] for channel in int_q6_lm[str(best_int_q6)].values()]) or 0.0,
     )
 
+    robust_rows = robust["rows"]
+    robust_mean_r2 = mean([row["mean_r2"] for row in robust_rows]) or 0.0
+    robust_mean_mae = mean([row["mean_mae"] for row in robust_rows]) or 0.0
+    robust_last_r2 = mean([row["last_r2"] for row in robust_rows]) or 0.0
+    robust_last_mae = mean([row["last_mae"] for row in robust_rows]) or 0.0
+    robust_cv_r2 = mean([row["cv_r2_mean"] for row in robust_rows]) or 0.0
+    robust_cv_mae = mean([row["cv_mae_mean"] for row in robust_rows]) or 0.0
+    robust_lexical_mae = mean([row["lexical_mae"] for row in robust_rows]) or 0.0
+    robust_lexical_fpr = mean([row["lexical_fpr"] for row in robust_rows]) or 0.0
+    robust_perspective_spread = mean([row["perspective_spread"] for row in robust_rows]) or 0.0
+
+    constrained_rows = constrained["rows"]
+    constrained_active_mae = mean([row["active_mae"] for row in constrained_rows]) or 0.0
+    constrained_absent_mae = mean([row["absent_mae"] for row in constrained_rows]) or 0.0
+    constrained_recall = mean([row["gate_recall"] for row in constrained_rows]) or 0.0
+    constrained_fpr = mean([row["gate_fpr"] for row in constrained_rows]) or 0.0
+    constrained_deadzone = mean([row["deadzone_active_mae"] for row in constrained_rows]) or 0.0
+
     readout_chart = svg_line_chart(
         layers,
         [
@@ -339,9 +361,10 @@ def build_report(
             <li><a href="#eight-bit"><span class="index-number" aria-hidden="true">05</span><span>8-bit transfer</span></a></li>
             <li><a href="#gates-intensity"><span class="index-number" aria-hidden="true">06</span><span>Gates and intensity</span></a></li>
             <li><a href="#q6-transfer"><span class="index-number" aria-hidden="true">07</span><span>Q6 transfer</span></a></li>
-            <li><a href="#limits"><span class="index-number" aria-hidden="true">08</span><span>Limits</span></a></li>
-            <li><a href="#next"><span class="index-number" aria-hidden="true">09</span><span>Next steps</span></a></li>
-            <li><a href="#reproduce"><span class="index-number" aria-hidden="true">10</span><span>Reproduce</span></a></li>
+            <li><a href="#robustness"><span class="index-number" aria-hidden="true">08</span><span>Robustness</span></a></li>
+            <li><a href="#limits"><span class="index-number" aria-hidden="true">09</span><span>Limits</span></a></li>
+            <li><a href="#next"><span class="index-number" aria-hidden="true">10</span><span>Next steps</span></a></li>
+            <li><a href="#reproduce"><span class="index-number" aria-hidden="true">11</span><span>Reproduce</span></a></li>
           </ol>
         </details>
       </nav>
@@ -501,29 +524,73 @@ def build_report(
           </aside>
         </section>
 
+        <section id="robustness">
+          <span class="section-label">08 / Robustness</span>
+          <h2>Mean pooling is better; cross-validation is more conservative</h2>
+          <p>Robustness checks were run on BF16 Base at layer {best_read_layer} and on the 8-bit model at layer {best_int_q8}. Mean-pooled readout is stronger than last-token readout, lexical/negative controls produce very few gate false positives, and isotonic intensity calibration improves the active-row MAE.</p>
+
+          <div class="table-container" role="region" aria-label="Robustness summary, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 06 · BF16 robustness summary at layer {best_read_layer}</caption>
+              <thead><tr><th>Check</th><th>Result</th></tr></thead>
+              <tbody>
+                <tr><td>Mean-pooled held-out R²</td><td>{fmt(robust_mean_r2)}</td></tr>
+                <tr><td>Mean-pooled held-out MAE</td><td>{fmt(robust_mean_mae)}</td></tr>
+                <tr><td>Last-token R²</td><td>{fmt(robust_last_r2)}</td></tr>
+                <tr><td>Last-token MAE</td><td>{fmt(robust_last_mae)}</td></tr>
+                <tr><td>5-fold cross-validation R²</td><td>{fmt(robust_cv_r2)}</td></tr>
+                <tr><td>5-fold cross-validation MAE</td><td>{fmt(robust_cv_mae)}</td></tr>
+                <tr><td>Lexical/negative-control MAE</td><td>{fmt(robust_lexical_mae)}</td></tr>
+                <tr><td>Lexical/negative-control FPR</td><td>{fmt(robust_lexical_fpr)}</td></tr>
+                <tr><td>Perspective spread</td><td>{fmt(robust_perspective_spread)}</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-container" role="region" aria-label="Isotonic intensity summary, horizontally scrollable" tabindex="0">
+            <table>
+              <caption>Table 07 · Isotonic intensity at 8-bit layer {best_int_q8}</caption>
+              <thead><tr><th>Metric</th><th>Isotonic</th><th>Unconstrained linear</th></tr></thead>
+              <tbody>
+                <tr><td>Active MAE</td><td>{fmt(constrained_active_mae)}</td><td>{fmt(int_q8_summary[0])}</td></tr>
+                <tr><td>Absent MAE</td><td>{fmt(constrained_absent_mae)}</td><td>{fmt(int_q8_summary[1])}</td></tr>
+                <tr><td>Gate recall</td><td>{fmt(constrained_recall)}</td><td>{fmt(int_q8_summary[2])}</td></tr>
+                <tr><td>Gate FPR</td><td>{fmt(constrained_fpr)}</td><td>{fmt(int_q8_summary[3])}</td></tr>
+                <tr><td>Deadzone active MAE</td><td>{fmt(constrained_deadzone)}</td><td>{fmt(int_q8_summary[4])}</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <aside class="callout">
+            <strong>Robustness reading</strong>
+            <p>The cross-validation R² is lower than the single train/test split, so the split result is somewhat optimistic. The readout is usable for exploratory steering, but not yet control-grade.</p>
+          </aside>
+        </section>
+
         <section id="limits">
-          <span class="section-label">08 / Limits</span>
+          <span class="section-label">09 / Limits</span>
           <h2>Readout is not steering, and labels are coarse</h2>
-          <p>The calibration labels are hand-crafted anchors, not measured ground truth. The 27 channels are a projection vocabulary, not a claim that the model experiences those states. The readout is mean-pooled and layer-specific; last-token pooling, cross-validation, and lexical controls are still needed.</p>
+          <p>The calibration labels are hand-crafted anchors, not measured ground truth. The 27 channels are a projection vocabulary, not a claim that the model experiences those states. Robustness checks reduce, but do not eliminate, the risk that the projection is diagnostic rather than control-grade.</p>
           <p>The most important limit is causal: <strong>read-best is not steer-best</strong>. A layer that predicts a channel well may not be the layer where activation addition changes behavior coherently. Steering must be tested separately with random-direction controls, dose-response, reversibility, and safety checks.</p>
           <p>Backend sensitivity is also real: 8-bit and Q6-dequantized readout are close to BF16, but gate and intensity best layers shift. Thresholds should not be copied across backends.</p>
         </section>
 
         <section id="next">
-          <span class="section-label">09 / Next steps</span>
-          <h2>Q6 is done; choose a backend, then move to bounded steering</h2>
+          <span class="section-label">10 / Next steps</span>
+          <h2>Robustness is complete; next is bounded steering</h2>
+          <p>The backend decision is fixed: BF16 is the reference, 8-bit is the deployment candidate, and Q6-dequantized is a transfer check only. Robustness checks are complete.</p>
           <p>The next practical sequence is:</p>
           <ol>
-            <li>Compare Q6-dequantized against BF16 and 8-bit; recalibrate if transfer degrades.</li>
-            <li>Choose the production backend: BF16 for reference, 8-bit for deployment, Q6 only if acceptable.</li>
-            <li>Start <code>experiments/steering/v1/</code> with activation addition, random-direction controls, dose-response, reversibility, coherence, and safety checks.</li>
+            <li>Start <code>experiments/steering/v1/</code> with activation addition at layers roughly 18–27.</li>
+            <li>Include random-direction controls, dose-response, reversibility, coherence, and safety checks.</li>
+            <li>Compare BF16 reference steering with 8-bit steering; do not infer steering from readout accuracy.</li>
           </ol>
           <p>Steering is a separate phase. It should not be inferred from readout accuracy.</p>
         </section>
 
         <section id="reproduce">
-          <span class="section-label">10 / Reproduce</span>
-          <h2>Commands for the current readout, 8-bit, and Q6-dequantized transfer</h2>
+          <span class="section-label">11 / Reproduce</span>
+          <h2>Commands for readout, quantization transfer, and robustness</h2>
           <p>BF16 readout:</p>
           <pre><code>poetry run python experiments/readout/v1/sweep.py \
   --model Qwen/Qwen3.5-9B-Base \
@@ -544,6 +611,20 @@ def build_report(
   --layers 10:28 \
   --out-json runs/readout-base-q6-dequantized.json \
   --out-csv runs/readout-base-q6-dequantized.csv</code></pre>
+          <p>Robustness checks:</p>
+          <pre><code>poetry run python experiments/readout/v1/robustness.py \
+  --model Qwen/Qwen3.5-9B-Base \
+  --layer 14 \
+  --out-json runs/robustness-base.json \
+  --out-csv runs/robustness-base.csv</code></pre>
+          <p>Isotonic intensity:</p>
+          <pre><code>poetry run python experiments/readout/v1/constrained_intensity.py \
+  --model Qwen/Qwen3.5-9B-Base \
+  --quantization 8bit \
+  --layer 19 \
+  --gates runs/gates-base-8bit.json \
+  --out-json runs/constrained-intensity-base-8bit.json \
+  --out-csv runs/constrained-intensity-base-8bit.csv</code></pre>
         </section>
       </main>
     </div>
@@ -569,6 +650,8 @@ def main() -> None:
     parser.add_argument("--intensity", type=Path, default=Path("runs/intensity-base.json"))
     parser.add_argument("--intensity-8bit", type=Path, default=Path("runs/intensity-base-8bit.json"))
     parser.add_argument("--intensity-q6", type=Path, default=Path("runs/intensity-base-q6-dequantized.json"))
+    parser.add_argument("--robustness", type=Path, default=Path("runs/robustness-base.json"))
+    parser.add_argument("--constrained-intensity", type=Path, default=Path("runs/constrained-intensity-base-8bit.json"))
     parser.add_argument("--out", type=Path, default=Path("docs/experiments/qwen-latent-readout-analysis.html"))
     args = parser.parse_args()
     build_report(
@@ -581,6 +664,8 @@ def main() -> None:
         args.intensity,
         args.intensity_8bit,
         args.intensity_q6,
+        args.robustness,
+        args.constrained_intensity,
         args.out,
     )
 

@@ -7,7 +7,7 @@ import numpy as np
 import torch
 from sklearn.linear_model import Ridge
 
-from .hooks import capture_layer, capture_layers, mean_pool
+from .hooks import capture_layer, capture_layers, pool_hidden
 from .model import get_decoder_layers
 
 
@@ -17,8 +17,9 @@ def extract_hidden(
     text: str,
     layer_index: int,
     device: str = "cuda",
+    pooling: str = "mean",
 ) -> np.ndarray:
-    """Return the mean-pooled residual stream at one text-decoder layer."""
+    """Return a pooled residual stream at one text-decoder layer."""
     inputs = tokenizer(text=text, return_tensors="pt")
     inputs = {key: value.to(device) for key, value in inputs.items()}
 
@@ -27,7 +28,7 @@ def extract_hidden(
         with capture_layer(layers[layer_index]) as captured:
             model(**inputs)
 
-    pooled = mean_pool(captured["output"]).squeeze(0).float()
+    pooled = pool_hidden(captured["output"], pooling).squeeze(0).float()
     return pooled.detach().cpu().numpy()
 
 
@@ -37,8 +38,9 @@ def extract_hidden_layers(
     text: str,
     layer_indices: list[int],
     device: str = "cuda",
+    pooling: str = "mean",
 ) -> dict[int, np.ndarray]:
-    """Return mean-pooled residual states for several decoder layers in one pass."""
+    """Return pooled residual states for several decoder layers in one pass."""
     inputs = tokenizer(text=text, return_tensors="pt")
     inputs = {key: value.to(device) for key, value in inputs.items()}
 
@@ -49,7 +51,7 @@ def extract_hidden_layers(
             model(**inputs)
 
     return {
-        index: mean_pool(captured[position]).squeeze(0).float().detach().cpu().numpy()
+        index: pool_hidden(captured[position], pooling).squeeze(0).float().detach().cpu().numpy()
         for position, (index, _) in enumerate(selected)
     }
 

@@ -93,4 +93,6 @@ Q6-dequantized readout is close; gates and intensity are close but slightly weak
 
 Q6-dequantized readout and gates do not degrade substantially. Treat Q6 as a deployment candidate only after true Q6 inference is tested with llama.cpp or a custom backend. Recalibrate thresholds on the exact backend.
 
+**Backend decision:** BF16 remains the reference geometry; bitsandbytes 8-bit is the deployment candidate; Q6-dequantized is a weight-transfer check only. True Q6 inference is a separate backend test.
+
 No thresholds or final architecture are selected here.

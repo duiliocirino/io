@@ -50,6 +50,8 @@ The `multimodal` extra adds `pillow` and `torchvision` for later image experimen
 - [Qwen 3.5 9B readout analysis](docs/experiments/qwen-latent-readout-analysis.html): narrative report with BF16, 8-bit, and Q6-dequantized results.
 - [Qwen 3.5 9B latent experiment plan](docs/notes/qwen-latent-experiment-plan.md): model variants, layer sweep, probe calibration, and steering tests.
 - [Quantization transfer plan](docs/notes/quantization-transfer-plan.md): BF16, bitsandbytes 8-bit, and GGUF Q8/Q6 caveats.
+- [Readout robustness plan](docs/notes/readout-robustness-plan.md): cross-validation, pooling, lexical controls, threshold stability, and isotonic intensity.
+- [Steering plan](docs/notes/steering-plan.md): directions, hooks, controls, dose-response, reversibility, and safety checks.
 
 ## HTML design system
 

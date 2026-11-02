@@ -66,7 +66,11 @@
                 <tr><td>8-bit gates</td><td>Complete</td><td>Best F1 layer 19; recalibrated on 8-bit.</td></tr>
                 <tr><td>8-bit intensity</td><td>Complete</td><td>Best active-MAE layer 19.</td></tr>
                 <tr><td>Q6-dequantized readout/gates/intensity</td><td>Complete</td><td>Q6_K run through native Transformers GGUF; weight-only/dequantized, not true Q6 matmul.</td></tr>
-                <tr><td>Steering v1</td><td>Not started</td><td>Only after backend choice.</td></tr>
+                <tr><td>Threshold stability</td><td>Complete</td><td>Model-independent comparison of BF16, 8-bit, and Q6-dequantized gates.</td></tr>
+                <tr><td>Perspective diagnostics</td><td>Complete</td><td>Model-independent comparison of perspective error spread.</td></tr>
+                <tr><td>Cross-validation / pooling / lexical controls</td><td>Complete</td><td>Mean R² 0.865; last-token R² 0.813; 5-fold CV R² 0.785; lexical FPR 0.0024.</td></tr>
+                <tr><td>Isotonic intensity</td><td>Complete</td><td>8-bit layer 19: active MAE 0.281 vs unconstrained 0.297.</td></tr>
+                <tr><td>Steering v1</td><td>Not started</td><td>Next after robustness review.</td></tr>
               </tbody>
             </table>
           </div>
@@ -74,12 +78,16 @@
 
         <section id="next">
           <span class="section-label">04 / Next</span>
-          <h2>Q6 is complete; choose a backend, then move to bounded steering</h2>
-          <p>The next sequence is to compare Q6-dequantized against BF16 and 8-bit, choose the production backend, then start <code>experiments/steering/v1/</code>.</p>
+          <h2>Robustness complete; next is bounded steering</h2>
+          <p><strong>Backend decision:</strong> BF16 is the reference geometry, bitsandbytes 8-bit is the deployment candidate, and Q6-dequantized is a weight-transfer check only.</p>
+          <p>Robustness checks show mean pooling is better than last-token pooling, lexical false positives are low, and isotonic intensity improves active-row calibration. Cross-validation is lower than the single split, so the readout is exploratory but not yet control-grade.</p>
+          <p>The next phase is <code>experiments/steering/v1/</code> with activation addition, random-direction controls, dose-response, reversibility, coherence, and safety checks.</p>
           <p>Steering must be tested separately from readout. Read-best is not steer-best.</p>
           <ul>
             <li><a href="../notes/qwen-latent-experiment-plan.md">Qwen 3.5 9B latent experiment plan</a></li>
             <li><a href="../notes/quantization-transfer-plan.md">Quantization transfer plan</a></li>
+            <li><a href="../notes/readout-robustness-plan.md">Readout robustness plan</a></li>
+            <li><a href="../notes/steering-plan.md">Steering plan</a></li>
             <li><a href="https://github.com/duiliocirino/io/blob/main/experiments/README.md">Experiments README</a></li>
             <li><a href="https://github.com/duiliocirino/io/blob/main/data/calibration/rubric.md">Calibration rubric</a></li>
           </ul>

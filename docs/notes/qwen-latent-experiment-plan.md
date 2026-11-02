@@ -60,6 +60,7 @@ If Gate 1 fails, the 27D state is only a diagnostic projection, not a reliable c
 - Start with the contrastive file for the first readout experiment; use mixed scenarios later for co-activation validation.
 - The rubric is `data/calibration/rubric.md`.
 - Q8 is a practical compromise for VRAM; FP16/BF16 is the cleaner reference for latent geometry. Bitsandbytes 8-bit is the practical Python path; native Transformers GGUF dequantizes on this GPU. Q6-dequantized readout, gates, and intensity are now complete; true Q6 still needs llama.cpp or a custom backend.
+- **Backend decision:** BF16 is the reference geometry; bitsandbytes 8-bit is the deployment candidate; Q6-dequantized is a weight-transfer check only, not true Q6 production behavior.
 - **C++/CUDA** only if the hot projection/steering path becomes a measured bottleneck.
 - **C** later for the persistent BrainState and gating kernel, if it proves simpler and faster.
 
@@ -73,6 +74,7 @@ If Gate 1 fails, the 27D state is only a diagnostic projection, not a reliable c
 - Mixed-state active/absent prediction error.
 - Base-vs-Default comparison.
 - Later, BF16-to-Q8/Q6 transfer metrics. See [quantization transfer plan](quantization-transfer-plan.md) for backend caveats and the [readout analysis](https://duiliocirino.github.io/io/experiments/qwen-latent-readout-analysis.html) for current results.
+- Robustness: cross-validation, last-token vs mean pooling, lexical/negative controls, threshold stability, perspective spread, and isotonic intensity. See [readout robustness plan](readout-robustness-plan.md).
 
 `experiments/readout/v1/sweep.py` writes JSON and CSV; `report.py` builds a compact HTML dashboard with a layer summary, channel heatmap, best layer per channel, and mixed-state validation.
 
